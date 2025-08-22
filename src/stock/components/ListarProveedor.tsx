@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { listarProveedor } from "../../proveedor/service/proveedorService";
+import type { ProveedorI } from "../../proveedor/interface/proveedor";
+import { ProveedorModal } from "../../proveedor/modal/CrearProveedor";
 
-// Ejemplo de datos de proveedores
-const proveedores = [
-    { nombre: "Juan", apellidos: "Chocllu", ci: "123456", celular: "78901234" },
-    { nombre: "María", apellidos: "Perez", ci: "654321", celular: "98765432" },
-    { nombre: "Carlos", apellidos: "Lopez", ci: "112233", celular: "55667788" },
-];
 
 export const ListarProveedor = () => {
+    const [data, setData] = useState<ProveedorI[]>([])
+    useEffect(() => {
+        listar()
+    }, [])
+    const listar = async () => {
+        try {
+            const response = await listarProveedor()
+            setData(response)
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
-            <Button>nuevo</Button>
+            <ProveedorModal />
             <Table size="small" stickyHeader>
                 <TableHead>
                     <TableRow>
@@ -23,7 +33,7 @@ export const ListarProveedor = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {proveedores.map((proveedor, index) => (
+                    {data.map((proveedor, index) => (
                         <TableRow key={index}>
                             <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>{proveedor.nombre}</TableCell>
                             <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>{proveedor.apellidos}</TableCell>
