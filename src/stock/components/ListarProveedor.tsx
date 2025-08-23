@@ -3,9 +3,10 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { listarProveedor } from "../../proveedor/service/proveedorService";
 import type { ProveedorI } from "../../proveedor/interface/proveedor";
 import { ProveedorModal } from "../../proveedor/modal/CrearProveedor";
+import type { proveedorPropsI } from "../interface/stock";
 
 
-export const ListarProveedor = () => {
+export const ListarProveedor = ({ setSeleccionado }: proveedorPropsI) => {
     const [data, setData] = useState<ProveedorI[]>([])
     useEffect(() => {
         listar()
@@ -39,7 +40,14 @@ export const ListarProveedor = () => {
                             <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>{proveedor.apellidos}</TableCell>
                             <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>{proveedor.ci}</TableCell>
                             <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>{proveedor.celular}</TableCell>
-                            <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}><Button>Seleccionar</Button></TableCell>
+                            <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>
+                                <Button size="small" variant="contained" color="primary"
+                                    onClick={() => {
+                                        setSeleccionado({ id: proveedor._id, data: `${proveedor.nombre} ${proveedor.apellidos}` })
+                                    }}
+                                >
+                                    Seleccionar
+                                </Button></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
