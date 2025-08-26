@@ -14,7 +14,13 @@ import { useEffect, useState } from "react";
 import { listarStock } from "../../stock/service/sotckService";
 import type { StockSeleccionadoI } from "../interface/ventaInterface";
 
-export const ListarStock = ({stock,setStock}:{stock:StockSeleccionadoI[], setStock:(value:StockSeleccionadoI[]) =>void}) => {
+export const ListarStock = ({
+  stock,
+  setStock,
+}: {
+  stock: StockSeleccionadoI[];
+  setStock: (value: StockSeleccionadoI[]) => void;
+}) => {
   const [data, setData] = useState<ListarStockI[]>([]);
 
   useEffect(() => {
@@ -51,8 +57,6 @@ export const ListarStock = ({stock,setStock}:{stock:StockSeleccionadoI[], setSto
               </TableCell>
             ))}
           </TableRow>
-
-         
         </TableHead>
         <TableHead>
           <TableRow>
@@ -71,13 +75,13 @@ export const ListarStock = ({stock,setStock}:{stock:StockSeleccionadoI[], setSto
             <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
               Unidad de manejo
             </TableCell>
-              <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
+            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
               Precio Unitario
             </TableCell>
             <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
               Categoría
             </TableCell>
-              <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
+            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
               Fecha de fechaVencimiento
             </TableCell>
             <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
@@ -92,10 +96,12 @@ export const ListarStock = ({stock,setStock}:{stock:StockSeleccionadoI[], setSto
               <TableCell sx={{ fontSize: 13 }}>{item.producto}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.descripcion}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.cantidad}</TableCell>
-                       <TableCell sx={{ fontSize: 13 }}>{item.unidadManejo}</TableCell>
-                 <TableCell sx={{ fontSize: 13 }}>{item.precioUnitario} Bs</TableCell>
+              <TableCell sx={{ fontSize: 13 }}>{item.unidadManejo}</TableCell>
+              <TableCell sx={{ fontSize: 13 }}>
+                {item.precioUnitario} Bs
+              </TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.categoria}</TableCell>
-            
+
               <TableCell sx={{ fontSize: 13 }}>
                 {item.fechaVencimiento.split("T")[0]}
               </TableCell>
@@ -105,11 +111,22 @@ export const ListarStock = ({stock,setStock}:{stock:StockSeleccionadoI[], setSto
                   size="small"
                   color="primary"
                   sx={{ fontSize: 12 }}
-                  onClick={()=> {
-                  
-                    const data:StockSeleccionadoI =  {stock:item._id,codigo:item.codigo,nombre:item.producto,precioUnitario:item.precioUnitario}
-                    
-                    setStock([...stock,data])
+                  onClick={() => {
+                    const data: StockSeleccionadoI = {
+                      stock: item._id,
+                      codigo: item.codigo,
+                      nombre: item.producto,
+                      precioUnitario: item.precioUnitario,
+                      cantidad: 1,
+                      montoTotal: item.precioUnitario,
+                    };
+                    const yaExiste = stock.some(
+                      (item) => item.stock === data.stock
+                    );
+
+                    if (!yaExiste) {
+                      setStock([...stock, data]);
+                    }
                   }}
                 >
                   Añadir

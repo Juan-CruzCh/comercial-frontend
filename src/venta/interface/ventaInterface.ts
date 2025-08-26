@@ -3,4 +3,6 @@ export interface StockSeleccionadoI {
     codigo:string
     nombre:string
     precioUnitario:number
+    cantidad:number
+    montoTotal:number
 }
