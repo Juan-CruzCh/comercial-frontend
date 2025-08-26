@@ -64,3 +64,14 @@ export interface RegistrarStockData {
     montoTotal: number;
     stock: StockItem[];
 }
+
+
+export interface ListarStockI {
+    _id: string
+    cantidad: string
+    categoria: string
+    codigo: string
+    fechaVencimiento: string
+    producto: string
+    unidadManejo: string
+}
