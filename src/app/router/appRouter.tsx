@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ProveedorPage } from "../../proveedor/page/ProveedorPage";
+import { ListarProveedorPage } from "../../proveedor/page/ListarProveedorPage";
 import { UnidadManegoPage } from "../../producto/page/UnidadManegoPage";
 import { RegistrarStockPage } from "../../stock/page/RegistrarStockPage";
 import { Menu } from "../components/Menu";
@@ -13,7 +13,7 @@ export const AppRouter = () => {
                 {/* Ruta padre con layout */}
                 <Route path="/" element={<Menu />}>
                     {/* Rutas hijas */}
-                    <Route path="proveedor" element={<ProveedorPage />} />
+                    <Route path="listar/proveedor" element={<ListarProveedorPage />} />
                     <Route path="unidad/manejo" element={<UnidadManegoPage />} />
                     <Route path="realizar/ingreso" element={<RegistrarStockPage />} />
                     <Route path="listar/stock" element={<ListarStockPage />} />

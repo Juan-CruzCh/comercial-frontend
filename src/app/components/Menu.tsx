@@ -145,7 +145,7 @@ export const Menu = () => {
                             </ListItemButton>
                             <Collapse in={openInventario} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemButton component={Link} to="/listar/proveedor" sx={{ pl: 4 }}>
                                         <ListItemIcon>
                                             <People />
                                         </ListItemIcon>

@@ -14,7 +14,10 @@ export const ListarProveedor = ({ setSeleccionado }: proveedorPropsI) => {
     const listar = async () => {
         try {
             const response = await listarProveedor()
-            setData(response)
+            if(response){
+                 setData(response)
+            }
+            
         } catch (error) {
             console.log(error);
 

@@ -74,4 +74,6 @@ export interface ListarStockI {
     fechaVencimiento: string
     producto: string
     unidadManejo: string
+    descripcion:string
+    precioUnitario:number
 }
