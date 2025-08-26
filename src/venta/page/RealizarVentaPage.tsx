@@ -11,7 +11,10 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { ListarStock } from "../components/ListarStock";
 import { useState } from "react";
-import type { StockSeleccionadoI } from "../interface/ventaInterface";
+import type {
+  RealizarVentaI,
+  StockSeleccionadoI,
+} from "../interface/ventaInterface";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 
@@ -19,7 +22,64 @@ export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
     StockSeleccionadoI[]
   >([]);
-  console.log(stockSeleccionado);
+  const [total, setTotal] = useState<number>(0);
+  const [sudTotal, setSubTotal] = useState<number>(0);
+  const [descuento, setDescuento] = useState<number>(0);
+  const [btnVentaDisable, setBtnVentaDisable] = useState<boolean>(false);
+
+  const btnIncrementarCantidad = (i: number) => {
+    const nuevoStock = [...stockSeleccionado];
+    nuevoStock[i].cantidad += 1;
+    nuevoStock[i].montoTotal = Number(
+      (nuevoStock[i].cantidad * nuevoStock[i].precioUnitario).toFixed(2)
+    );
+
+    setStockSeleccionado(nuevoStock);
+  };
+
+  const btnDecrementarCantidad = (i: number) => {
+    const nuevoStock = [...stockSeleccionado];
+    if (nuevoStock[i].cantidad > 1) {
+      nuevoStock[i].cantidad -= 1;
+      nuevoStock[i].montoTotal = Number(
+        (nuevoStock[i].cantidad * nuevoStock[i].precioUnitario).toFixed(2)
+      );
+
+      setStockSeleccionado(nuevoStock);
+    }
+  };
+
+  const btnRealizarVenta = () => {
+    if (stockSeleccionado.length > 0) {
+      const montoTotal =
+        Number(
+          stockSeleccionado
+            .reduce((acc, item) => item.montoTotal + acc, 0)
+            .toFixed(2)
+        ) - descuento;
+      const sudTotal = Number(
+        stockSeleccionado
+          .reduce((acc, item) => item.montoTotal + acc, 0)
+          .toFixed(2)
+      );
+
+      const venta: RealizarVentaI = {
+        descuento: descuento,
+        montoTotal: montoTotal,
+        sudTotal: sudTotal,
+        detalleVenta: stockSeleccionado.map((item) => {
+          return {
+            cantidad: item.cantidad,
+            descripcionProducto: item.nombre,
+            stock: item.stock,
+            precioUnitario: item.precioUnitario,
+            precioTotal: item.montoTotal,
+          };
+        }),
+      };
+      console.log(venta);
+    }
+  };
 
   return (
     <Box sx={{ p: 2, mx: "auto" }}>
@@ -146,38 +206,14 @@ export const RealizarVentaPage = () => {
                       <IconButton
                         color="primary"
                         size="small"
-                        onClick={() => {
-                          const nuevoStock = [...stockSeleccionado];
-                          if (nuevoStock[i].cantidad > 1) {
-                            nuevoStock[i].cantidad -= 1;
-                            nuevoStock[i].montoTotal = Number(
-                              (
-                                  nuevoStock[i].cantidad *nuevoStock[i].precioUnitario 
-                              
-                              ).toFixed(2)
-                            );
-                            console.log(nuevoStock);
-
-                            setStockSeleccionado(nuevoStock);
-                          }
-                        }}
+                        onClick={() => btnDecrementarCantidad(i)}
                       >
                         <RemoveIcon />
                       </IconButton>
                       <IconButton
                         color="primary"
                         size="small"
-                        onClick={() => {
-                          const nuevoStock = [...stockSeleccionado];
-                          nuevoStock[i].cantidad += 1;
-                          nuevoStock[i].montoTotal = Number(
-                            (
-                            nuevoStock[i].cantidad*  nuevoStock[i].precioUnitario 
-                            ).toFixed(2)
-                          );
-
-                          setStockSeleccionado(nuevoStock);
-                        }}
+                        onClick={() => btnIncrementarCantidad(i)}
                       >
                         <AddIcon />
                       </IconButton>
@@ -199,6 +235,10 @@ export const RealizarVentaPage = () => {
               variant="outlined"
               size="small"
               type="number"
+              onChange={(e) => {
+                const value = e.target.value;
+                setDescuento(Number(value));
+              }}
               sx={{ width: "100%", mt: 1 }}
             />
 
@@ -213,10 +253,9 @@ export const RealizarVentaPage = () => {
             >
               <Typography variant="body2">Subtotal</Typography>
               <Typography variant="body2">
-                {stockSeleccionado.reduce(
-                  (acc, item) => item.montoTotal + acc,
-                  0
-                ).toFixed(2)}
+                {stockSeleccionado
+                  .reduce((acc, item) => item.montoTotal + acc, 0)
+                  .toFixed(2)}
                 Bs
               </Typography>
             </Box>
@@ -229,7 +268,7 @@ export const RealizarVentaPage = () => {
               }}
             >
               <Typography variant="body2">Descuento</Typography>
-              <Typography variant="body2">0 Bs.</Typography>
+              <Typography variant="body2">{descuento}</Typography>
             </Box>
             <Divider />
             <Box
@@ -241,10 +280,24 @@ export const RealizarVentaPage = () => {
               }}
             >
               <Typography variant="body2">Total</Typography>
-              <Typography variant="body2">3</Typography>
+              <Typography variant="body2">
+                {(() => {
+                  const total = stockSeleccionado.reduce(
+                    (acc, item) => item.montoTotal + acc,
+                    0
+                  );
+
+                  if (descuento > total) {
+                    return "El descuento no puede ser mayor al monto total.";
+                  }
+
+                  return (total - descuento).toFixed(2);
+                })()}
+              </Typography>
             </Box>
 
             <Button
+              onClick={() => btnRealizarVenta()}
               variant="contained"
               color="success"
               fullWidth

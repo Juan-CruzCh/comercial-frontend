@@ -49,8 +49,8 @@ export interface stockCargadoI {
 
 interface StockItem {
     cantidad: number;
-    fechaVencimiento: Date; // puede ser Date si manejas objetos Date
-    producto: string; // si usas ObjectId u otro tipo, lo ajustas
+    fechaVencimiento: Date; 
+    producto: string; 
     precioUnitario: number;
     montoTotal: number;
     descuento: number;
