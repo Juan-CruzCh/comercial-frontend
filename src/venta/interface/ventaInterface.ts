@@ -21,3 +21,15 @@ export interface DetalleVentaI {
   precioUnitario:number,
   descripcionProducto: string
 }
+
+
+export interface ListarVentaI {
+  _id: string;
+  codigo: string;
+  descuento: number;
+  fechaVenta: string;
+  montoTotal: number;
+  subTotal: number;
+  vendedor: string;
+  sucursal: string;
+}

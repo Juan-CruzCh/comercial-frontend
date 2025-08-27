@@ -7,6 +7,8 @@ import { ListarStockPage } from "../../stock/page/ListarStockPage";
 import { RealizarVentaPage } from "../../venta/page/RealizarVentaPage";
 import { ListarSucursalPage } from "../../sucursal/page/ListarSucursalPage";
 import { ListarIngresoPage } from "../../ingreso/page/ListarIngresoPage";
+import { ListarVentaPage } from "../../venta/page/ListarVentaPage";
+import { DetalleVentaPage } from "../../venta/page/DetalleVentaPage";
 
 export const AppRouter = () => {
     return (
@@ -22,6 +24,8 @@ export const AppRouter = () => {
                     <Route path="realizar/venta" element={<RealizarVentaPage />} />
                     <Route path="listar/sucursal" element={<ListarSucursalPage />} />
                      <Route path="listar/ingresos" element={<ListarIngresoPage />} />
+                     <Route path="listar/ventas" element={<ListarVentaPage />} />
+                      <Route path="detalle/venta/:id" element={<DetalleVentaPage />} />
                 </Route>
             </Routes>
         </Router>

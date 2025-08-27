@@ -184,7 +184,10 @@ export const Menu: React.FC = () => {
                   slotProps={{ primary: { variant: 'body2' } }} 
                 />
               </ListItemButton>
-              <ListItemButton sx={subMenuItemStyle}>
+              <ListItemButton 
+                component={Link} 
+                to="listar/ventas"
+              sx={subMenuItemStyle}>
                 <ListItemIcon sx={{ color: theme.palette.success.light }}>
                   <Assessment />
                 </ListItemIcon>

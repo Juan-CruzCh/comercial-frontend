@@ -115,7 +115,7 @@ export const ListarStock = ({
                     const data: StockSeleccionadoI = {
                       stock: item._id,
                       codigo: item.codigo,
-                      nombre: item.producto,
+                      nombre: `${item.producto}/${item.descripcion}` ,
                       precioUnitario: item.precioUnitario,
                       cantidad: 1,
                       montoTotal: item.precioUnitario,
