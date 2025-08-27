@@ -6,6 +6,7 @@ import { Menu } from "../components/Menu";
 import { ListarStockPage } from "../../stock/page/ListarStockPage";
 import { RealizarVentaPage } from "../../venta/page/RealizarVentaPage";
 import { ListarSucursalPage } from "../../sucursal/page/ListarSucursalPage";
+import { ListarIngresoPage } from "../../ingreso/page/ListarIngresoPage";
 
 export const AppRouter = () => {
     return (
@@ -20,6 +21,7 @@ export const AppRouter = () => {
                     <Route path="listar/stock" element={<ListarStockPage />} />
                     <Route path="realizar/venta" element={<RealizarVentaPage />} />
                     <Route path="listar/sucursal" element={<ListarSucursalPage />} />
+                     <Route path="listar/ingresos" element={<ListarIngresoPage />} />
                 </Route>
             </Routes>
         </Router>

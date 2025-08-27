@@ -1,340 +1,459 @@
-import { useState } from "react";
+// Menu.tsx
+import React, { useState } from 'react';
 import {
+  Box,
+  Drawer,
+  IconButton,
   List,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Collapse,
   Divider,
-  Drawer,
-  IconButton,
   Typography,
-  Box,
-  ListItemIcon,
-} from "@mui/material";
+  Avatar,
+  Chip,
+  useTheme,
+  alpha,
+} from '@mui/material';
 import {
+  Menu as MenuIcon,
   ExpandLess,
   ExpandMore,
-  Menu as MenuIcon,
   ShoppingCart,
+  Receipt,
   Inventory,
   People,
+  Store,
   AdminPanelSettings,
   Logout,
-  Receipt,
-  Store,
-} from "@mui/icons-material";
-import { Link, Outlet } from "react-router-dom";
+  PointOfSale,
+  Assessment,
+  LocalShipping,
+  AddBusiness,
+  Category,
+  Scale,
+  Warehouse,
+  Person,
+  Business,
+  TrendingUp,
+  Dashboard,
+  Close,
+} from '@mui/icons-material';
+import { Link, Outlet } from 'react-router-dom';
 
-export const Menu = () => {
+const drawerWidth = 280;
+
+export const Menu: React.FC = () => {
+  const theme = useTheme();
+  const [openSidebar, setOpenSidebar] = useState(false);
   const [openVentas, setOpenVentas] = useState(false);
   const [openInventario, setOpenInventario] = useState(false);
   const [openUsuarios, setOpenUsuarios] = useState(false);
   const [openAdministracion, setOpenAdministracion] = useState(false);
-  const [openSidebar, setOpenSidebar] = useState(false);
 
   const handleLogout = () => {
-    alert("Sesión cerrada");
+    alert('Sesión cerrada');
     setOpenSidebar(false);
   };
 
+  const closeSidebar = () => {
+    setOpenSidebar(false);
+  };
+
+  const menuItemStyle = {
+    borderRadius: '12px',
+    mx: 1,
+    my: 0.5,
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+      transform: 'translateX(4px)',
+      transition: 'all 0.2s ease-in-out',
+    },
+    transition: 'all 0.2s ease-in-out',
+  };
+
+  const subMenuItemStyle = {
+    borderRadius: '8px',
+    mx: 1,
+    my: 0.3,
+    pl: 4,
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.secondary.main, 0.08),
+      transform: 'translateX(8px)',
+      transition: 'all 0.2s ease-in-out',
+    },
+    transition: 'all 0.2s ease-in-out',
+  };
+
+  const drawerContent = (
+    <Box sx={{ 
+      width: drawerWidth, 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      background: `linear-gradient(135deg, ${theme.palette.grey[50]} 0%, ${theme.palette.grey[100]} 100%)`,
+    }}>
+      {/* Header mejorado */}
+      <Box sx={{ 
+        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+        color: 'white',
+        p: 2,
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <IconButton
+          onClick={closeSidebar}
+          sx={{ 
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: 'white',
+            '&:hover': { backgroundColor: alpha('#fff', 0.1) }
+          }}
+        >
+          <Close />
+        </IconButton>
+        
+        <Avatar sx={{ 
+          bgcolor: 'white', 
+          color: theme.palette.primary.main, 
+          mb: 1,
+          width: 48,
+          height: 48,
+        }}>
+          <Dashboard />
+        </Avatar>
+        
+        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, textAlign: 'center' }}>
+          Sistema POS
+        </Typography>
+        
+        <Chip 
+          label="Admin" 
+          size="small" 
+          sx={{ 
+            bgcolor: alpha('#fff', 0.2), 
+            color: 'white',
+            fontSize: '0.7rem'
+          }} 
+        />
+      </Box>
+
+      <Divider />
+
+      {/* Contenido principal del menú */}
+      <Box sx={{ flex: 1, py: 1, overflowY: 'auto' }}>
+        <List component="nav" sx={{ px: 1 }}>
+
+          {/* Ventas */}
+          <ListItemButton 
+            onClick={() => setOpenVentas(!openVentas)}
+            sx={menuItemStyle}
+          >
+            <ListItemIcon sx={{ color: theme.palette.success.main }}>
+              <ShoppingCart />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Ventas" 
+              slotProps={{ 
+                primary: { 
+                  variant: 'body2', 
+                  fontWeight: 'medium',
+                  color: theme.palette.text.primary
+                }
+              }} 
+            />
+            {openVentas ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openVentas} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                component={Link} 
+                to="realizar/venta" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.success.light }}>
+                  <PointOfSale />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Realizar Venta" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton sx={subMenuItemStyle}>
+                <ListItemIcon sx={{ color: theme.palette.success.light }}>
+                  <Assessment />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Resumen Ventas" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Inventario */}
+          <ListItemButton 
+            onClick={() => setOpenInventario(!openInventario)}
+            sx={menuItemStyle}
+          >
+            <ListItemIcon sx={{ color: theme.palette.warning.main }}>
+              <Inventory />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Inventario" 
+              slotProps={{ 
+                primary: { 
+                  variant: 'body2', 
+                  fontWeight: 'medium',
+                  color: theme.palette.text.primary
+                }
+              }} 
+            />
+            {openInventario ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openInventario} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                component={Link} 
+                to="/listar/proveedor" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <LocalShipping />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Proveedores" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton 
+                component={Link} 
+                to="/realizar/ingreso" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <AddBusiness />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Realizar Ingresos" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton 
+                component={Link} 
+                to="/listar/ingresos" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <TrendingUp />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Listar Ingresos" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton 
+                component={Link} 
+                to="/" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <Category />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Listar Categorías" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton 
+                component={Link} 
+                to="/" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <Scale />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Unidades de Manejo" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+              <ListItemButton 
+                component={Link} 
+                to="/listar/stock" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.warning.light }}>
+                  <Warehouse />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Listar Stock" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Usuarios */}
+          <ListItemButton 
+            onClick={() => setOpenUsuarios(!openUsuarios)}
+            sx={menuItemStyle}
+          >
+            <ListItemIcon sx={{ color: theme.palette.info.main }}>
+              <People />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Usuarios" 
+              slotProps={{ 
+                primary: { 
+                  variant: 'body2', 
+                  fontWeight: 'medium',
+                  color: theme.palette.text.primary
+                }
+              }} 
+            />
+            {openUsuarios ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={subMenuItemStyle}>
+                <ListItemIcon sx={{ color: theme.palette.info.light }}>
+                  <Person />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Gestionar Usuarios" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Administración */}
+          <ListItemButton 
+            onClick={() => setOpenAdministracion(!openAdministracion)}
+            sx={menuItemStyle}
+          >
+            <ListItemIcon sx={{ color: theme.palette.secondary.main }}>
+              <AdminPanelSettings />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Administración" 
+              slotProps={{ 
+                primary: { 
+                  variant: 'body2', 
+                  fontWeight: 'medium',
+                  color: theme.palette.text.primary
+                }
+              }} 
+            />
+            {openAdministracion ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={openAdministracion} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                component={Link} 
+                to="/listar/sucursal" 
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.secondary.light }}>
+                  <Business />
+                </ListItemIcon>
+                <ListItemText 
+                  primary="Listar Sucursales" 
+                  slotProps={{ primary: { variant: 'body2' } }} 
+                />
+              </ListItemButton>
+            </List>
+          </Collapse>
+        </List>
+      </Box>
+
+      {/* Footer mejorado */}
+      <Box sx={{ 
+        borderTop: `1px solid ${theme.palette.divider}`,
+        bgcolor: alpha(theme.palette.primary.main, 0.02)
+      }}>
+        <ListItemButton 
+          onClick={handleLogout}
+          sx={{
+            ...menuItemStyle,
+            color: theme.palette.error.main,
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.error.main, 0.08),
+            },
+          }}
+        >
+          <ListItemIcon sx={{ color: theme.palette.error.main }}>
+            <Logout />
+          </ListItemIcon>
+          <ListItemText 
+            primary="Cerrar sesión" 
+            slotProps={{ 
+              primary: { 
+                variant: 'body2',
+                fontWeight: 'medium'
+              }
+            }} 
+          />
+        </ListItemButton>
+        
+        <Typography 
+          variant="caption" 
+          sx={{ 
+            p: 2, 
+            textAlign: 'center', 
+            color: theme.palette.text.secondary 
+          }}
+        >
+          Sistema POS v1.0
+        </Typography>
+      </Box>
+    </Box>
+  );
+
   return (
-    <div>
-      {/* Botón hamburguesa */}
-      <IconButton
-        color="primary"
-        onClick={() => setOpenSidebar(true)}
-        sx={{ m: 1 }}
+    <Box >
+      {/* Botón del menú mejorado */}
+      <IconButton 
+        color="primary" 
+        onClick={() => setOpenSidebar(true)} 
+        
       >
         <MenuIcon fontSize="large" />
       </IconButton>
 
-      {/* Drawer */}
-      <Drawer
-        anchor="left"
-        open={openSidebar}
+      {/* Drawer con mejoras */}
+      <Drawer 
+        anchor="left" 
+        open={openSidebar} 
         onClose={() => setOpenSidebar(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            boxShadow: theme.shadows[8],
+            borderRight: 'none',
+          }
+        }}
       >
-        <div
-          style={{
-            width: 220,
-            background: "#fafafa",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box>
-            <Typography
-              variant="h6"
-              sx={{
-                p: 2,
-                textAlign: "center",
-                fontWeight: "bold",
-                background: "#1976d2",
-                color: "#fff",
-              }}
-            >
-              Menú
-            </Typography>
-            <Divider />
-
-            <List component="nav" sx={{ flex: 1 }}>
-              {/* Ventas */}
-              <ListItemButton onClick={() => setOpenVentas(!openVentas)}>
-                <ListItemIcon>
-                  <ShoppingCart />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Ventas"
-                  slotProps={{
-                    primary: {
-                      variant: "body2",
-                    },
-                  }}
-                />
-                {openVentas ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openVentas} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to="realizar/venta"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Receipt />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Realizar Venta"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <Receipt />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Resumen Ventas"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-
-              {/* Inventario */}
-              <ListItemButton
-                onClick={() => setOpenInventario(!openInventario)}
-              >
-                <ListItemIcon>
-                  <Inventory />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Inventario"
-                  slotProps={{
-                    primary: {
-                      variant: "body2",
-                    },
-                  }}
-                />
-                {openInventario ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openInventario} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to="/listar/proveedor"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <People />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Proveedores"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/realizar/ingreso"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Store />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Realizar Ingresos"
-                      slotProps={{ primary: { variant: "body2" } }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Store />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Listar ingresos"
-                      slotProps={{ primary: { variant: "body2" } }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Store />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Listar Categorias"
-                      slotProps={{ primary: { variant: "body2" } }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Store />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Listar undiad de manejo"
-                      slotProps={{ primary: { variant: "body2" } }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/listar/stock"
-                    sx={{ pl: 4 }}
-                  >
-                    <ListItemIcon>
-                      <Inventory />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Listar Stock"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-
-              {/* Usuarios */}
-              <ListItemButton onClick={() => setOpenUsuarios(!openUsuarios)}>
-                <ListItemIcon>
-                  <People />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Usuarios"
-                  slotProps={{
-                    primary: {
-                      variant: "body2",
-                    },
-                  }}
-                />
-                {openUsuarios ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <People />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Usuario"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-
-              {/* Administración */}
-              <ListItemButton
-                onClick={() => setOpenAdministracion(!openAdministracion)}
-              >
-                <ListItemIcon>
-                  <AdminPanelSettings />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Administración"
-                  slotProps={{
-                    primary: {
-                      variant: "body2",
-                    },
-                  }}
-                />
-                {openAdministracion ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={openAdministracion} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to="/listar/sucursal"
-                    sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <Store />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Listar Sucursales"
-                      slotProps={{
-                        primary: {
-                          variant: "body2",
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-            </List>
-          </Box>
-
-          {/* Cerrar sesión */}
-          <Box sx={{ p: 1 }}>
-            <Divider />
-            <ListItemButton onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout />
-              </ListItemIcon>
-              <ListItemText
-                primary="Cerrar sesión"
-                slotProps={{
-                  primary: {
-                    variant: "body2",
-                  },
-                }}
-              />
-            </ListItemButton>
-          </Box>
-        </div>
+        {drawerContent}
       </Drawer>
 
-      {/* Contenido */}
-      <main className="flex-1 p-6">
+      {/* Contenido principal */}
+      <Box component="main" sx={{ flex: 1, p: 3 }}>
         <Outlet />
-      </main>
-    </div>
+      </Box>
+    </Box>
   );
 };
+

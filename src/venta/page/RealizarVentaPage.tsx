@@ -125,196 +125,224 @@ export const RealizarVentaPage = () => {
         </Box>
 
         {/* Carrito */}
-        <Paper sx={{ p: 2, flex: { xs: "unset", sm: 1 } }}>
-          <Typography
-            variant="subtitle1"
+      <Paper
+  sx={{
+    p: 2,
+    flex: { xs: "unset", sm: 1 },
+    backgroundColor: "#f8fafc", // fondo suave
+    borderRadius: 2,
+    boxShadow: "0px 2px 10px rgba(0,0,0,0.05)", // sombra sutil
+  }}
+>
+  <Typography
+    variant="subtitle1"
+    sx={{
+      mb: 2,
+      color: "#0f172a", // texto más oscuro
+      fontWeight: "bold",
+      fontSize: 18,
+      borderBottom: "2px solid #3b82f6", // línea azul bajo el título
+      pb: 1,
+    }}
+  >
+    🛒 Carrito de Compras
+  </Typography>
+
+  <Stack spacing={2}>
+    <Box>
+      {/* Encabezado de columnas */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 1,
+          fontWeight: "bold",
+          backgroundColor: "#e0f2fe",
+          p: 1,
+          borderRadius: 1,
+        }}
+      >
+        <Typography variant="body2" sx={{ width: "15%", color: "#0c4a6e" }}>
+          Código
+        </Typography>
+        <Typography variant="body2" sx={{ width: "25%", color: "#0c4a6e" }}>
+          Producto
+        </Typography>
+        <Typography variant="body2" sx={{ width: "20%", color: "#0c4a6e" }}>
+          Precio Unitario
+        </Typography>
+        <Typography variant="body2" sx={{ width: "20%", color: "#0c4a6e" }}>
+          Precio Total
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ width: "30%", textAlign: "center", color: "#0c4a6e" }}
+        >
+          Cantidad / Agregar
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ width: "10%", textAlign: "center", color: "#0c4a6e" }}
+        >
+          Eliminar
+        </Typography>
+      </Box>
+
+      {/* Lista de productos */}
+      {stockSeleccionado.map((item, i) => (
+        <Box key={i}>
+          <Box
             sx={{
-              mb: 2,
-              color: "#1e40af",
-              fontWeight: "bold",
-              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 1,
+              backgroundColor: i % 2 === 0 ? "#f1f5f9" : "#ffffff", // alternancia de color
+              p: 1,
+              borderRadius: 1,
             }}
           >
-            Carrito de Compras
-          </Typography>
-
-          <Stack spacing={2}>
-            <Box>
-              {/* Encabezado de columnas */}
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mb: 1,
-                  fontWeight: "bold",
-                }}
+            <Typography variant="body2" sx={{ width: "15%" }}>
+              {item.codigo}
+            </Typography>
+            <Typography variant="body2" sx={{ width: "25%" }}>
+              {item.nombre}
+            </Typography>
+            <Typography variant="body2" sx={{ width: "20%" }}>
+              {item.precioUnitario} Bs
+            </Typography>
+            <Typography variant="body2" sx={{ width: "20%" }}>
+              {item.montoTotal} Bs
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                width: "30%",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="body2" sx={{ width: "20%" }}>
+                {item.cantidad}
+              </Typography>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => btnDecrementarCantidad(i)}
               >
-                <Typography variant="body2" sx={{ width: "15%" }}>
-                  Código
-                </Typography>
-                <Typography variant="body2" sx={{ width: "25%" }}>
-                  Producto
-                </Typography>
-                <Typography variant="body2" sx={{ width: "20%" }}>
-                  Precio Unitario
-                </Typography>
-                <Typography variant="body2" sx={{ width: "20%" }}>
-                  Precio Total
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ width: "30%", textAlign: "center" }}
-                >
-                  Cantidad / Agregar
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ width: "10%", textAlign: "center" }}
-                >
-                  Eliminar
-                </Typography>
-              </Box>
-
-              {/* Lista de productos */}
-              {stockSeleccionado.map((item, i) => (
-                <Box key={i}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      mb: 1,
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ width: "15%" }}>
-                      {item.codigo}
-                    </Typography>
-                    <Typography variant="body2" sx={{ width: "25%" }}>
-                      {item.nombre}
-                    </Typography>
-                    <Typography variant="body2" sx={{ width: "20%" }}>
-                      {item.precioUnitario} Bs
-                    </Typography>
-                    <Typography variant="body2" sx={{ width: "20%" }}>
-                      {item.montoTotal} Bs
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        width: "30%",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography variant="body2" sx={{ width: "20%" }}>
-                        {item.cantidad}
-                      </Typography>
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() => btnDecrementarCantidad(i)}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                      <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={() => btnIncrementarCantidad(i)}
-                      >
-                        <AddIcon />
-                      </IconButton>
-                    </Box>
-
-                    <Box sx={{ width: "10%", textAlign: "center" }}>
-                      <IconButton color="error" size="small">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                  {i < 4 && <Divider />}
-                </Box>
-              ))}
+                <RemoveIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => btnIncrementarCantidad(i)}
+              >
+                <AddIcon />
+              </IconButton>
             </Box>
 
-            <TextField
-              label="Descuento (Bs.)"
-              variant="outlined"
-              size="small"
-              type="number"
-              onChange={(e) => {
-                const value = e.target.value;
-                setDescuento(Number(value));
-              }}
-              sx={{ width: "100%", mt: 1 }}
-            />
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontWeight: "bold",
-                fontSize: 13,
-                mt: 1,
-              }}
-            >
-              <Typography variant="body2">Subtotal</Typography>
-              <Typography variant="body2">
-                {stockSeleccionado
-                  .reduce((acc, item) => item.montoTotal + acc, 0)
-                  .toFixed(2)}
-                Bs
-              </Typography>
+            <Box sx={{ width: "10%", textAlign: "center" }}>
+              <IconButton color="error" size="small">
+                <DeleteIcon />
+              </IconButton>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontWeight: "bold",
-                fontSize: 13,
-              }}
-            >
-              <Typography variant="body2">Descuento</Typography>
-              <Typography variant="body2">{descuento}</Typography>
-            </Box>
-            <Divider />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontWeight: "bold",
-                fontSize: 13,
-              }}
-            >
-              <Typography variant="body2">Total</Typography>
-              <Typography variant="body2">
-                {(() => {
-                  const total = stockSeleccionado.reduce(
-                    (acc, item) => item.montoTotal + acc,
-                    0
-                  );
+          </Box>
+        </Box>
+      ))}
+    </Box>
 
-                  if (descuento > total) {
-                    return "El descuento no puede ser mayor al monto total.";
-                  }
+    <TextField
+      label="Descuento (Bs.)"
+      variant="outlined"
+      size="small"
+      type="number"
+      onChange={(e) => {
+        const value = e.target.value;
+        setDescuento(Number(value));
+      }}
+      sx={{ width: "100%", mt: 1 }}
+    />
 
-                  return (total - descuento).toFixed(2);
-                })()}
-              </Typography>
-            </Box>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        fontWeight: "bold",
+        fontSize: 13,
+        mt: 1,
+        color: "#0f172a",
+      }}
+    >
+      <Typography variant="body2">Subtotal</Typography>
+      <Typography variant="body2">
+        {stockSeleccionado
+          .reduce((acc, item) => item.montoTotal + acc, 0)
+          .toFixed(2)}
+        Bs
+      </Typography>
+    </Box>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        fontWeight: "bold",
+        fontSize: 13,
+        color: "#0f172a",
+      }}
+    >
+      <Typography variant="body2">Descuento</Typography>
+      <Typography variant="body2">{descuento}</Typography>
+    </Box>
 
-            <Button
-              onClick={() => btnRealizarVenta()}
-              variant="contained"
-              color="success"
-              fullWidth
-              sx={{ mt: 2 }}
-            >
-              Realizar Venta
-            </Button>
-          </Stack>
-        </Paper>
+    <Divider />
+
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        fontWeight: "bold",
+        fontSize: 13,
+        color: "#0f172a",
+      }}
+    >
+      <Typography variant="body2">Total</Typography>
+      <Typography variant="body2">
+        {(() => {
+          const total = stockSeleccionado.reduce(
+            (acc, item) => item.montoTotal + acc,
+            0
+          );
+
+          if (descuento > total) {
+            return "El descuento no puede ser mayor al monto total.";
+          }
+
+          return (total - descuento).toFixed(2);
+        })()}
+      </Typography>
+    </Box>
+
+    <Button
+      onClick={() => btnRealizarVenta()}
+      variant="contained"
+      fullWidth
+      sx={{
+        mt: 2,
+        backgroundColor: "#10b981", // verde esmeralda
+        "&:hover": {
+          backgroundColor: "#059669",
+        },
+        color: "#fff",
+        fontWeight: "bold",
+      }}
+    >
+      Realizar Venta
+    </Button>
+  </Stack>
+</Paper>
+
       </Box>
     </Box>
   );
