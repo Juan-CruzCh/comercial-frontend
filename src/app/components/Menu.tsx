@@ -181,6 +181,45 @@ export const Menu = () => {
                   </ListItemButton>
                   <ListItemButton
                     component={Link}
+                    to="/"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon>
+                      <Store />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Listar ingresos"
+                      slotProps={{ primary: { variant: "body2" } }}
+                    />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon>
+                      <Store />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Listar Categorias"
+                      slotProps={{ primary: { variant: "body2" } }}
+                    />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon>
+                      <Store />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Listar undiad de manejo"
+                      slotProps={{ primary: { variant: "body2" } }}
+                    />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
                     to="/listar/stock"
                     sx={{ pl: 4 }}
                   >
@@ -251,7 +290,10 @@ export const Menu = () => {
               </ListItemButton>
               <Collapse in={openAdministracion} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemButton
+                    component={Link}
+                    to="/listar/sucursal"
+                    sx={{ pl: 4 }}>
                     <ListItemIcon>
                       <Store />
                     </ListItemIcon>

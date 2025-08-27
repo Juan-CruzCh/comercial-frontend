@@ -17,6 +17,7 @@ import type {
 } from "../interface/ventaInterface";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { realizarVenta } from "../service/VentaService";
 
 export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
@@ -49,7 +50,7 @@ export const RealizarVentaPage = () => {
     }
   };
 
-  const btnRealizarVenta = () => {
+  const btnRealizarVenta = async () => {
     if (stockSeleccionado.length > 0) {
       const montoTotal =
         Number(
@@ -77,7 +78,14 @@ export const RealizarVentaPage = () => {
           };
         }),
       };
-      console.log(venta);
+      try {
+        const response = await realizarVenta(venta)
+        console.log(response);
+
+      } catch (error) {
+        console.log(error);
+
+      }
     }
   };
 
