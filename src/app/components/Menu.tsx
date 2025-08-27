@@ -265,7 +265,7 @@ export const Menu: React.FC = () => {
               </ListItemButton>
               <ListItemButton 
                 component={Link} 
-                to="/" 
+                to="/listar/categoria" 
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
@@ -279,7 +279,7 @@ export const Menu: React.FC = () => {
               </ListItemButton>
               <ListItemButton 
                 component={Link} 
-                to="/" 
+                to="/listar/unidad/manejo" 
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >

@@ -9,7 +9,7 @@ import {
     Button,
     Box,
 } from "@mui/material";
-import { RegistrarUnidadManejoModal } from "../../producto/modal/RegistrarUnidadManejoModal";
+import { RegistrarUnidadManejoModal } from "../../unidadManejo/modal/RegistrarUnidadManejoModal";
 import { RegistrarCategoriaModal } from "../../categoria/modal/RegistrarCategoriaModal";
 import { RegistrarProductoModal } from "../modal/RegistrarProductoModal";
 import { useEffect, useState } from "react";

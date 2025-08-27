@@ -10,10 +10,12 @@ import {
     Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import type { ProductoI, UnidadManejoI } from "../../producto/interface/producto";
+import type { ProductoI,  } from "../../producto/interface/producto";
 import type { CategoriaI } from "../../categoria/interface/categoria";
 import { listarCategoria } from "../../categoria/service/categoriaService";
-import { crearProducto, listarUndiadManejo } from "../../producto/service/productoService";
+import { crearProducto  } from "../../producto/service/productoService";
+import type { UnidadManejoI } from "../../unidadManejo/interface/unidaManejo";
+import { listarUndiadManejo } from "../../unidadManejo/service/unidaManejoService";
 
 
 export const RegistrarProductoModal = () => {

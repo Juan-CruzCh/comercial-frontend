@@ -7,7 +7,3 @@ export interface ProductoI {
     codigo?: string
 }
 
-export interface UnidadManejoI {
-    _id?: string
-    nombre: string
-}

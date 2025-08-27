@@ -8,9 +8,11 @@ import {
     Button,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import type { UnidadManejoI } from "../interface/producto";
-import { UnidadManegoPage } from "../page/UnidadManegoPage";
-import { crearUndiadManejo } from "../service/productoService";
+
+import { UnidadManegoPage } from "../../producto/page/UnidadManegoPage";
+import type { UnidadManejoI } from "../interface/unidaManejo";
+import { crearUndiadManejo } from "../service/unidaManejoService";
+
 
 export const RegistrarUnidadManejoModal = () => {
     const [open, setOpen] = useState(false);
