@@ -12,8 +12,10 @@ import {
   Button,
   Typography
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const ListarIngresoPage = () => {
+  const navigate = useNavigate()
   const [data, setData] = useState<IngresoI[]>([]);
 
   useEffect(() => {
@@ -56,7 +58,9 @@ export const ListarIngresoPage = () => {
                 <TableCell>{ingreso.proveedorApoellido}</TableCell>
                 <TableCell>{ingreso.proveedorNombre}</TableCell>
                 <TableCell>
-                  <Button variant="outlined" size="small" color="primary">
+                  <Button onClick={() => {
+                    navigate(`/detalle/ingreso/${ingreso._id}`)
+                  }} variant="outlined" size="small" color="primary">
                     Detalle
                   </Button>
                 </TableCell>

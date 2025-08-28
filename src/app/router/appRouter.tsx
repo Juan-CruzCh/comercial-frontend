@@ -11,6 +11,7 @@ import { ListarVentaPage } from "../../venta/page/ListarVentaPage";
 import { DetalleVentaPage } from "../../venta/page/DetalleVentaPage";
 import { ListarCategoriaPage } from "../../categoria/page/ListarCategoriaPage";
 import { ListarUnidadManejoPage } from "../../unidadManejo/page/ListarUnidadManejoPage";
+import { DetalleIngresoPage } from "../../ingreso/page/DetalleIngresoPage";
 
 export const AppRouter = () => {
   return (
@@ -32,6 +33,10 @@ export const AppRouter = () => {
           <Route
             path="listar/unidad/manejo"
             element={<ListarUnidadManejoPage />}
+          />
+          <Route
+            path="detalle/ingreso/:id"
+            element={<DetalleIngresoPage />}
           />
         </Route>
       </Routes>

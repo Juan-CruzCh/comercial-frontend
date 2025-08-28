@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
 import type { ListarStockI } from "../../stock/interface/stock";
 import { useEffect, useState } from "react";
@@ -37,7 +36,7 @@ export const ListarStock = ({
   };
   return (
     <TableContainer component={Paper}>
-      <Table size="small" stickyHeader>
+      <Table size="small" >
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1e40af" }}>
             {[
@@ -46,6 +45,8 @@ export const ListarStock = ({
               "Categoría",
               "Stock",
               "Unidad",
+              "Precio unitario",
+              "Categoria",
               "Venc.",
               "Acción",
             ].map((head, i) => (
@@ -58,37 +59,7 @@ export const ListarStock = ({
             ))}
           </TableRow>
         </TableHead>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Código
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Nombre
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Descripción
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Cantidad
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Unidad de manejo
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Precio Unitario
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Categoría
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Fecha de fechaVencimiento
-            </TableCell>
-            <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>
-              Acción
-            </TableCell>
-          </TableRow>
-        </TableHead>
+
         <TableBody>
           {data.map((item) => (
             <TableRow hover>
@@ -115,7 +86,7 @@ export const ListarStock = ({
                     const data: StockSeleccionadoI = {
                       stock: item._id,
                       codigo: item.codigo,
-                      nombre: `${item.producto}/${item.descripcion}` ,
+                      nombre: `${item.producto}/${item.descripcion}`,
                       precioUnitario: item.precioUnitario,
                       cantidad: 1,
                       montoTotal: item.precioUnitario,

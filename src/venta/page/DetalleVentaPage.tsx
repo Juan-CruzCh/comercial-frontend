@@ -60,62 +60,55 @@ export const DetalleVentaPage = () => {
         </Typography>
       ) : (
 
-          <CardContent>
-           
-            <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
-              <Table>
-                <TableHead>
-                  <TableRow sx={{ backgroundColor: "primary.main" }}>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Descripción</TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Cantidad</TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Precio Unitario</TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Precio Total</TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Fecha</TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Estado</TableCell>
+        <CardContent>
+
+          <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "primary.main" }}>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Descripción</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Cantidad</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Precio Unitario</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Precio Total</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Fecha</TableCell>
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    hover
+                    sx={{
+                      transition: "background-color 0.3s",
+                      "&:hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
+                    }}
+                  >
+                    <TableCell>{item.descripcion}</TableCell>
+                    <TableCell>{item.cantidad}</TableCell>
+                    <TableCell>
+
+                      {item.precioUnitario.toFixed(2)} Bs
+
+                    </TableCell>
+                    <TableCell>
+
+                      {item.precioTotal.toFixed(2)} Bs
+
+                    </TableCell>
+                    <TableCell>
+                      {item.fecha}
+                    </TableCell>
+
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((item, index) => (
-                    <TableRow
-                      key={index}
-                      hover
-                      sx={{
-                        transition: "background-color 0.3s",
-                        "&:hover": {
-                          backgroundColor: "#f5f5f5",
-                        },
-                      }}
-                    >
-                      <TableCell>{item.descripcion}</TableCell>
-                      <TableCell>{item.cantidad}</TableCell>
-                      <TableCell>
-                        <Typography color="success.main" fontWeight="500">
-                          {item.precioUnitario.toFixed(2)} Bs
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography color="success.main" fontWeight="500">
-                          {item.precioTotal.toFixed(2)} Bs
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        {item.fecha}
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          label={item.flag}
-                          color={item.flag === "NUEVO" ? "success" : "warning"}
-                          size="small"
-                          variant="outlined"
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+
       )}
     </Box>
   );

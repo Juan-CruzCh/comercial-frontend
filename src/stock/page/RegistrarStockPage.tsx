@@ -5,9 +5,11 @@ import type { IngresoStockI, proveedorSeleccionadoI, RegistrarStockData, stockCa
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { registrarStock } from "../service/sotckService";
+import { useNavigate } from "react-router-dom";
 
 
 export const RegistrarStockPage = () => {
+    const navigate = useNavigate()
     const [proveedor, setproveedor] = useState<proveedorSeleccionadoI>()
     const [producto, setproducto] = useState<proveedorSeleccionadoI>()
     const [stock, setStock] = useState<stockCargadoI[]>([])
@@ -52,8 +54,9 @@ export const RegistrarStockPage = () => {
                 console.log(data);
 
                 const response = await registrarStock(data)
-                console.log(response);
-
+                if (response) {
+                    navigate(`/detalle/ingreso/${response.ingreso}`)
+                }
             } catch (error) {
                 console.log(error);
 
