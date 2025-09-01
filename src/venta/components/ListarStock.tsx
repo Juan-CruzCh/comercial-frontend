@@ -64,8 +64,8 @@ export const ListarStock = ({
           {data.map((item) => (
             <TableRow hover>
               <TableCell sx={{ fontSize: 13 }}>{item.codigo}</TableCell>
-              <TableCell sx={{ fontSize: 13 }}>{item.producto}</TableCell>
-              <TableCell sx={{ fontSize: 13 }}>{item.descripcion}</TableCell>
+              <TableCell sx={{ fontSize: 13 }}>{item.producto} / {item.descripcion}</TableCell>
+              <TableCell sx={{ fontSize: 13 }}>{item.categoria}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.cantidad}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.unidadManejo}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>

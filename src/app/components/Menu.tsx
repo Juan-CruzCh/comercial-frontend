@@ -1,4 +1,3 @@
-// Menu.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -15,16 +14,17 @@ import {
   Chip,
   useTheme,
   alpha,
+  AppBar,
+  Toolbar,
+  Button,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   ExpandLess,
   ExpandMore,
   ShoppingCart,
-  Receipt,
   Inventory,
   People,
-  Store,
   AdminPanelSettings,
   Logout,
   PointOfSale,
@@ -41,6 +41,7 @@ import {
   Close,
 } from '@mui/icons-material';
 import { Link, Outlet } from 'react-router-dom';
+import { AbrirCajaModal } from '../../caja/modal/AbrirCajaModal';
 
 const drawerWidth = 280;
 
@@ -60,6 +61,66 @@ export const Menu: React.FC = () => {
   const closeSidebar = () => {
     setOpenSidebar(false);
   };
+
+  // Dentro de tu componente Menu
+
+  const TopBar = (
+    <AppBar
+      position="static"
+      color="default"
+      sx={{
+        bgcolor: alpha(theme.palette.primary.main, 0.05),
+        boxShadow: theme.shadows[1],
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        {/* IZQUIERDA: Botón menú */}
+        <IconButton
+          color="primary"
+          onClick={() => setOpenSidebar(true)}
+          edge="start"
+          size="small"
+        >
+          <MenuIcon />
+        </IconButton>
+
+        {/* DERECHA: Botones y montos */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {/* Botones más pequeños */}
+          <AbrirCajaModal />
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            sx={{ px: 1.5, py: 0.2, fontSize: "0.75rem" }}
+          >
+            Cerrar
+          </Button>
+
+          {/* Montos: ocultar en móviles */}
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              Monto Inicial:{" "}
+              <span style={{ color: theme.palette.success.main }}>Bs. 500</span>
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              Total Ventas:{" "}
+              <span style={{ color: theme.palette.primary.main }}>Bs. 2500</span>
+            </Typography>
+          </Box>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+
+
+  // ------------------------------------------
 
   const menuItemStyle = {
     borderRadius: '12px',
@@ -87,15 +148,15 @@ export const Menu: React.FC = () => {
   };
 
   const drawerContent = (
-    <Box sx={{ 
-      width: drawerWidth, 
-      height: '100%', 
-      display: 'flex', 
-      flexDirection: 'column', 
+    <Box sx={{
+      width: drawerWidth,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
       background: `linear-gradient(135deg, ${theme.palette.grey[50]} 0%, ${theme.palette.grey[100]} 100%)`,
     }}>
       {/* Header mejorado */}
-      <Box sx={{ 
+      <Box sx={{
         background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
         color: 'white',
         p: 2,
@@ -106,7 +167,7 @@ export const Menu: React.FC = () => {
       }}>
         <IconButton
           onClick={closeSidebar}
-          sx={{ 
+          sx={{
             position: 'absolute',
             top: 8,
             right: 8,
@@ -116,29 +177,29 @@ export const Menu: React.FC = () => {
         >
           <Close />
         </IconButton>
-        
-        <Avatar sx={{ 
-          bgcolor: 'white', 
-          color: theme.palette.primary.main, 
+
+        <Avatar sx={{
+          bgcolor: 'white',
+          color: theme.palette.primary.main,
           mb: 1,
           width: 48,
           height: 48,
         }}>
           <Dashboard />
         </Avatar>
-        
+
         <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, textAlign: 'center' }}>
           Sistema POS
         </Typography>
-        
-        <Chip 
-          label="Admin" 
-          size="small" 
-          sx={{ 
-            bgcolor: alpha('#fff', 0.2), 
+
+        <Chip
+          label="Admin"
+          size="small"
+          sx={{
+            bgcolor: alpha('#fff', 0.2),
             color: 'white',
             fontSize: '0.7rem'
-          }} 
+          }}
         />
       </Box>
 
@@ -147,248 +208,182 @@ export const Menu: React.FC = () => {
       {/* Contenido principal del menú */}
       <Box sx={{ flex: 1, py: 1, overflowY: 'auto' }}>
         <List component="nav" sx={{ px: 1 }}>
-
           {/* Ventas */}
-          <ListItemButton 
+          <ListItemButton
             onClick={() => setOpenVentas(!openVentas)}
             sx={menuItemStyle}
           >
             <ListItemIcon sx={{ color: theme.palette.success.main }}>
               <ShoppingCart />
             </ListItemIcon>
-            <ListItemText 
-              primary="Ventas" 
-              slotProps={{ 
-                primary: { 
-                  variant: 'body2', 
-                  fontWeight: 'medium',
-                  color: theme.palette.text.primary
-                }
-              }} 
-            />
+            <ListItemText primary="Ventas" />
             {openVentas ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openVentas} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton 
-                component={Link} 
-                to="realizar/venta" 
+              <ListItemButton
+                component={Link}
+                to="realizar/venta"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.success.light }}>
                   <PointOfSale />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Realizar Venta" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Realizar Venta" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
+              <ListItemButton
+                component={Link}
                 to="listar/ventas"
-              sx={subMenuItemStyle}>
+                sx={subMenuItemStyle}>
                 <ListItemIcon sx={{ color: theme.palette.success.light }}>
                   <Assessment />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Resumen Ventas" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Resumen Ventas" />
               </ListItemButton>
             </List>
           </Collapse>
 
           {/* Inventario */}
-          <ListItemButton 
+          <ListItemButton
             onClick={() => setOpenInventario(!openInventario)}
             sx={menuItemStyle}
           >
             <ListItemIcon sx={{ color: theme.palette.warning.main }}>
               <Inventory />
             </ListItemIcon>
-            <ListItemText 
-              primary="Inventario" 
-              slotProps={{ 
-                primary: { 
-                  variant: 'body2', 
-                  fontWeight: 'medium',
-                  color: theme.palette.text.primary
-                }
-              }} 
-            />
+            <ListItemText primary="Inventario" />
             {openInventario ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openInventario} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/proveedor" 
+              <ListItemButton
+                component={Link}
+                to="/listar/proveedor"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <LocalShipping />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Proveedores" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Proveedores" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
-                to="/realizar/ingreso" 
+              <ListItemButton
+                component={Link}
+                to="/realizar/ingreso"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <AddBusiness />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Realizar Ingresos" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Realizar Ingresos" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/ingresos" 
+              <ListItemButton
+                component={Link}
+                to="/listar/ingresos"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <TrendingUp />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Listar Ingresos" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Listar Ingresos" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/categoria" 
+              <ListItemButton
+                component={Link}
+                to="/listar/categoria"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <Category />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Listar Categorías" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Listar Categorías" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/unidad/manejo" 
+              <ListItemButton
+                component={Link}
+                to="/listar/unidad/manejo"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <Scale />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Unidades de Manejo" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Unidades de Manejo" />
               </ListItemButton>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/stock" 
+              <ListItemButton
+                component={Link}
+                to="/listar/stock"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.warning.light }}>
                   <Warehouse />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Listar Stock" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Listar Stock" />
               </ListItemButton>
             </List>
           </Collapse>
 
           {/* Usuarios */}
-          <ListItemButton 
+          <ListItemButton
             onClick={() => setOpenUsuarios(!openUsuarios)}
             sx={menuItemStyle}
           >
             <ListItemIcon sx={{ color: theme.palette.info.main }}>
               <People />
             </ListItemIcon>
-            <ListItemText 
-              primary="Usuarios" 
-              slotProps={{ 
-                primary: { 
-                  variant: 'body2', 
-                  fontWeight: 'medium',
-                  color: theme.palette.text.primary
-                }
-              }} 
-            />
+            <ListItemText primary="Usuarios" />
             {openUsuarios ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={subMenuItemStyle}>
+              <ListItemButton component={Link}
+                to="/listar/usuarios" sx={subMenuItemStyle}>
                 <ListItemIcon sx={{ color: theme.palette.info.light }}>
                   <Person />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Gestionar Usuarios" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Gestionar Usuarios" />
               </ListItemButton>
             </List>
           </Collapse>
 
           {/* Administración */}
-          <ListItemButton 
+          <ListItemButton
             onClick={() => setOpenAdministracion(!openAdministracion)}
             sx={menuItemStyle}
           >
             <ListItemIcon sx={{ color: theme.palette.secondary.main }}>
               <AdminPanelSettings />
             </ListItemIcon>
-            <ListItemText 
-              primary="Administración" 
-              slotProps={{ 
-                primary: { 
-                  variant: 'body2', 
-                  fontWeight: 'medium',
-                  color: theme.palette.text.primary
-                }
-              }} 
-            />
+            <ListItemText primary="Administración" />
             {openAdministracion ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={openAdministracion} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton 
-                component={Link} 
-                to="/listar/sucursal" 
+              <ListItemButton
+                component={Link}
+                to="/listar/sucursal"
                 sx={subMenuItemStyle}
                 onClick={closeSidebar}
               >
                 <ListItemIcon sx={{ color: theme.palette.secondary.light }}>
                   <Business />
                 </ListItemIcon>
-                <ListItemText 
-                  primary="Listar Sucursales" 
-                  slotProps={{ primary: { variant: 'body2' } }} 
-                />
+                <ListItemText primary="Listar Sucursales" />
               </ListItemButton>
             </List>
           </Collapse>
         </List>
       </Box>
 
-      {/* Footer mejorado */}
-      <Box sx={{ 
+      {/* Footer */}
+      <Box sx={{
         borderTop: `1px solid ${theme.palette.divider}`,
         bgcolor: alpha(theme.palette.primary.main, 0.02)
       }}>
-        <ListItemButton 
+        <ListItemButton
           onClick={handleLogout}
           sx={{
             ...menuItemStyle,
@@ -401,23 +396,15 @@ export const Menu: React.FC = () => {
           <ListItemIcon sx={{ color: theme.palette.error.main }}>
             <Logout />
           </ListItemIcon>
-          <ListItemText 
-            primary="Cerrar sesión" 
-            slotProps={{ 
-              primary: { 
-                variant: 'body2',
-                fontWeight: 'medium'
-              }
-            }} 
-          />
+          <ListItemText primary="Cerrar sesión" />
         </ListItemButton>
-        
-        <Typography 
-          variant="caption" 
-          sx={{ 
-            p: 2, 
-            textAlign: 'center', 
-            color: theme.palette.text.secondary 
+
+        <Typography
+          variant="caption"
+          sx={{
+            p: 2,
+            textAlign: 'center',
+            color: theme.palette.text.secondary
           }}
         >
           Sistema POS v1.0
@@ -427,20 +414,16 @@ export const Menu: React.FC = () => {
   );
 
   return (
-    <Box >
-      {/* Botón del menú mejorado */}
-      <IconButton 
-        color="primary" 
-        onClick={() => setOpenSidebar(true)} 
-        
-      >
-        <MenuIcon fontSize="large" />
-      </IconButton>
+    <Box>
+      {/* Barra horizontal arriba */}
+      {TopBar}
 
-      {/* Drawer con mejoras */}
-      <Drawer 
-        anchor="left" 
-        open={openSidebar} 
+
+
+      {/* Drawer */}
+      <Drawer
+        anchor="left"
+        open={openSidebar}
         onClose={() => setOpenSidebar(false)}
         sx={{
           '& .MuiDrawer-paper': {
@@ -459,4 +442,3 @@ export const Menu: React.FC = () => {
     </Box>
   );
 };
-

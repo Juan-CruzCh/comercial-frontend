@@ -7,6 +7,12 @@ import {
   Stack,
   Divider,
   IconButton,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ListarStock } from "../components/ListarStock";
@@ -34,7 +40,6 @@ export const RealizarVentaPage = () => {
     nuevoStock[i].montoTotal = Number(
       (nuevoStock[i].cantidad * nuevoStock[i].precioUnitario).toFixed(2)
     );
-
     setStockSeleccionado(nuevoStock);
   };
 
@@ -45,7 +50,6 @@ export const RealizarVentaPage = () => {
       nuevoStock[i].montoTotal = Number(
         (nuevoStock[i].cantidad * nuevoStock[i].precioUnitario).toFixed(2)
       );
-
       setStockSeleccionado(nuevoStock);
     }
   };
@@ -79,12 +83,10 @@ export const RealizarVentaPage = () => {
         }),
       };
       try {
-        const response = await realizarVenta(venta)
+        const response = await realizarVenta(venta);
         console.log(response);
-
       } catch (error) {
         console.log(error);
-
       }
     }
   };
@@ -105,19 +107,16 @@ export const RealizarVentaPage = () => {
         Realizar Venta
       </Typography>
 
-      {/* Contenedor principal */}
+      {/* Contenedor principal: columna siempre */}
       <Box
         sx={{
           display: "flex",
-          flexDirection: {
-            xs: "column", // móvil
-            sm: "row", // desde 600px en adelante
-          },
+          flexDirection: "column", // tabla arriba, carrito abajo
           gap: 2,
         }}
       >
-        {/* Tabla de Stock (encima en móviles, más ancha en desktop) */}
-        <Box sx={{ flex: { xs: "unset", sm: 2 } }}>
+        {/* Tabla de Stock */}
+        <Box>
           <ListarStock
             setStock={setStockSeleccionado}
             stock={stockSeleccionado}
@@ -125,223 +124,136 @@ export const RealizarVentaPage = () => {
         </Box>
 
         {/* Carrito */}
-      <Paper
-  sx={{
-    p: 2,
-    flex: { xs: "unset", sm: 1 },
-    backgroundColor: "#f8fafc", // fondo suave
-    borderRadius: 2,
-    boxShadow: "0px 2px 10px rgba(0,0,0,0.05)", // sombra sutil
-  }}
->
-  <Typography
-    variant="subtitle1"
-    sx={{
-      mb: 2,
-      color: "#0f172a", // texto más oscuro
-      fontWeight: "bold",
-      fontSize: 18,
-      borderBottom: "2px solid #3b82f6", // línea azul bajo el título
-      pb: 1,
-    }}
-  >
-    🛒 Carrito de Compras
-  </Typography>
-
-  <Stack spacing={2}>
-    <Box>
-      {/* Encabezado de columnas */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: 1,
-          fontWeight: "bold",
-          backgroundColor: "#e0f2fe",
-          p: 1,
-          borderRadius: 1,
-        }}
-      >
-        <Typography variant="body2" sx={{ width: "15%", color: "#0c4a6e" }}>
-          Código
-        </Typography>
-        <Typography variant="body2" sx={{ width: "25%", color: "#0c4a6e" }}>
-          Producto
-        </Typography>
-        <Typography variant="body2" sx={{ width: "20%", color: "#0c4a6e" }}>
-          Precio Unitario
-        </Typography>
-        <Typography variant="body2" sx={{ width: "20%", color: "#0c4a6e" }}>
-          Precio Total
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ width: "30%", textAlign: "center", color: "#0c4a6e" }}
+        <Paper
+          sx={{
+            p: 2,
+            backgroundColor: "#f8fafc",
+            borderRadius: 2,
+            boxShadow: "0px 2px 10px rgba(0,0,0,0.05)",
+          }}
         >
-          Cantidad / Agregar
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ width: "10%", textAlign: "center", color: "#0c4a6e" }}
-        >
-          Eliminar
-        </Typography>
-      </Box>
-
-      {/* Lista de productos */}
-      {stockSeleccionado.map((item, i) => (
-        <Box key={i}>
-          <Box
+          <Typography
+            variant="subtitle1"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              mb: 1,
-              backgroundColor: i % 2 === 0 ? "#f1f5f9" : "#ffffff", // alternancia de color
-              p: 1,
-              borderRadius: 1,
+              mb: 2,
+              color: "#0f172a",
+              fontWeight: "bold",
+              fontSize: 18,
+              borderBottom: "2px solid #3b82f6",
+              pb: 1,
             }}
           >
-            <Typography variant="body2" sx={{ width: "15%" }}>
-              {item.codigo}
-            </Typography>
-            <Typography variant="body2" sx={{ width: "25%" }}>
-              {item.nombre}
-            </Typography>
-            <Typography variant="body2" sx={{ width: "20%" }}>
-              {item.precioUnitario} Bs
-            </Typography>
-            <Typography variant="body2" sx={{ width: "20%" }}>
-              {item.montoTotal} Bs
-            </Typography>
+            🛒 Carrito de Compras
+          </Typography>
+
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "#e0f2fe" }}>
+                  <TableCell>Código</TableCell>
+                  <TableCell>Producto</TableCell>
+                  <TableCell>Precio Unitario</TableCell>
+                  <TableCell>Precio Total</TableCell>
+                  <TableCell align="center">Cantidad</TableCell>
+                  <TableCell align="center">Agregar / Quitar</TableCell>
+                  <TableCell align="center">Eliminar</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {stockSeleccionado.map((item, i) => (
+                  <TableRow
+                    key={i}
+                    sx={{
+                      backgroundColor: i % 2 === 0 ? "#f1f5f9" : "#ffffff",
+                    }}
+                  >
+                    <TableCell>{item.codigo}</TableCell>
+                    <TableCell>{item.nombre}</TableCell>
+                    <TableCell>{item.precioUnitario} Bs</TableCell>
+                    <TableCell>{item.montoTotal} Bs</TableCell>
+                    <TableCell align="center">{item.cantidad}</TableCell>
+                    <TableCell align="center">
+                      <IconButton size="small" onClick={() => btnDecrementarCantidad(i)}>
+                        <RemoveIcon />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => btnIncrementarCantidad(i)}>
+                        <AddIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton color="error" size="small">
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Box sx={{ mt: 2 }}>
+            <TextField
+              label="Descuento (Bs.)"
+              variant="outlined"
+              size="small"
+              type="number"
+              onChange={(e) => setDescuento(Number(e.target.value))}
+              fullWidth
+            />
+
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
-                gap: 1,
-                width: "30%",
-                justifyContent: "center",
+                justifyContent: "space-between",
+                fontWeight: "bold",
+                mt: 1,
               }}
             >
-              <Typography variant="body2" sx={{ width: "20%" }}>
-                {item.cantidad}
+              <Typography>Subtotal</Typography>
+              <Typography>
+                {stockSeleccionado.reduce((acc, item) => acc + item.montoTotal, 0).toFixed(2)} Bs
               </Typography>
-              <IconButton
-                color="primary"
-                size="small"
-                onClick={() => btnDecrementarCantidad(i)}
-              >
-                <RemoveIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                size="small"
-                onClick={() => btnIncrementarCantidad(i)}
-              >
-                <AddIcon />
-              </IconButton>
             </Box>
 
-            <Box sx={{ width: "10%", textAlign: "center" }}>
-              <IconButton color="error" size="small">
-                <DeleteIcon />
-              </IconButton>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontWeight: "bold",
+              }}
+            >
+              <Typography>Descuento</Typography>
+              <Typography>{descuento}</Typography>
             </Box>
+
+            <Divider sx={{ my: 1 }} />
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontWeight: "bold",
+              }}
+            >
+              <Typography>Total</Typography>
+              <Typography>
+                {Math.max(
+                  0,
+                  stockSeleccionado.reduce((acc, item) => acc + item.montoTotal, 0) - descuento
+                ).toFixed(2)}
+              </Typography>
+            </Box>
+
+            <Button
+              onClick={btnRealizarVenta}
+              variant="contained"
+              fullWidth
+              sx={{ mt: 2, backgroundColor: "#10b981", "&:hover": { backgroundColor: "#059669" } }}
+            >
+              Realizar Venta
+            </Button>
           </Box>
-        </Box>
-      ))}
-    </Box>
-
-    <TextField
-      label="Descuento (Bs.)"
-      variant="outlined"
-      size="small"
-      type="number"
-      onChange={(e) => {
-        const value = e.target.value;
-        setDescuento(Number(value));
-      }}
-      sx={{ width: "100%", mt: 1 }}
-    />
-
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        fontWeight: "bold",
-        fontSize: 13,
-        mt: 1,
-        color: "#0f172a",
-      }}
-    >
-      <Typography variant="body2">Subtotal</Typography>
-      <Typography variant="body2">
-        {stockSeleccionado
-          .reduce((acc, item) => item.montoTotal + acc, 0)
-          .toFixed(2)}
-        Bs
-      </Typography>
-    </Box>
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        fontWeight: "bold",
-        fontSize: 13,
-        color: "#0f172a",
-      }}
-    >
-      <Typography variant="body2">Descuento</Typography>
-      <Typography variant="body2">{descuento}</Typography>
-    </Box>
-
-    <Divider />
-
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        fontWeight: "bold",
-        fontSize: 13,
-        color: "#0f172a",
-      }}
-    >
-      <Typography variant="body2">Total</Typography>
-      <Typography variant="body2">
-        {(() => {
-          const total = stockSeleccionado.reduce(
-            (acc, item) => item.montoTotal + acc,
-            0
-          );
-
-          if (descuento > total) {
-            return "El descuento no puede ser mayor al monto total.";
-          }
-
-          return (total - descuento).toFixed(2);
-        })()}
-      </Typography>
-    </Box>
-
-    <Button
-      onClick={() => btnRealizarVenta()}
-      variant="contained"
-      fullWidth
-      sx={{
-        mt: 2,
-        backgroundColor: "#10b981", // verde esmeralda
-        "&:hover": {
-          backgroundColor: "#059669",
-        },
-        color: "#fff",
-        fontWeight: "bold",
-      }}
-    >
-      Realizar Venta
-    </Button>
-  </Stack>
-</Paper>
+        </Paper>
 
       </Box>
     </Box>
