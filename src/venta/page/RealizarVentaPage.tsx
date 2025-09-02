@@ -54,6 +54,12 @@ export const RealizarVentaPage = () => {
     }
   };
 
+  const btnEliminarVentaCarrito = (idStock: string) => {
+    const nuevoCarrito = stockSeleccionado.filter((item) => item.stock !== idStock)
+    setStockSeleccionado(nuevoCarrito)
+
+  }
+
   const btnRealizarVenta = async () => {
     if (stockSeleccionado.length > 0) {
       const montoTotal =
@@ -181,7 +187,7 @@ export const RealizarVentaPage = () => {
                       </IconButton>
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton color="error" size="small">
+                      <IconButton color="error" size="small" onClick={() => btnEliminarVentaCarrito(item.stock)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>

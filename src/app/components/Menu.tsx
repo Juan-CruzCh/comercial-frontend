@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Drawer,
@@ -42,6 +42,8 @@ import {
 } from '@mui/icons-material';
 import { Link, Outlet } from 'react-router-dom';
 import { AbrirCajaModal } from '../../caja/modal/AbrirCajaModal';
+import { cerrarCaja, listarCajaPorUsuario } from '../../caja/service/cajaService';
+import type { CajaI } from '../../caja/interface/caja';
 
 const drawerWidth = 280;
 
@@ -52,7 +54,45 @@ export const Menu: React.FC = () => {
   const [openInventario, setOpenInventario] = useState(false);
   const [openUsuarios, setOpenUsuarios] = useState(false);
   const [openAdministracion, setOpenAdministracion] = useState(false);
+  const [montoInicial, setMontoInicial] = useState<number>(0)
+  const [totalVentas, setTotalVentas] = useState<number>(0)
+  const [estadoCaja, setEstadoCaja] = useState<boolean>(false)
+  console.log("estado", estadoCaja);
 
+  useEffect(() => {
+    listarCaja()
+  }, [estadoCaja])
+
+  const listarCaja = async () => {
+
+    try {
+      console.log("so");
+
+      const response = await listarCajaPorUsuario()
+      if (response) {
+        setTotalVentas(response.TotalVentas)
+        setMontoInicial(response.MontoInicial)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+  const cerrar = async () => {
+    try {
+      const response = await cerrarCaja()
+
+
+      if (response.status === 200) {
+        console.log("caja cerrada");
+
+        setEstadoCaja(!estadoCaja)
+      }
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
   const handleLogout = () => {
     alert('Sesión cerrada');
     setOpenSidebar(false);
@@ -89,6 +129,7 @@ export const Menu: React.FC = () => {
           {/* Botones más pequeños */}
           <AbrirCajaModal />
           <Button
+            onClick={() => cerrar()}
             variant="outlined"
             color="error"
             size="small"
@@ -106,12 +147,12 @@ export const Menu: React.FC = () => {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              Monto Inicial:{" "}
-              <span style={{ color: theme.palette.success.main }}>Bs. 500</span>
+              Monto Inicial:
+              <span style={{ color: theme.palette.success.main }}>Bs. {montoInicial}</span>
             </Typography>
             <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              Total Ventas:{" "}
-              <span style={{ color: theme.palette.primary.main }}>Bs. 2500</span>
+              Total Ventas:
+              <span style={{ color: theme.palette.primary.main }}>Bs. {totalVentas}</span>
             </Typography>
           </Box>
         </Box>

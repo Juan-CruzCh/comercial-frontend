@@ -67,8 +67,8 @@ export const ListarVentaPage = () => {
                 }}
               >
                 <TableCell>{venta.codigo}</TableCell>
-                <TableCell>falta</TableCell>
-                <TableCell>falta</TableCell>
+                <TableCell>{venta.sucursal}</TableCell>
+                <TableCell>{venta.vendedor}</TableCell>
                 <TableCell>{venta.subTotal.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuento.toFixed(2)}</TableCell>
                 <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>

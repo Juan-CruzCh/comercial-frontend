@@ -12,8 +12,8 @@ export async function autenticacion(data: LoginI): Promise<AxiosResponse> {
 }
 export async function verificarAutenticacion(): Promise<AxiosResponse> {
     try {
-        const reponse = await instanceAxios.post("autenticacion/verificar")
-        return reponse
+        const reponse = await instanceAxios.get("usuario/verificar")
+        return reponse.data
     } catch (error) {
         throw error
     }

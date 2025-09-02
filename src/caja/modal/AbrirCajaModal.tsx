@@ -8,18 +8,23 @@ import {
     Button,
     Box,
 } from "@mui/material";
+import { abrirCaja } from "../service/cajaService";
 
 export const AbrirCajaModal = () => {
     const [open, setOpen] = useState(false);
-    const [montoInicial, setMontoInicial] = useState("");
-
+    const [montoInicial, setMontoInicial] = useState<number>(0);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const handleGuardar = async () => {
+        try {
+            const response = await abrirCaja(montoInicial)
+            if (response.status == 201) {
+                handleClose();
+            }
+        } catch (error) {
+            console.log(error);
 
-    const handleGuardar = () => {
-        console.log("Monto inicial:", montoInicial);
-
-        handleClose();
+        }
     };
 
     return (
@@ -37,9 +42,10 @@ export const AbrirCajaModal = () => {
                         margin="dense"
                         label="Monto Inicial"
                         type="number"
+
                         fullWidth
-                        value={montoInicial}
-                        onChange={(e) => setMontoInicial(e.target.value)}
+                        defaultValue={montoInicial}
+                        onChange={(e) => setMontoInicial(Number(e.target.value))}
                     />
                 </DialogContent>
                 <DialogActions>

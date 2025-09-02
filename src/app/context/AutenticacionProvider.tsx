@@ -27,8 +27,6 @@ export const AutenticacionProvider = ({ children }: { children: ReactNode }) => 
     const verificarA = async () => {
         try {
             const response = await verificarAutenticacion()
-            console.log("ferificacion", response);
-
             if (response && response.status === 200) {
                 setisAutenticacion(true)
             }
