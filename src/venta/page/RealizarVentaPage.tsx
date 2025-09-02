@@ -94,7 +94,7 @@ export const RealizarVentaPage = () => {
       try {
         const response = await realizarVenta(venta);
         console.log(response);
-       
+       actualizarCaja()
       } catch (error) {
         console.log(error);
       }

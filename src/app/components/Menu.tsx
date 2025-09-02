@@ -41,14 +41,10 @@ import {
   Close,
 } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
-import { AbrirCajaModal } from "../../caja/modal/AbrirCajaModal";
-import {
-  cerrarCaja,
-  listarCajaPorUsuario,
-} from "../../caja/service/cajaService";
 
-import { useCaja } from "../context/CajaProvider";
-import { DetalleCajaModal } from "../../caja/modal/DetalleCajaModal";
+import { TopBar } from "./TopBar";
+
+
 
 const drawerWidth = 280;
 
@@ -61,19 +57,6 @@ export const Menu: React.FC = () => {
   const [openAdministracion, setOpenAdministracion] = useState(false);
 
 
-
-  const cerrar = async () => {
-    try {
-      const response = await cerrarCaja();
-
-      if (response.status === 200) {
-        console.log("caja cerrada");
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleLogout = () => {
     alert("Sesión cerrada");
     setOpenSidebar(false);
@@ -83,43 +66,7 @@ export const Menu: React.FC = () => {
     setOpenSidebar(false);
   };
 
-  const TopBar = (
-    <AppBar
-      position="static"
-      color="default"
-      sx={{
-        bgcolor: alpha(theme.palette.primary.main, 0.05),
-        boxShadow: theme.shadows[1],
-      }}
-    >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <IconButton
-          color="primary"
-          onClick={() => setOpenSidebar(true)}
-          edge="start"
-          size="small"
-        >
-          <MenuIcon />
-        </IconButton>
-
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <AbrirCajaModal  />
-          <Button
-            onClick={() => cerrar()}
-            variant="outlined"
-            color="error"
-            size="small"
-            sx={{ px: 1.5, py: 0.2, fontSize: "0.75rem" }}
-          >
-            Cerrar
-          </Button>
-          
-            <DetalleCajaModal />
-    
-        </Box>
-      </Toolbar>
-    </AppBar>
-  );
+ 
 
   // ------------------------------------------
 
@@ -432,7 +379,7 @@ export const Menu: React.FC = () => {
   return (
     <Box>
       {/* Barra horizontal arriba */}
-      {TopBar}
+      <TopBar setOpenSidebar={setOpenSidebar}/>
 
       {/* Drawer */}
       <Drawer

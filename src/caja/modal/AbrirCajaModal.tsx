@@ -9,8 +9,10 @@ import {
     Box,
 } from "@mui/material";
 import { abrirCaja } from "../service/cajaService";
+import { useCaja } from "../../app/context/CajaProvider";
 
-export const AbrirCajaModal = ( )=> {
+export const AbrirCajaModal = () => {
+    const { actualizarCaja } = useCaja()
     const [open, setOpen] = useState(false);
     const [montoInicial, setMontoInicial] = useState<number>(0);
     const handleOpen = () => setOpen(true);
@@ -19,12 +21,11 @@ export const AbrirCajaModal = ( )=> {
         try {
             const response = await abrirCaja(montoInicial)
             if (response.status == 201) {
-          
+                actualizarCaja()
                 handleClose();
             }
         } catch (error) {
             console.log(error);
-
         }
     };
 
@@ -34,8 +35,6 @@ export const AbrirCajaModal = ( )=> {
             <Button variant="contained" color="primary" onClick={handleOpen}>
                 Abrir Caja
             </Button>
-
-
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
                 <DialogTitle>Abrir Caja</DialogTitle>
                 <DialogContent>
