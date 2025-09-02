@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Drawer,
@@ -17,7 +17,7 @@ import {
   AppBar,
   Toolbar,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Menu as MenuIcon,
   ExpandLess,
@@ -39,11 +39,16 @@ import {
   TrendingUp,
   Dashboard,
   Close,
-} from '@mui/icons-material';
-import { Link, Outlet } from 'react-router-dom';
-import { AbrirCajaModal } from '../../caja/modal/AbrirCajaModal';
-import { cerrarCaja, listarCajaPorUsuario } from '../../caja/service/cajaService';
-import type { CajaI } from '../../caja/interface/caja';
+} from "@mui/icons-material";
+import { Link, Outlet } from "react-router-dom";
+import { AbrirCajaModal } from "../../caja/modal/AbrirCajaModal";
+import {
+  cerrarCaja,
+  listarCajaPorUsuario,
+} from "../../caja/service/cajaService";
+
+import { useCaja } from "../context/CajaProvider";
+import { DetalleCajaModal } from "../../caja/modal/DetalleCajaModal";
 
 const drawerWidth = 280;
 
@@ -54,55 +59,29 @@ export const Menu: React.FC = () => {
   const [openInventario, setOpenInventario] = useState(false);
   const [openUsuarios, setOpenUsuarios] = useState(false);
   const [openAdministracion, setOpenAdministracion] = useState(false);
-  const [montoInicial, setMontoInicial] = useState<number>(0)
-  const [totalVentas, setTotalVentas] = useState<number>(0)
-  const [estadoCaja, setEstadoCaja] = useState<boolean>(false)
-  console.log("estado", estadoCaja);
 
-  useEffect(() => {
-    listarCaja()
-  }, [estadoCaja])
 
-  const listarCaja = async () => {
 
-    try {
-      console.log("so");
-
-      const response = await listarCajaPorUsuario()
-      if (response) {
-        setTotalVentas(response.TotalVentas)
-        setMontoInicial(response.MontoInicial)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
   const cerrar = async () => {
     try {
-      const response = await cerrarCaja()
-
+      const response = await cerrarCaja();
 
       if (response.status === 200) {
         console.log("caja cerrada");
 
-        setEstadoCaja(!estadoCaja)
       }
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
   const handleLogout = () => {
-    alert('Sesión cerrada');
+    alert("Sesión cerrada");
     setOpenSidebar(false);
   };
 
   const closeSidebar = () => {
     setOpenSidebar(false);
   };
-
-  // Dentro de tu componente Menu
 
   const TopBar = (
     <AppBar
@@ -114,7 +93,6 @@ export const Menu: React.FC = () => {
       }}
     >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        {/* IZQUIERDA: Botón menú */}
         <IconButton
           color="primary"
           onClick={() => setOpenSidebar(true)}
@@ -124,10 +102,8 @@ export const Menu: React.FC = () => {
           <MenuIcon />
         </IconButton>
 
-        {/* DERECHA: Botones y montos */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {/* Botones más pequeños */}
-          <AbrirCajaModal />
+          <AbrirCajaModal  />
           <Button
             onClick={() => cerrar()}
             variant="outlined"
@@ -137,99 +113,92 @@ export const Menu: React.FC = () => {
           >
             Cerrar
           </Button>
-
-          {/* Montos: ocultar en móviles */}
-          <Box
-            sx={{
-              display: { xs: "none", sm: "flex" },
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              Monto Inicial:
-              <span style={{ color: theme.palette.success.main }}>Bs. {montoInicial}</span>
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              Total Ventas:
-              <span style={{ color: theme.palette.primary.main }}>Bs. {totalVentas}</span>
-            </Typography>
-          </Box>
+          
+            <DetalleCajaModal />
+    
         </Box>
       </Toolbar>
     </AppBar>
   );
 
-
   // ------------------------------------------
 
   const menuItemStyle = {
-    borderRadius: '12px',
+    borderRadius: "12px",
     mx: 1,
     my: 0.5,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: alpha(theme.palette.primary.main, 0.08),
-      transform: 'translateX(4px)',
-      transition: 'all 0.2s ease-in-out',
+      transform: "translateX(4px)",
+      transition: "all 0.2s ease-in-out",
     },
-    transition: 'all 0.2s ease-in-out',
+    transition: "all 0.2s ease-in-out",
   };
 
   const subMenuItemStyle = {
-    borderRadius: '8px',
+    borderRadius: "8px",
     mx: 1,
     my: 0.3,
     pl: 4,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: alpha(theme.palette.secondary.main, 0.08),
-      transform: 'translateX(8px)',
-      transition: 'all 0.2s ease-in-out',
+      transform: "translateX(8px)",
+      transition: "all 0.2s ease-in-out",
     },
-    transition: 'all 0.2s ease-in-out',
+    transition: "all 0.2s ease-in-out",
   };
 
   const drawerContent = (
-    <Box sx={{
-      width: drawerWidth,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      background: `linear-gradient(135deg, ${theme.palette.grey[50]} 0%, ${theme.palette.grey[100]} 100%)`,
-    }}>
+    <Box
+      sx={{
+        width: drawerWidth,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: `linear-gradient(135deg, ${theme.palette.grey[50]} 0%, ${theme.palette.grey[100]} 100%)`,
+      }}
+    >
       {/* Header mejorado */}
-      <Box sx={{
-        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-        color: 'white',
-        p: 2,
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
+      <Box
+        sx={{
+          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+          color: "white",
+          p: 2,
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <IconButton
           onClick={closeSidebar}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             top: 8,
             right: 8,
-            color: 'white',
-            '&:hover': { backgroundColor: alpha('#fff', 0.1) }
+            color: "white",
+            "&:hover": { backgroundColor: alpha("#fff", 0.1) },
           }}
         >
           <Close />
         </IconButton>
 
-        <Avatar sx={{
-          bgcolor: 'white',
-          color: theme.palette.primary.main,
-          mb: 1,
-          width: 48,
-          height: 48,
-        }}>
+        <Avatar
+          sx={{
+            bgcolor: "white",
+            color: theme.palette.primary.main,
+            mb: 1,
+            width: 48,
+            height: 48,
+          }}
+        >
           <Dashboard />
         </Avatar>
 
-        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, textAlign: 'center' }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", mb: 1, textAlign: "center" }}
+        >
           Sistema POS
         </Typography>
 
@@ -237,9 +206,9 @@ export const Menu: React.FC = () => {
           label="Admin"
           size="small"
           sx={{
-            bgcolor: alpha('#fff', 0.2),
-            color: 'white',
-            fontSize: '0.7rem'
+            bgcolor: alpha("#fff", 0.2),
+            color: "white",
+            fontSize: "0.7rem",
           }}
         />
       </Box>
@@ -247,7 +216,7 @@ export const Menu: React.FC = () => {
       <Divider />
 
       {/* Contenido principal del menú */}
-      <Box sx={{ flex: 1, py: 1, overflowY: 'auto' }}>
+      <Box sx={{ flex: 1, py: 1, overflowY: "auto" }}>
         <List component="nav" sx={{ px: 1 }}>
           {/* Ventas */}
           <ListItemButton
@@ -276,7 +245,8 @@ export const Menu: React.FC = () => {
               <ListItemButton
                 component={Link}
                 to="listar/ventas"
-                sx={subMenuItemStyle}>
+                sx={subMenuItemStyle}
+              >
                 <ListItemIcon sx={{ color: theme.palette.success.light }}>
                   <Assessment />
                 </ListItemIcon>
@@ -380,8 +350,11 @@ export const Menu: React.FC = () => {
           </ListItemButton>
           <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton component={Link}
-                to="/listar/usuarios" sx={subMenuItemStyle}>
+              <ListItemButton
+                component={Link}
+                to="/listar/usuarios"
+                sx={subMenuItemStyle}
+              >
                 <ListItemIcon sx={{ color: theme.palette.info.light }}>
                   <Person />
                 </ListItemIcon>
@@ -420,16 +393,18 @@ export const Menu: React.FC = () => {
       </Box>
 
       {/* Footer */}
-      <Box sx={{
-        borderTop: `1px solid ${theme.palette.divider}`,
-        bgcolor: alpha(theme.palette.primary.main, 0.02)
-      }}>
+      <Box
+        sx={{
+          borderTop: `1px solid ${theme.palette.divider}`,
+          bgcolor: alpha(theme.palette.primary.main, 0.02),
+        }}
+      >
         <ListItemButton
           onClick={handleLogout}
           sx={{
             ...menuItemStyle,
             color: theme.palette.error.main,
-            '&:hover': {
+            "&:hover": {
               backgroundColor: alpha(theme.palette.error.main, 0.08),
             },
           }}
@@ -444,8 +419,8 @@ export const Menu: React.FC = () => {
           variant="caption"
           sx={{
             p: 2,
-            textAlign: 'center',
-            color: theme.palette.text.secondary
+            textAlign: "center",
+            color: theme.palette.text.secondary,
           }}
         >
           Sistema POS v1.0
@@ -459,18 +434,16 @@ export const Menu: React.FC = () => {
       {/* Barra horizontal arriba */}
       {TopBar}
 
-
-
       {/* Drawer */}
       <Drawer
         anchor="left"
         open={openSidebar}
         onClose={() => setOpenSidebar(false)}
         sx={{
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             boxShadow: theme.shadows[8],
-            borderRight: 'none',
-          }
+            borderRight: "none",
+          },
         }}
       >
         {drawerContent}

@@ -74,7 +74,7 @@ export const ListarStock = ({
               <TableCell sx={{ fontSize: 13 }}>{item.categoria}</TableCell>
 
               <TableCell sx={{ fontSize: 13 }}>
-                {item.fechaVencimiento.split("T")[0]}
+                {item.fechaVencimiento && item.fechaVencimiento.split("T")[0]}
               </TableCell>
               <TableCell>
                 <Button

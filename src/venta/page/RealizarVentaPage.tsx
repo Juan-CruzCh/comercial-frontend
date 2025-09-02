@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ListarStock } from "../components/ListarStock";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type {
   RealizarVentaI,
   StockSeleccionadoI,
@@ -24,6 +24,7 @@ import type {
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { realizarVenta } from "../service/VentaService";
+import { useCaja } from "../../app/context/CajaProvider";
 
 export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
@@ -33,6 +34,8 @@ export const RealizarVentaPage = () => {
   const [sudTotal, setSubTotal] = useState<number>(0);
   const [descuento, setDescuento] = useState<number>(0);
   const [btnVentaDisable, setBtnVentaDisable] = useState<boolean>(false);
+
+  const {actualizarCaja}= useCaja()
 
   const btnIncrementarCantidad = (i: number) => {
     const nuevoStock = [...stockSeleccionado];
@@ -91,6 +94,7 @@ export const RealizarVentaPage = () => {
       try {
         const response = await realizarVenta(venta);
         console.log(response);
+       
       } catch (error) {
         console.log(error);
       }
@@ -166,7 +170,7 @@ export const RealizarVentaPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {stockSeleccionado.map((item, i) => (
+                { stockSeleccionado.map((item, i) => (
                   <TableRow
                     key={i}
                     sx={{

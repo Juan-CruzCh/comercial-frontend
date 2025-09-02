@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { abrirCaja } from "../service/cajaService";
 
-export const AbrirCajaModal = () => {
+export const AbrirCajaModal = ( )=> {
     const [open, setOpen] = useState(false);
     const [montoInicial, setMontoInicial] = useState<number>(0);
     const handleOpen = () => setOpen(true);
@@ -19,6 +19,7 @@ export const AbrirCajaModal = () => {
         try {
             const response = await abrirCaja(montoInicial)
             if (response.status == 201) {
+          
                 handleClose();
             }
         } catch (error) {

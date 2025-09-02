@@ -17,15 +17,23 @@ import { AutenticacionPage } from "../../autenticacion/page/AutenticacionPage";
 import { useContext } from "react";
 import { AuntenticacionContext } from "../context/AutenticacionProvider";
 import { InicioPage } from "../../inicio/page/InicioPage";
+import { CajaProvider } from "../context/CajaProvider";
 
 export const AppRouter = () => {
-  const { isAutenticacion } = useContext(AuntenticacionContext)
+  const { isAutenticacion } = useContext(AuntenticacionContext);
   return (
     <Router>
       <Routes>
-        {/* Ruta padre con layout */}
-        <Route path="/" element={isAutenticacion ? <Menu /> : <AutenticacionPage />}>
-          {/* Rutas hijas */}
+        <Route
+          path="/"
+          element={
+            isAutenticacion ? (
+              <CajaProvider>{<Menu />}</CajaProvider>
+            ) : (
+              <AutenticacionPage />
+            )
+          }
+        >
           <Route path="inicio" element={<InicioPage />} />
           <Route path="listar/proveedor" element={<ListarProveedorPage />} />
           <Route path="unidad/manejo" element={<UnidadManegoPage />} />
@@ -41,14 +49,8 @@ export const AppRouter = () => {
             path="listar/unidad/manejo"
             element={<ListarUnidadManejoPage />}
           />
-          <Route
-            path="detalle/ingreso/:id"
-            element={<DetalleIngresoPage />}
-          />
-          <Route
-            path="listar/usuarios"
-            element={<ListarUsuarioPage />}
-          />
+          <Route path="detalle/ingreso/:id" element={<DetalleIngresoPage />} />
+          <Route path="listar/usuarios" element={<ListarUsuarioPage />} />
         </Route>
       </Routes>
     </Router>
