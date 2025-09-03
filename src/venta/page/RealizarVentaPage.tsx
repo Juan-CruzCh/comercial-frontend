@@ -25,17 +25,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { realizarVenta } from "../service/VentaService";
 import { useCaja } from "../../app/context/CajaProvider";
+import { alertConfirmacionRealizaVenta } from "../modal/alertConfirmacionRealizaVenta";
+import type { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { QRScanner } from "../components/QRScanner";
 
 export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
     StockSeleccionadoI[]
   >([]);
-  const [total, setTotal] = useState<number>(0);
-  const [sudTotal, setSubTotal] = useState<number>(0);
   const [descuento, setDescuento] = useState<number>(0);
-  const [btnVentaDisable, setBtnVentaDisable] = useState<boolean>(false);
+  const [reload, setReload] = useState<boolean>(false);
 
-  const {actualizarCaja}= useCaja()
+  const { actualizarCaja } = useCaja()
 
   const btnIncrementarCantidad = (i: number) => {
     const nuevoStock = [...stockSeleccionado];
@@ -64,6 +66,11 @@ export const RealizarVentaPage = () => {
   }
 
   const btnRealizarVenta = async () => {
+    const confirmar = await alertConfirmacionRealizaVenta()
+    if (!confirmar) {
+      return
+    }
+
     if (stockSeleccionado.length > 0) {
       const montoTotal =
         Number(
@@ -93,13 +100,23 @@ export const RealizarVentaPage = () => {
       };
       try {
         const response = await realizarVenta(venta);
-        console.log(response);
-       actualizarCaja()
+        if (response && response.idVenta) {
+          actualizarCaja()
+          setStockSeleccionado([])
+          setReload(!reload)
+          toast.success("Venta realizada")
+        }
+
       } catch (error) {
-        console.log(error);
+        const e = error as AxiosError<any>
+        if (e.status === 400) {
+          toast.error(e.response?.data.error)
+        }
       }
+    } else {
+      toast.error("Añade productos al carrito")
     }
-  };
+  }
 
   return (
     <Box sx={{ p: 2, mx: "auto" }}>
@@ -116,7 +133,7 @@ export const RealizarVentaPage = () => {
       >
         Realizar Venta
       </Typography>
-
+      <QRScanner />
       {/* Contenedor principal: columna siempre */}
       <Box
         sx={{
@@ -130,6 +147,7 @@ export const RealizarVentaPage = () => {
           <ListarStock
             setStock={setStockSeleccionado}
             stock={stockSeleccionado}
+            reload={reload}
           />
         </Box>
 
@@ -170,7 +188,7 @@ export const RealizarVentaPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                { stockSeleccionado.map((item, i) => (
+                {stockSeleccionado.map((item, i) => (
                   <TableRow
                     key={i}
                     sx={{

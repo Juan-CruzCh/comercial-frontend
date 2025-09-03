@@ -6,6 +6,7 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import { useForm } from "react-hook-form";
 import { registrarStock } from "../service/sotckService";
 import { useNavigate } from "react-router-dom";
+import { alertConfirmacionStock } from "../modal/alertConfirmacionStock";
 
 
 export const RegistrarStockPage = () => {
@@ -13,8 +14,8 @@ export const RegistrarStockPage = () => {
     const [proveedor, setproveedor] = useState<proveedorSeleccionadoI>()
     const [producto, setproducto] = useState<proveedorSeleccionadoI>()
     const [stock, setStock] = useState<stockCargadoI[]>([])
-    const { register, handleSubmit } = useForm<IngresoStockI>()
-
+    const { register, handleSubmit, formState: { errors } } = useForm<IngresoStockI>()
+    const [habilitarFecha, setHabilitarFecha] = useState(false);
     const btnIngreso = (data: IngresoStockI) => {
         if (producto && proveedor) {
             const nuevaData: stockCargadoI = {
@@ -34,6 +35,10 @@ export const RegistrarStockPage = () => {
     const btnRegistrarIngreso = async () => {
 
         if (stock.length > 0 && proveedor) {
+            const confirmar = await alertConfirmacionStock()
+            if (!confirmar) {
+                return
+            }
             const data: RegistrarStockData = {
                 proveedor: proveedor.id,
                 factura: "falta",
@@ -149,6 +154,7 @@ export const RegistrarStockPage = () => {
                             placeholder="Cantidad"
                             className="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        {errors.cantidad && <p className="text-sm text-red-500">{errors.cantidad.message}</p>}
                     </div>
 
                     {/* Precio Unitario */}
@@ -157,32 +163,56 @@ export const RegistrarStockPage = () => {
                         <input
 
                             type="number"
-                            {...register("precioUnitario", { required: true, valueAsNumber: true })}
+                            {...register("precioUnitario", {
+                                required: true, valueAsNumber: true, min: {
+                                    value: 1,
+                                    message: "El precio unitario debe ser mayor a 1",
+                                },
+                            })}
                             step="any"
                             placeholder="Precio Unitario"
                             className="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        {errors.precioUnitario && <p className="text-sm text-red-500">{errors.precioUnitario.message}</p>}
                     </div>
 
                     {/* Fecha de Vencimiento */}
                     <div>
-                        <label className="block text-xs font-medium mb-1 text-gray-600">Fecha de Vencimiento</label>
+                        <label className="block text-xs font-medium mb-1 text-gray-600">
+                            Fecha de Vencimiento
+                        </label>
+
+                        {/* Checkbox */}
+                        <input
+                            type="checkbox"
+                            checked={habilitarFecha}
+                            onChange={(e) => setHabilitarFecha(e.target.checked)}
+                            className="mr-2"
+                        />
+                        <span className="text-xs text-gray-700">Habilitar fecha</span>
+
+                        {/* Input de fecha */}
                         <input
                             {...register("fechaVencimiento")}
                             type="date"
-                            className="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            disabled={!habilitarFecha} // 🔹 se desactiva si el checkbox no está marcado
+                            className={`w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ${!habilitarFecha ? "bg-gray-100 cursor-not-allowed" : ""
+                                }`}
+
                         />
+
                     </div>
 
                     {/* Código de Factura */}
                     <div>
                         <label className="block text-xs font-medium mb-1 text-gray-600">Código de Factura</label>
                         <input
-                            {...register("factura")}
+                            {...register("factura", { required: "Ingrese numero de factura" })}
                             type="text"
                             placeholder="Código Factura"
                             className="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        {errors.factura && <p className="text-sm text-red-500">{errors.factura.message}</p>}
                     </div>
 
 
@@ -199,6 +229,7 @@ export const RegistrarStockPage = () => {
                             placeholder="Descuento"
                             className="w-full text-xs p-2 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        {errors.descuento && <p className="text-sm text-red-500">{errors.descuento.message}</p>}
                     </div>
                 </div>
 

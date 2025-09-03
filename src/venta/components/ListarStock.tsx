@@ -16,15 +16,18 @@ import type { StockSeleccionadoI } from "../interface/ventaInterface";
 export const ListarStock = ({
   stock,
   setStock,
+  reload
 }: {
   stock: StockSeleccionadoI[];
   setStock: (value: StockSeleccionadoI[]) => void;
+  reload: boolean,
+
 }) => {
   const [data, setData] = useState<ListarStockI[]>([]);
 
   useEffect(() => {
     listar();
-  }, []);
+  }, [reload]);
 
   const listar = async () => {
     try {

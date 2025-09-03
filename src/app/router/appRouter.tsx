@@ -28,7 +28,7 @@ export const AppRouter = () => {
           path="/"
           element={
             isAutenticacion ? (
-              <CajaProvider>{<Menu />}</CajaProvider>
+              <CajaProvider><Menu /></CajaProvider>
             ) : (
               <AutenticacionPage />
             )

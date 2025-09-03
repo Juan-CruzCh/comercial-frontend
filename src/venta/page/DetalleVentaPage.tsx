@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Card,
   CardContent,
   Typography,
   Table,
@@ -11,7 +10,6 @@ import {
   TableBody,
   CircularProgress,
   Box,
-  Chip,
   Paper,
   TableContainer,
 } from "@mui/material";
