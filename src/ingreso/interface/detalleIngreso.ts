@@ -11,4 +11,5 @@ export interface detalleIngresoI {
     producto: string
     sudTotal: number
     unidadManejo: string
+        fechaVencimiento: string
 }

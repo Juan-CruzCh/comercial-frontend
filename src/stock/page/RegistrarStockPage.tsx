@@ -56,8 +56,6 @@ export const RegistrarStockPage = () => {
                 })
             }
             try {
-                console.log(data);
-
                 const response = await registrarStock(data)
                 if (response) {
                     navigate(`/detalle/ingreso/${response.ingreso}`)
