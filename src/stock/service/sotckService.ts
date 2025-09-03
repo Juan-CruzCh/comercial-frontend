@@ -14,7 +14,9 @@ export async function registrarStock(data: RegistrarStockData): Promise<{ ingres
 
 export async function listarStock(): Promise<ListarStockI[]> {
     try {
-        const reponse = await instanceAxios.get("stock")
+        const reponse = await instanceAxios.get("stock",{params:{
+            codigo:'RCLRSNLMBRCS-9'
+        }})
         return reponse.data
     } catch (error) {
         throw error
