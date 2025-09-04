@@ -18,7 +18,7 @@ import type { UnidadManejoI } from "../../unidadManejo/interface/unidaManejo";
 import { listarUndiadManejo } from "../../unidadManejo/service/unidaManejoService";
 
 
-export const RegistrarProductoModal = () => {
+export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setReload:(v:boolean)=>void}) => {
     const [open, setOpen] = useState(false);
     const [categoria, setcategoria] = useState<CategoriaI[]>([])
     const [unidadManejo, setunidadManejo] = useState<UnidadManejoI[]>([])
@@ -57,8 +57,14 @@ export const RegistrarProductoModal = () => {
 
         try {
             const response = await crearProducto(data)
-            reset()
-            handleClose()
+            console.log(response);
+            
+            if(response){
+                setReload(!reload)
+                 reset()
+                 handleClose()
+            }
+           
         } catch (error) {
             console.log(error);
 

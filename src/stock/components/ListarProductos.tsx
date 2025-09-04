@@ -11,22 +11,30 @@ import {
 } from "@mui/material";
 import { RegistrarUnidadManejoModal } from "../../unidadManejo/modal/RegistrarUnidadManejoModal";
 import { RegistrarCategoriaModal } from "../../categoria/modal/RegistrarCategoriaModal";
-import { RegistrarProductoModal } from "../modal/RegistrarProductoModal";
+
 import { useEffect, useState } from "react";
 import { listarProducto } from "../../producto/service/productoService";
 import type { ProductoI } from "../../producto/interface/producto";
 import type { proveedorPropsI } from "../interface/stock";
+import { RegistrarProductoModal } from "../../producto/modal/RegistrarProductoModal";
+import { BuscadorStock } from "./BuscadorStock";
+import { BuscadorProducto } from "../../producto/components/BuscadorProducto";
 
 export const ListarProductos = ({ setSeleccionado }: proveedorPropsI) => {
     const [productos, setproductos] = useState<ProductoI[]>([]);
+    const [reload, setreload] = useState<boolean>(false)
+    const [codigo, setCodigo] = useState("");
+    const [nombre, setNombre] = useState("");
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+    const [unidadSeleccionada, setUnidadSeleccionada] = useState("");
 
     useEffect(() => {
         listar();
-    }, []);
+    }, [reload, codigo, nombre, categoriaSeleccionada, unidadSeleccionada]);
 
     const listar = async () => {
         try {
-            const response = await listarProducto();
+            const response = await listarProducto(codigo, nombre, categoriaSeleccionada, unidadSeleccionada);
             setproductos(response);
         } catch (error) {
             console.log(error);
@@ -34,19 +42,28 @@ export const ListarProductos = ({ setSeleccionado }: proveedorPropsI) => {
     };
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 400, p: 2 }}>
-            {/* Botones en fila */}
+        <TableContainer component={Paper} sx={{ maxHeight: 800, p: 2 }}>
+            <BuscadorProducto 
+            categoriaSeleccionada={categoriaSeleccionada} 
+            codigo={codigo} 
+            setCategoriaSeleccionada={setCategoriaSeleccionada}
+            nombre={nombre}
+            setCodigo={setCodigo}
+            setNombre={setNombre}
+            setUnidadSeleccionada={setUnidadSeleccionada}
+            unidadSeleccionada={unidadSeleccionada}        
+            />
             <Box display="flex" gap={2} mb={2}>
-                <RegistrarProductoModal />
+                <RegistrarProductoModal  setReload={setreload} reload={reload}/>
                 <RegistrarUnidadManejoModal />
                 <RegistrarCategoriaModal />
             </Box>
 
             {/* Tabla */}
-            <Table size="small" stickyHeader>
+            <Table size="small" >
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>Código</TableCell>
+                        <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>Código de producto</TableCell>
                         <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>Nombre</TableCell>
                         <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>Descripción</TableCell>
                         <TableCell sx={{ fontSize: "0.75rem", padding: "6px 8px" }}>Categoría</TableCell>

@@ -28,7 +28,6 @@ import { useCaja } from "../../app/context/CajaProvider";
 import { alertConfirmacionRealizaVenta } from "../modal/alertConfirmacionRealizaVenta";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { QRScanner } from "../components/QRScanner";
 
 export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
@@ -133,7 +132,7 @@ export const RealizarVentaPage = () => {
       >
         Realizar Venta
       </Typography>
-      <QRScanner />
+     
       {/* Contenedor principal: columna siempre */}
       <Box
         sx={{

@@ -7,3 +7,14 @@ export interface ProductoI {
     codigo?: string
 }
 
+
+export interface BuscadorProductoProps {
+    codigo: string;
+    setCodigo: (value: string) => void;
+    nombre: string;
+    setNombre: (value: string) => void;
+    categoriaSeleccionada: string;
+    setCategoriaSeleccionada: (value: string) => void;
+    unidadSeleccionada: string;
+    setUnidadSeleccionada: (value: string) => void;
+}

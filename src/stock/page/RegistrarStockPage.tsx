@@ -19,6 +19,7 @@ export const RegistrarStockPage = () => {
     const btnIngreso = (data: IngresoStockI) => {
         if (producto && proveedor) {
             const nuevaData: stockCargadoI = {
+                factura:data.factura,
                 cantidad: Number(data.cantidad),
                 descuento: Number(data.descuento),
                 montoTotal: Number(data.cantidad) * Number(data.precioUnitario),
@@ -41,7 +42,7 @@ export const RegistrarStockPage = () => {
             }
             const data: RegistrarStockData = {
                 proveedor: proveedor.id,
-                factura: "falta",
+                factura: stock[0].factura,
                 montoTotal: stock.reduce((acc, item) => item.montoTotal + acc, 0),
                 stock: stock.map((item) => {
                     return {

@@ -13,31 +13,56 @@ import { useEffect, useState } from "react";
 import { listarStock } from "../../stock/service/sotckService";
 import type { StockSeleccionadoI } from "../interface/ventaInterface";
 import { BuscadorStock } from "../../stock/components/BuscadorStock";
+import { QRScanner } from "./QRScanner";
 
 export const ListarStock = ({
   stock,
   setStock,
-  reload
+  reload,
 }: {
   stock: StockSeleccionadoI[];
   setStock: (value: StockSeleccionadoI[]) => void;
-  reload: boolean,
-
+  reload: boolean;
 }) => {
   const [data, setData] = useState<ListarStockI[]>([]);
-  const [codigo, setCodigo] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [unidadSeleccionada, setUnidadSeleccionada] = useState('');
+  const [codigo, setCodigo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+  const [unidadSeleccionada, setUnidadSeleccionada] = useState("");
   console.log(unidadSeleccionada);
 
   useEffect(() => {
     listar();
   }, [reload, codigo, nombre, categoriaSeleccionada, unidadSeleccionada]);
 
+  useEffect(() => {
+    if (codigo && data.length > 0) {
+      const item = data.find((d) => d.codigo === codigo);
+      if (item) {
+        const yaExiste = stock.some((s) => s.stock === item._id);
+        if (!yaExiste) {
+          const nuevo: StockSeleccionadoI = {
+            stock: item._id,
+            codigo: item.codigo,
+            nombre: `${item.producto}/${item.descripcion}`,
+            precioUnitario: item.precioUnitario,
+            cantidad: 1,
+            montoTotal: item.precioUnitario,
+          };
+          setStock([...stock, nuevo]);
+        }
+        setCodigo("");
+      }
+    }
+  }, [data]);
   const listar = async () => {
     try {
-      const response = await listarStock(codigo, nombre, categoriaSeleccionada, unidadSeleccionada);
+      const response = await listarStock(
+        codigo,
+        nombre,
+        categoriaSeleccionada,
+        unidadSeleccionada
+      );
       if (response && response.Data.length > 0) {
         setData(response.Data);
       }
@@ -47,16 +72,19 @@ export const ListarStock = ({
   };
   return (
     <TableContainer component={Paper}>
+      <QRScanner setCodigo={setCodigo} />
       <BuscadorStock
         categoriaSeleccionada={categoriaSeleccionada}
-        codigo={codigo} nombre={nombre}
+        codigo={codigo}
+        nombre={nombre}
         setCategoriaSeleccionada={setCategoriaSeleccionada}
         setCodigo={setCodigo}
         setNombre={setNombre}
         setUnidadSeleccionada={setUnidadSeleccionada}
         unidadSeleccionada={unidadSeleccionada}
       />
-      <Table size="small" >
+
+      <Table size="small">
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1e40af" }}>
             {[
@@ -83,7 +111,9 @@ export const ListarStock = ({
           {data.map((item) => (
             <TableRow hover>
               <TableCell sx={{ fontSize: 13 }}>{item.codigo}</TableCell>
-              <TableCell sx={{ fontSize: 13 }}>{item.producto} / {item.descripcion}</TableCell>
+              <TableCell sx={{ fontSize: 13 }}>
+                {item.producto} / {item.descripcion}
+              </TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.categoria}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.cantidad}</TableCell>
               <TableCell sx={{ fontSize: 13 }}>{item.unidadManejo}</TableCell>
