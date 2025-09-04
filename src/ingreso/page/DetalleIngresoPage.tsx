@@ -101,7 +101,7 @@ const reactToPrintFn = useReactToPrint({ contentRef });
           <TableBody>
             {data.map((item) => (
               <TableRow key={item._id} hover>
-                <TableCell>{item.codigo}</TableCell>
+                <TableCell>{item.codigoStock}</TableCell>
                 <TableCell>{item.producto}</TableCell>
                 <TableCell>{item.descripcion}</TableCell>
                 <TableCell>{item.categoria}</TableCell>

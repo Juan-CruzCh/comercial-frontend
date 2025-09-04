@@ -55,7 +55,7 @@ export const ListarUsuarioPage = () => {
             </Typography>
             <CrearUsuarios />
             <TableContainer component={Paper}>
-                <Table size="small"> {/* tamaño pequeño de tabla */}
+                <Table size="small"> 
                     <TableHead sx={{ backgroundColor: "#e0f2fe" }}>
                         <TableRow>
                             <TableCell sx={{ fontSize: 12 }}>CI</TableCell>

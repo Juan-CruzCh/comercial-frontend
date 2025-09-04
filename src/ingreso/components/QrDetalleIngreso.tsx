@@ -6,7 +6,7 @@ export const QrDetalleIngreso = ({ data }: { data: detalleIngresoI[] }) => {
   const [qrCodes, setQrCodes] = useState<string[]>([])
 
   useEffect(() => {
-    Promise.all(data.map(item => QRCode.toDataURL(item.codigo)))
+    Promise.all(data.map(item => QRCode.toDataURL(item.codigoStock)))
       .then(urls => setQrCodes(urls))
       .catch(err => console.error(err))
   }, [data])
@@ -71,13 +71,13 @@ export const QrDetalleIngreso = ({ data }: { data: detalleIngresoI[] }) => {
                 >
                   <img
                     src={qrCodes[index]}
-                    alt={`QR ${item.codigo}`}
+                    alt={`QR ${item.codigoStock}`}
                     width={128}
                     height={128}
                     style={{ marginBottom: '8px' }}
                   />
                   <p style={{ fontSize: '12px', color: '#555' }}>
-                    {item.codigo}
+                    {item.codigoStock}
                   </p>
                   <p style={{ fontSize: '12px', color: '#888' }}>
                     {i + 1} 

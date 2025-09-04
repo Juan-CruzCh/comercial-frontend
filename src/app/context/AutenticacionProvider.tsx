@@ -20,8 +20,10 @@ export const AutenticacionProvider = ({ children }: { children: ReactNode }) => 
         setisAutenticacion(value)
 
     }
-    useEffect(() => {
-        verificarA()
+    useEffect(() => {    
+        if(!isAutenticacion){
+            verificarA()
+        }
     }, [])
 
     const verificarA = async () => {

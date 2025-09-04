@@ -18,8 +18,6 @@ export async function abrirCaja(montoInicial: number): Promise<AxiosResponse> {
 export async function listarCajaPorUsuario(): Promise<CajaI> {
     try {
         const response = await instanceAxios.get("listar/caja/usuario")
-        console.log(response.data);
-
         return response.data
     } catch (error) {
         throw error
@@ -29,8 +27,6 @@ export async function listarCajaPorUsuario(): Promise<CajaI> {
 export async function cerrarCaja(): Promise<AxiosResponse> {
     try {
         const response = await instanceAxios.post("cerrar/caja")
-        console.log(response.data);
-
         return response.data
     } catch (error) {
         throw error

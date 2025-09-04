@@ -3,7 +3,7 @@ export interface detalleIngresoI {
     _id: string
     cantidad: number
     categoria: string
-    codigo: string
+    codigoStock: string
     descripcion: string
     descuento: number
     montoTotal: number

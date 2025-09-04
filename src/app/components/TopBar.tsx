@@ -39,9 +39,7 @@ export const TopBar = ({
   const listar = async () => {
     try {
       const response = await listarCajaPorUsuario();
-      if (response) {
-            console.log(response.MontoInicial);
-            
+      if (response) {       
         setMontoInicial(response.MontoInicial);
         setTotalVentas(response.TotalVentas);
         setMontoFinal(response.MontoFinal);

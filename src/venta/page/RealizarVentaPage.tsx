@@ -65,35 +65,21 @@ export const RealizarVentaPage = () => {
   }
 
   const btnRealizarVenta = async () => {
-    const confirmar = await alertConfirmacionRealizaVenta()
-    if (!confirmar) {
-      return
-    }
+  
 
     if (stockSeleccionado.length > 0) {
-      const montoTotal =
-        Number(
-          stockSeleccionado
-            .reduce((acc, item) => item.montoTotal + acc, 0)
-            .toFixed(2)
-        ) - descuento;
-      const sudTotal = Number(
-        stockSeleccionado
-          .reduce((acc, item) => item.montoTotal + acc, 0)
-          .toFixed(2)
-      );
-
+      const confirmar = await alertConfirmacionRealizaVenta()
+      if (!confirmar) {
+      return
+      }
       const venta: RealizarVentaI = {
         descuento: descuento,
-        montoTotal: montoTotal,
-        sudTotal: sudTotal,
         detalleVenta: stockSeleccionado.map((item) => {
           return {
             cantidad: item.cantidad,
             descripcionProducto: item.nombre,
             stock: item.stock,
             precioUnitario: item.precioUnitario,
-            precioTotal: item.montoTotal,
           };
         }),
       };
@@ -102,6 +88,7 @@ export const RealizarVentaPage = () => {
         if (response && response.idVenta) {
           actualizarCaja()
           setStockSeleccionado([])
+          setDescuento(0)
           setReload(!reload)
           toast.success("Venta realizada")
         }

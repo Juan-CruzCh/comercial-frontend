@@ -13,14 +13,17 @@ export async function registrarStock(data: RegistrarStockData): Promise<{ ingres
 
 }
 
-export async function listarStock(codigo: string, nombre: string, categoria: string, unidadManejo: string): Promise<ResponseDataI<ListarStockI>> {
+export async function listarStock(codigo: string, nombre: string, categoria: string, unidadManejo: string, pagina:number, limite:number): Promise<ResponseDataI<ListarStockI>> {
     try {
         const reponse = await instanceAxios.get("stock", {
             params: {
                 codigo: codigo,
                 nombreProducto: nombre,
                 categoria: categoria,
-                unidadManejo: unidadManejo
+                unidadManejo: unidadManejo,
+                pagina:pagina,
+                limite:limite
+
             }
         })
         return reponse.data
