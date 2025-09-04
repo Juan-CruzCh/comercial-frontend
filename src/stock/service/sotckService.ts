@@ -1,4 +1,5 @@
 import { instanceAxios } from "../../app/config/instanceAxios";
+import type { ResponseDataI } from "../../app/interface/responseData";
 import type { ListarStockI, RegistrarStockData } from "../interface/stock";
 
 
@@ -12,11 +13,16 @@ export async function registrarStock(data: RegistrarStockData): Promise<{ ingres
 
 }
 
-export async function listarStock(): Promise<ListarStockI[]> {
+export async function listarStock(codigo: string, nombre: string, categoria: string, unidadManejo: string): Promise<ResponseDataI<ListarStockI>> {
     try {
-        const reponse = await instanceAxios.get("stock",{params:{
-            codigo:'RCLRSNLMBRCS-9'
-        }})
+        const reponse = await instanceAxios.get("stock", {
+            params: {
+                codigo: codigo,
+                nombreProducto: nombre,
+                categoria: categoria,
+                unidadManejo: unidadManejo
+            }
+        })
         return reponse.data
     } catch (error) {
         throw error

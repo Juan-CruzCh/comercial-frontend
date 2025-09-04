@@ -12,6 +12,7 @@ import type { ListarStockI } from "../../stock/interface/stock";
 import { useEffect, useState } from "react";
 import { listarStock } from "../../stock/service/sotckService";
 import type { StockSeleccionadoI } from "../interface/ventaInterface";
+import { BuscadorStock } from "../../stock/components/BuscadorStock";
 
 export const ListarStock = ({
   stock,
@@ -24,21 +25,37 @@ export const ListarStock = ({
 
 }) => {
   const [data, setData] = useState<ListarStockI[]>([]);
+  const [codigo, setCodigo] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+  const [unidadSeleccionada, setUnidadSeleccionada] = useState('');
+  console.log(unidadSeleccionada);
 
   useEffect(() => {
     listar();
-  }, [reload]);
+  }, [reload, codigo, nombre, categoriaSeleccionada, unidadSeleccionada]);
 
   const listar = async () => {
     try {
-      const response = await listarStock();
-      setData(response);
+      const response = await listarStock(codigo, nombre, categoriaSeleccionada, unidadSeleccionada);
+      if (response && response.Data.length > 0) {
+        setData(response.Data);
+      }
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <TableContainer component={Paper}>
+      <BuscadorStock
+        categoriaSeleccionada={categoriaSeleccionada}
+        codigo={codigo} nombre={nombre}
+        setCategoriaSeleccionada={setCategoriaSeleccionada}
+        setCodigo={setCodigo}
+        setNombre={setNombre}
+        setUnidadSeleccionada={setUnidadSeleccionada}
+        unidadSeleccionada={unidadSeleccionada}
+      />
       <Table size="small" >
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1e40af" }}>
@@ -49,7 +66,6 @@ export const ListarStock = ({
               "Stock",
               "Unidad",
               "Precio unitario",
-              "Categoria",
               "Venc.",
               "Acción",
             ].map((head, i) => (
@@ -74,7 +90,6 @@ export const ListarStock = ({
               <TableCell sx={{ fontSize: 13 }}>
                 {item.precioUnitario} Bs
               </TableCell>
-              <TableCell sx={{ fontSize: 13 }}>{item.categoria}</TableCell>
 
               <TableCell sx={{ fontSize: 13 }}>
                 {item.fechaVencimiento && item.fechaVencimiento.split("T")[0]}

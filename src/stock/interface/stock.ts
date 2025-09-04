@@ -49,8 +49,8 @@ export interface stockCargadoI {
 
 interface StockItem {
     cantidad: number;
-    fechaVencimiento: Date; 
-    producto: string; 
+    fechaVencimiento: Date;
+    producto: string;
     precioUnitario: number;
     montoTotal: number;
     descuento: number;
@@ -74,6 +74,16 @@ export interface ListarStockI {
     fechaVencimiento: string
     producto: string
     unidadManejo: string
-    descripcion:string
-    precioUnitario:number
+    descripcion: string
+    precioUnitario: number
+}
+export interface BuscadorStockProps {
+    codigo: string;
+    setCodigo: (value: string) => void;
+    nombre: string;
+    setNombre: (value: string) => void;
+    categoriaSeleccionada: string;
+    setCategoriaSeleccionada: (value: string) => void;
+    unidadSeleccionada: string;
+    setUnidadSeleccionada: (value: string) => void;
 }
