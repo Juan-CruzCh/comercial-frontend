@@ -1,8 +1,6 @@
 export function generateUUIDv4() {
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
-
-  // Establecer versión y variante
   bytes[6] = (bytes[6] & 0x0f) | 0x40;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
