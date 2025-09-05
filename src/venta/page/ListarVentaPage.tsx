@@ -10,24 +10,27 @@ import {
   Paper,
   Typography,
   Button,
+  Pagination,
 } from "@mui/material";
 import { listarVenta } from "../service/VentaService";
 import type { ListarVentaI } from "../interface/ventaInterface";
 import { useNavigate } from "react-router-dom";
+import { paginador } from "../../app/hook/paginador";
 
 export const ListarVentaPage = () => {
   const navigate = useNavigate();
   const [ventas, setVentas] = useState<ListarVentaI[]>([]);
-
+  const { limite, paginaActual, paginas, setPaginaActual, setpaginas } = paginador()
   useEffect(() => {
     listar();
-  }, []);
+  }, [paginaActual]);
 
   const listar = async () => {
     try {
-      const response = await listarVenta();
-      if (response) {
-        setVentas(response);
+      const response = await listarVenta(paginaActual, limite);
+      if (response && response.Data.length > 0) {
+        setVentas(response.Data);
+        setpaginas(response.Paginas)
       }
     } catch (error) {
       console.log(error);
@@ -89,6 +92,16 @@ export const ListarVentaPage = () => {
             ))}
           </TableBody>
         </Table>
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Pagination
+            count={paginas}
+            page={paginaActual}
+            onChange={(_: React.ChangeEvent<unknown>, value: number) => setPaginaActual(value)}
+
+            size="small"
+
+          />
+        </Box>
       </TableContainer>
     </Box>
   );

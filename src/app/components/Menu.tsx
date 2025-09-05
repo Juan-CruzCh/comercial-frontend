@@ -43,6 +43,7 @@ import {
 import { Link, Outlet } from "react-router-dom";
 
 import { TopBar } from "./TopBar";
+import { AuntenticacionContext } from "../context/AutenticacionProvider";
 
 
 
@@ -55,18 +56,15 @@ export const Menu: React.FC = () => {
   const [openInventario, setOpenInventario] = useState(false);
   const [openUsuarios, setOpenUsuarios] = useState(false);
   const [openAdministracion, setOpenAdministracion] = useState(false);
+  const { logout } = useContext(AuntenticacionContext)
 
 
-  const handleLogout = () => {
-    alert("Sesión cerrada");
-    setOpenSidebar(false);
-  };
 
   const closeSidebar = () => {
     setOpenSidebar(false);
   };
 
- 
+
 
   // ------------------------------------------
 
@@ -334,6 +332,17 @@ export const Menu: React.FC = () => {
                 </ListItemIcon>
                 <ListItemText primary="Listar Sucursales" />
               </ListItemButton>
+              <ListItemButton
+                component={Link}
+                to="/listar/caja"
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.secondary.light }}>
+                  <PointOfSale />
+                </ListItemIcon>
+                <ListItemText primary="Listar caja" />
+              </ListItemButton>
             </List>
           </Collapse>
         </List>
@@ -347,7 +356,7 @@ export const Menu: React.FC = () => {
         }}
       >
         <ListItemButton
-          onClick={handleLogout}
+          onClick={logout}
           sx={{
             ...menuItemStyle,
             color: theme.palette.error.main,
@@ -379,7 +388,7 @@ export const Menu: React.FC = () => {
   return (
     <Box>
       {/* Barra horizontal arriba */}
-      <TopBar setOpenSidebar={setOpenSidebar}/>
+      <TopBar setOpenSidebar={setOpenSidebar} />
 
       {/* Drawer */}
       <Drawer

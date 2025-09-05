@@ -1,4 +1,5 @@
 import { instanceAxios } from "../../app/config/instanceAxios"
+import type { ResponseDataI } from "../../app/interface/responseData"
 import type { DetalleVentaI } from "../interface/detalleVenta"
 import type { ListarVentaI, RealizarVentaI } from "../interface/ventaInterface"
 
@@ -13,9 +14,15 @@ export async function realizarVenta(data: RealizarVentaI): Promise<{ idVenta: st
 }
 
 
-export async function listarVenta(): Promise<ListarVentaI[]> {
+export async function listarVenta(paginaActual: number, limite: number): Promise<ResponseDataI<ListarVentaI>> {
     try {
-        const reponse = await instanceAxios.get("venta")
+        const reponse = await instanceAxios.get("venta", {
+            params: {
+                pagina: paginaActual,
+                limite: limite
+            }
+
+        })
         return reponse.data
     } catch (error) {
         throw error

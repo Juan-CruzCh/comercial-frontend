@@ -20,3 +20,11 @@ export async function listarUsuarios(): Promise<UsuarioI[]> {
         throw error
     }
 }
+export async function usuarioLoguot(): Promise<AxiosResponse> {
+    try {
+        const response = await instanceAxios.get("usuario/logout")
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}

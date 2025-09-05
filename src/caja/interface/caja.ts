@@ -11,3 +11,14 @@ export interface CajaI {
     TotalVentas: number;
     Usuario: string;
 }
+
+export interface ListarCajaI {
+    _id: string
+    fechaApertura: string;
+    montoInicial: number;
+    montoFinal: number;
+    totalVentas: number;
+    estado: string;
+    fechaCierre: string;
+    usuario: string;
+}

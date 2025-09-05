@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios"
 import { instanceAxios } from "../../app/config/instanceAxios"
-import type { CajaI } from "../interface/caja"
+import type { CajaI, ListarCajaI } from "../interface/caja"
+import type { ResponseDataI } from "../../app/interface/responseData"
 
 
 export async function abrirCaja(montoInicial: number): Promise<AxiosResponse> {
@@ -32,4 +33,19 @@ export async function cerrarCaja(): Promise<AxiosResponse> {
         throw error
     }
 
+}
+
+export async function listarCajas(pagina: number, limite: number): Promise<ResponseDataI<ListarCajaI>> {
+    try {
+        const response = await instanceAxios.get("/listar/caja", {
+            params: {
+                limite: limite,
+                pagina: pagina
+            }
+        })
+        return response.data
+    } catch (error) {
+        throw error
+
+    }
 }

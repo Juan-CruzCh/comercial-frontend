@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { AuntenticacionContext } from "../context/AutenticacionProvider";
 import { InicioPage } from "../../inicio/page/InicioPage";
 import { CajaProvider } from "../context/CajaProvider";
+import { ListarCajaPage } from "../../caja/page/ListarCajaPage";
 
 export const AppRouter = () => {
   const { isAutenticacion } = useContext(AuntenticacionContext);
@@ -51,6 +52,7 @@ export const AppRouter = () => {
           />
           <Route path="detalle/ingreso/:id" element={<DetalleIngresoPage />} />
           <Route path="listar/usuarios" element={<ListarUsuarioPage />} />
+          <Route path="listar/caja" element={<ListarCajaPage />} />
         </Route>
       </Routes>
     </Router>

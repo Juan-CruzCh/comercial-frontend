@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 import type { AuntenticacionContextI } from "../interface/auntenticacionContext"
 import { verificarAutenticacion } from "../../autenticacion/service/autenticacion"
+import { usuarioLoguot } from "../../usuario/service/usuarioService"
 
 export const AuntenticacionContext = createContext<AuntenticacionContextI>({
     isAutenticacion: false,
@@ -13,15 +14,25 @@ export const AuntenticacionContext = createContext<AuntenticacionContextI>({
 })
 export const AutenticacionProvider = ({ children }: { children: ReactNode }) => {
     const [isAutenticacion, setisAutenticacion] = useState<boolean>(false)
-    const logout = () => {
+    const logout = async () => {
+        try {
+            const response = await usuarioLoguot()
+            if (response.status === 200) {
+                window.location.href = "/"
+            }
+        } catch (error) {
+            console.log(error);
 
+        }
     }
     const setIsAutenticacion = (value: boolean) => {
         setisAutenticacion(value)
 
     }
-    useEffect(() => {    
-        if(!isAutenticacion){
+
+
+    useEffect(() => {
+        if (!isAutenticacion) {
             verificarA()
         }
     }, [])
