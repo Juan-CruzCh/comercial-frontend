@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 export function paginador() {
     const [paginaActual, setPaginaActual] = useState(1);
     const [paginas, setpaginas] = useState<number>(1)

@@ -1,13 +1,15 @@
 import { useState } from "react";
+import {randomUUID }from 'crypto'
 import { ListarProductos } from "../components/ListarProductos";
 import { ListarProveedor } from "../components/ListarProveedor";
 import type { IngresoStockI, proveedorSeleccionadoI, RegistrarStockData, stockCargadoI } from "../interface/stock";
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { registrarStock } from "../service/sotckService";
 import { useNavigate } from "react-router-dom";
 import { alertConfirmacionStock } from "../modal/alertConfirmacionStock";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import { generateUUIDv4 } from "../../app/utils/appUti";
 
 export const RegistrarStockPage = () => {
     const navigate = useNavigate()
@@ -19,6 +21,7 @@ export const RegistrarStockPage = () => {
     const btnIngreso = (data: IngresoStockI) => {
         if (producto && proveedor) {
             const nuevaData: stockCargadoI = {
+                codigo:generateUUIDv4(),
                 factura:data.factura,
                 cantidad: Number(data.cantidad),
                 descuento: Number(data.descuento),
@@ -67,6 +70,10 @@ export const RegistrarStockPage = () => {
             }
 
         }
+    }
+    const btnEliminar=(codigo:string)=>{
+           const nuevo =stock.filter((item)=> item.codigo !== codigo)  
+           setStock(nuevo)
     }
 
     return (
@@ -246,6 +253,7 @@ export const RegistrarStockPage = () => {
                     <Table size="small">
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                              
                                 <TableCell sx={{ fontWeight: "bold" }}>Producto</TableCell>
                                 <TableCell sx={{ fontWeight: "bold" }}>Cantidad</TableCell>
                                 <TableCell sx={{ fontWeight: "bold" }}>PrecioUnitario</TableCell>
@@ -253,11 +261,13 @@ export const RegistrarStockPage = () => {
                                 <TableCell sx={{ fontWeight: "bold" }}>Descuento</TableCell>
                                 <TableCell sx={{ fontWeight: "bold" }}>SudTotal</TableCell>
                                 <TableCell sx={{ fontWeight: "bold" }}>Fecha de Vencimiento</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Eliminar</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {stock.map((item) => (
                                 <TableRow hover>
+                                    
                                     <TableCell>{item.nombreProducto}</TableCell>
                                     <TableCell>
                                         {item.cantidad}
@@ -277,6 +287,11 @@ export const RegistrarStockPage = () => {
                                     <TableCell>
                                         {item.fechaVencimiento}
                                     </TableCell>
+                                     <TableCell align="center">
+                      <IconButton color="error" size="small" onClick={() => btnEliminar(item.codigo)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                                 </TableRow>
                             ))
                             }

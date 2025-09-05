@@ -10,19 +10,37 @@ import {
   TableRow,
   Paper,
   Typography,
+  Box,
+  Pagination,
 } from "@mui/material";
+import { BuscadorStock } from "../components/BuscadorStock";
+import { paginador } from "../../app/hook/paginador";
 
 export const ListarStockPage = () => {
   const [data, setData] = useState<ListarStockI[]>([]);
-
+  const [codigo, setCodigo] = useState("");
+    const [nombre, setNombre] = useState("");
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+    const [unidadSeleccionada, setUnidadSeleccionada] = useState("");
+    const {limite,paginaActual,paginas,setPaginaActual,setpaginas}=paginador()
   useEffect(() => {
     listar();
-  }, []);
+  }, [codigo, nombre, categoriaSeleccionada, unidadSeleccionada, paginaActual]);
 
-  const listar = async () => {
+   const listar = async () => {
     try {
-      const response = await listarStock();
-      setData(response);
+      const response = await listarStock(
+        codigo,
+        nombre,
+        categoriaSeleccionada,
+        unidadSeleccionada,
+        paginaActual,
+        limite
+      );
+      if (response && response.Data.length > 0) {
+        setData(response.Data);
+        setpaginas(response.Paginas)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,6 +51,17 @@ export const ListarStockPage = () => {
       <Typography variant="h5" sx={{ mb: 2 }}>
         Listar Stock
       </Typography>
+         <BuscadorStock
+             categoriaSeleccionada={categoriaSeleccionada}
+             codigo={codigo}
+             nombre={nombre}
+             setCategoriaSeleccionada={setCategoriaSeleccionada}
+             setCodigo={setCodigo}
+             setNombre={setNombre}
+             setUnidadSeleccionada={setUnidadSeleccionada}
+             unidadSeleccionada={unidadSeleccionada}
+           />
+     
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -62,6 +91,16 @@ export const ListarStockPage = () => {
             ))}
           </TableBody>
         </Table>
+            <Box display="flex" justifyContent="center" mt={2}>
+                <Pagination
+                    count={paginas}
+                    page={paginaActual}
+                    onChange={(_: React.ChangeEvent<unknown>, value: number)=> setPaginaActual(value)}
+                
+                    size="small"
+           
+                />
+            </Box>
       </TableContainer>
     </div>
   );

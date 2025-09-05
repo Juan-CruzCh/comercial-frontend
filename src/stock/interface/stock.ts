@@ -36,7 +36,8 @@ export interface IngresoStockI {
 
 
 export interface stockCargadoI {
-        factura: string
+    codigo:string
+    factura: string
     cantidad: number
     fechaVencimiento: string
     producto: string

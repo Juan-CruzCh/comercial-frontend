@@ -3,8 +3,9 @@ import { Modal, Box, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import type { ProveedorI } from "../interface/proveedor";
 import { createProveedor } from "../service/proveedorService";
+import type { ReloadProps } from "../../app/interface/app";
 
-export const ProveedorModal = () => {
+export const ProveedorModal = ({reload,setReload}:ReloadProps) => {
     const [open, setOpen] = useState(false);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ProveedorI>();
@@ -17,8 +18,11 @@ export const ProveedorModal = () => {
 
     const onSubmit = async (data: ProveedorI) => {
         try {
-            const reponse = await createProveedor(data)
-            handleClose();
+            const response = await createProveedor(data)
+            if (response.status === 201){
+                setReload(!reload)
+                handleClose()
+            }
         } catch (error) {
 
         }

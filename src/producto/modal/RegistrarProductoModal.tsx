@@ -32,10 +32,10 @@ export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setRel
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    useEffect(() => {
+    useEffect(() => {        
         categoriaListar()
         unidadListar()
-    }, [])
+    }, [open])
 
     const categoriaListar = async () => {
         try {

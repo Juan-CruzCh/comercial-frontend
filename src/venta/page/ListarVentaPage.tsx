@@ -16,6 +16,7 @@ import { listarVenta } from "../service/VentaService";
 import type { ListarVentaI } from "../interface/ventaInterface";
 import { useNavigate } from "react-router-dom";
 import { paginador } from "../../app/hook/paginador";
+import { BuscadorVentas } from "../components/BuscadorVentas";
 
 export const ListarVentaPage = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export const ListarVentaPage = () => {
       <Typography variant="h5" gutterBottom>
         Listado de Ventas
       </Typography>
-
+    <BuscadorVentas/>
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
