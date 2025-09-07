@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ListarStock } from "../components/ListarStock";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import type {
   RealizarVentaI,
   StockSeleccionadoI,
@@ -28,6 +28,7 @@ import { useCaja } from "../../app/context/CajaProvider";
 import { alertConfirmacionRealizaVenta } from "../modal/alertConfirmacionRealizaVenta";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { DetalleVentaModal } from "../modal/DetalleVentaModal";
 
 export const RealizarVentaPage = () => {
   const [stockSeleccionado, setStockSeleccionado] = useState<
@@ -35,7 +36,8 @@ export const RealizarVentaPage = () => {
   >([]);
   const [descuento, setDescuento] = useState<number>(0);
   const [reload, setReload] = useState<boolean>(false);
-
+  const [openDetalleVenta, setOpenDetalleVenta] = useState<boolean>(false)
+  const [idVenta, setidVenta] = useState<string>()
   const { actualizarCaja } = useCaja()
 
   const btnIncrementarCantidad = (i: number) => {
@@ -65,12 +67,12 @@ export const RealizarVentaPage = () => {
   }
 
   const btnRealizarVenta = async () => {
-  
+
 
     if (stockSeleccionado.length > 0) {
       const confirmar = await alertConfirmacionRealizaVenta()
       if (!confirmar) {
-      return
+        return
       }
       const venta: RealizarVentaI = {
         descuento: descuento,
@@ -91,6 +93,8 @@ export const RealizarVentaPage = () => {
           setDescuento(0)
           setReload(!reload)
           toast.success("Venta realizada")
+          setOpenDetalleVenta(true)
+          setidVenta(response.idVenta)
         }
 
       } catch (error) {
@@ -119,7 +123,7 @@ export const RealizarVentaPage = () => {
       >
         Realizar Venta
       </Typography>
-     
+
       {/* Contenedor principal: columna siempre */}
       <Box
         sx={{
@@ -270,6 +274,7 @@ export const RealizarVentaPage = () => {
         </Paper>
 
       </Box>
+      {openDetalleVenta && idVenta && <DetalleVentaModal idVenta={idVenta} open={openDetalleVenta} setOpen={setOpenDetalleVenta} />}
     </Box>
   );
 };

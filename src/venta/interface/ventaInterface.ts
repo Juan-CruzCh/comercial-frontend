@@ -1,10 +1,10 @@
 export interface StockSeleccionadoI {
-    stock:string
-    codigo:string
-    nombre:string
-    precioUnitario:number
-    cantidad:number
-    montoTotal:number
+  stock: string
+  codigo: string
+  nombre: string
+  precioUnitario: number
+  cantidad: number
+  montoTotal: number
 }
 
 export interface RealizarVentaI {
@@ -15,7 +15,7 @@ export interface RealizarVentaI {
 export interface DetalleVentaI {
   stock: string
   cantidad: number
-  precioUnitario:number,
+  precioUnitario: number,
   descripcionProducto: string
 }
 
@@ -29,4 +29,29 @@ export interface ListarVentaI {
   subTotal: number;
   vendedor: string;
   sucursal: string;
+}
+
+export interface VentaPorIdI {
+  codigo: string;
+  usuario: string;
+  fechaVenta: string
+  detalleVenta: detalleVentaPorIdI[];
+  sucursal: string;
+  montoTotal: number;
+  subTotal: number;
+  descuento: number;
+}
+
+
+export interface detalleVentaPorIdI {
+  _id: string;
+  cantidad: number;
+  descripcion: string;
+  fecha: string;
+  flag: string;
+  precioTotal: number;
+  precioUnitario: number;
+  producto: string;
+  stock: string;
+  venta: string;
 }
