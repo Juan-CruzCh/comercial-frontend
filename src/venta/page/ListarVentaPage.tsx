@@ -24,8 +24,8 @@ export const ListarVentaPage = () => {
   const [ventas, setVentas] = useState<ListarVentaI[]>([]);
   const [filtro, setFiltro]=useState<BuscadorVentasI>({
     codigo:"",
-    fechaFin:  "",
-    fechaInicio: "",
+    fechaFin:  date.toISOString().split("T")[0],
+    fechaInicio: date.toISOString().split("T")[0],
     sucursal:"",
     usuario:""
   })
