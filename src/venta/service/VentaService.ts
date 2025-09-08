@@ -1,7 +1,7 @@
 import { instanceAxios } from "../../app/config/instanceAxios"
 import type { ResponseDataI } from "../../app/interface/responseData"
 import type { DetalleVentaI } from "../interface/detalleVenta"
-import type { ListarVentaI, RealizarVentaI, VentaPorIdI } from "../interface/ventaInterface"
+import type { BuscadorVentasI, ListarVentaI, RealizarVentaI, VentaPorIdI } from "../interface/ventaInterface"
 
 
 export async function realizarVenta(data: RealizarVentaI): Promise<{ idVenta: string }> {
@@ -13,9 +13,9 @@ export async function realizarVenta(data: RealizarVentaI): Promise<{ idVenta: st
     }
 }
 
-export async function listarVenta(paginaActual: number, limite: number): Promise<ResponseDataI<ListarVentaI>> {
+export async function listarVenta(filtro :BuscadorVentasI,paginaActual: number, limite: number): Promise<ResponseDataI<ListarVentaI>> {
     try {
-        const reponse = await instanceAxios.get("venta", {
+        const reponse = await instanceAxios.post("venta/listar", filtro,{
             params: {
                 pagina: paginaActual,
                 limite: limite

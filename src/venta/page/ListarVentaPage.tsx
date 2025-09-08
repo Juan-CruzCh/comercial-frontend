@@ -13,28 +13,39 @@ import {
   Pagination,
 } from "@mui/material";
 import { listarVenta } from "../service/VentaService";
-import type { ListarVentaI } from "../interface/ventaInterface";
+import type { BuscadorVentasI, ListarVentaI } from "../interface/ventaInterface";
 import { useNavigate } from "react-router-dom";
 import { paginador } from "../../app/hook/paginador";
 import { BuscadorVentas } from "../components/BuscadorVentas";
 
 export const ListarVentaPage = () => {
   const navigate = useNavigate();
+    const date = new Date();
   const [ventas, setVentas] = useState<ListarVentaI[]>([]);
+  const [filtro, setFiltro]=useState<BuscadorVentasI>({
+    codigo:"",
+    fechaFin:  "",
+    fechaInicio: "",
+    sucursal:"",
+    usuario:""
+  })
+  console.log(filtro);
+  
   const { limite, paginaActual, paginas, setPaginaActual, setpaginas } = paginador()
   useEffect(() => {
     listar();
-  }, [paginaActual]);
+  }, [paginaActual,filtro]);
 
   const listar = async () => {
     try {
-      const response = await listarVenta(paginaActual, limite);
+      const response = await listarVenta(filtro,paginaActual, limite);
       if (response && response.Data.length > 0) {
         setVentas(response.Data);
         setpaginas(response.Paginas)
       }
     } catch (error) {
       console.log(error);
+           setVentas([])
     }
   };
 
@@ -43,7 +54,7 @@ export const ListarVentaPage = () => {
       <Typography variant="h5" gutterBottom>
         Listado de Ventas
       </Typography>
-    <BuscadorVentas/>
+    <BuscadorVentas setFiltro={setFiltro}/>
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>

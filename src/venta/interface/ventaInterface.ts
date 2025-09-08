@@ -55,3 +55,13 @@ export interface detalleVentaPorIdI {
   stock: string;
   venta: string;
 }
+
+
+
+export interface BuscadorVentasI {
+   sucursal:string
+   usuario:string
+   codigo:string
+   fechaInicio:string
+   fechaFin:string
+}
