@@ -20,7 +20,7 @@ export const BuscadorVentas = ({
   setFiltro: (v: BuscadorVentasI) => void;
 }) => {
   const date = new Date();
-
+  date.setHours(date.getHours() - 4)
   const [usarCodigo, setUsarCodigo] = useState<boolean>(false);
   const [usarFechas, setUsarFechas] = useState<boolean>(true);
 

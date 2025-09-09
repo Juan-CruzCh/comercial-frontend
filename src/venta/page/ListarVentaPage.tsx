@@ -20,32 +20,33 @@ import { BuscadorVentas } from "../components/BuscadorVentas";
 
 export const ListarVentaPage = () => {
   const navigate = useNavigate();
-    const date = new Date();
+  const date = new Date();
+  date.setHours(date.getHours() - 4)
   const [ventas, setVentas] = useState<ListarVentaI[]>([]);
-  const [filtro, setFiltro]=useState<BuscadorVentasI>({
-    codigo:"",
-    fechaFin:  date.toISOString().split("T")[0],
+  const [filtro, setFiltro] = useState<BuscadorVentasI>({
+    codigo: "",
+    fechaFin: date.toISOString().split("T")[0],
     fechaInicio: date.toISOString().split("T")[0],
-    sucursal:"",
-    usuario:""
+    sucursal: "",
+    usuario: ""
   })
   console.log(filtro);
-  
+
   const { limite, paginaActual, paginas, setPaginaActual, setpaginas } = paginador()
   useEffect(() => {
     listar();
-  }, [paginaActual,filtro]);
+  }, [paginaActual, filtro]);
 
   const listar = async () => {
     try {
-      const response = await listarVenta(filtro,paginaActual, limite);
+      const response = await listarVenta(filtro, paginaActual, limite);
       if (response && response.Data.length > 0) {
         setVentas(response.Data);
         setpaginas(response.Paginas)
       }
     } catch (error) {
       console.log(error);
-           setVentas([])
+      setVentas([])
     }
   };
 
@@ -54,7 +55,7 @@ export const ListarVentaPage = () => {
       <Typography variant="h5" gutterBottom>
         Listado de Ventas
       </Typography>
-    <BuscadorVentas setFiltro={setFiltro}/>
+      <BuscadorVentas setFiltro={setFiltro} />
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
