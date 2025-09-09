@@ -10,15 +10,15 @@ import {
     Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import type { ProductoI,  } from "../../producto/interface/producto";
+import type { ProductoI, } from "../../producto/interface/producto";
 import type { CategoriaI } from "../../categoria/interface/categoria";
 import { listarCategoria } from "../../categoria/service/categoriaService";
-import { crearProducto  } from "../../producto/service/productoService";
+import { crearProducto } from "../../producto/service/productoService";
 import type { UnidadManejoI } from "../../unidadManejo/interface/unidaManejo";
 import { listarUndiadManejo } from "../../unidadManejo/service/unidaManejoService";
 
 
-export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setReload:(v:boolean)=>void}) => {
+export const RegistrarProductoModal = ({ reload, setReload }: { reload: boolean, setReload: (v: boolean) => void }) => {
     const [open, setOpen] = useState(false);
     const [categoria, setcategoria] = useState<CategoriaI[]>([])
     const [unidadManejo, setunidadManejo] = useState<UnidadManejoI[]>([])
@@ -32,7 +32,7 @@ export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setRel
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    useEffect(() => {        
+    useEffect(() => {
         categoriaListar()
         unidadListar()
     }, [open])
@@ -40,7 +40,9 @@ export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setRel
     const categoriaListar = async () => {
         try {
             const response = await listarCategoria()
-            setcategoria(response)
+            if (response) {
+                setcategoria(response)
+            }
         } catch (error) {
 
         }
@@ -48,7 +50,9 @@ export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setRel
     const unidadListar = async () => {
         try {
             const response = await listarUndiadManejo()
-            setunidadManejo(response)
+            if (response) {
+                setunidadManejo(response)
+            }
         } catch (error) {
 
         }
@@ -58,13 +62,13 @@ export const RegistrarProductoModal = ({reload,setReload}:{reload:boolean,setRel
         try {
             const response = await crearProducto(data)
             console.log(response);
-            
-            if(response){
+
+            if (response) {
                 setReload(!reload)
-                 reset()
-                 handleClose()
+                reset()
+                handleClose()
             }
-           
+
         } catch (error) {
             console.log(error);
 

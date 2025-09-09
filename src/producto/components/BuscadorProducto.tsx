@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { listarUndiadManejo } from '../../unidadManejo/service/unidaManejoService';
 import { listarCategoria } from '../../categoria/service/categoriaService';
@@ -22,9 +22,12 @@ export const BuscadorProducto = ({ unidadSeleccionada, codigo, nombre, categoria
                 listarUndiadManejo(),
                 listarCategoria()
             ]);
-            setCategorias(categoria);
-            setUnidadesManejo(unidadManejo);
+            if (unidadManejo && categoria) {
+                setCategorias(categoria);
+                setUnidadesManejo(unidadManejo);
+            }
         } catch (error) {
+
             console.error(error);
         }
     };

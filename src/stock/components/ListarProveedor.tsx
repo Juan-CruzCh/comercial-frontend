@@ -24,27 +24,28 @@ export const ListarProveedor = ({ setSeleccionado }: proveedorPropsI) => {
   const [ci, setci] = useState<string>("");
   const [nombre, setnombre] = useState<string>("");
   const [celular, setCelular] = useState<string>("");
-   const [empresa, setEmpresa] = useState<string>("");
-  const {limite,paginaActual,paginas,setPaginaActual,setpaginas }=paginador()
+  const [empresa, setEmpresa] = useState<string>("");
+  const { limite, paginaActual, paginas, setPaginaActual, setpaginas } = paginador()
 
   useEffect(() => {
     listar();
   }, [reload, nombre, ci, celular, empresa, paginaActual]);
   const listar = async () => {
     try {
-      const response = await listarProveedor(ci, nombre, celular, empresa,  paginaActual, limite);
+      const response = await listarProveedor(ci, nombre, celular, empresa, paginaActual, limite);
       if (response && response.Data.length > 0) {
         setData(response.Data);
         setpaginas(response.Paginas)
       }
     } catch (error) {
+      setData([])
       console.log(error);
     }
   };
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
       <ProveedorModal reload={reload} setReload={setReload} />
-      <BuscadorProveedor empresa={empresa} setEmpresa={setEmpresa} celular={celular} ci={ci} nombre={nombre} setCelular={setCelular} setCi={setci} setNombre={setnombre}  />
+      <BuscadorProveedor empresa={empresa} setEmpresa={setEmpresa} celular={celular} ci={ci} nombre={nombre} setCelular={setCelular} setCi={setci} setNombre={setnombre} />
       <Table size="small" stickyHeader>
         <TableHead>
           <TableRow>
@@ -83,7 +84,7 @@ export const ListarProveedor = ({ setSeleccionado }: proveedorPropsI) => {
               <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>
                 {proveedor.celular}
               </TableCell>
-               <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>
+              <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>
                 {proveedor.empresa}
               </TableCell>
               <TableCell sx={{ fontSize: "0.75rem", padding: "4px 8px" }}>
@@ -105,16 +106,16 @@ export const ListarProveedor = ({ setSeleccionado }: proveedorPropsI) => {
           ))}
         </TableBody>
       </Table>
-       <Box display="flex" justifyContent="center" mt={2}>
-                <Pagination
-                    count={paginas}
-                    page={paginaActual}
-                    onChange={(_: React.ChangeEvent<unknown>, value: number)=> setPaginaActual(value)}
-                
-                    size="small"
-           
-                />
-            </Box>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={paginas}
+          page={paginaActual}
+          onChange={(_: React.ChangeEvent<unknown>, value: number) => setPaginaActual(value)}
+
+          size="small"
+
+        />
+      </Box>
     </TableContainer>
   );
 };

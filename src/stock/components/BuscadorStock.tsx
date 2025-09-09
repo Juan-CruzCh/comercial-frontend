@@ -24,6 +24,8 @@ export const BuscadorStock = ({ unidadSeleccionada, codigo, nombre, categoriaSel
             setCategorias(categoria);
             setUnidadesManejo(unidadManejo);
         } catch (error) {
+            setCategorias([])
+            setUnidadesManejo([])
             console.error(error);
         }
     };
