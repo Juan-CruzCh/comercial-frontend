@@ -19,6 +19,8 @@ import { AuntenticacionContext } from "../context/AutenticacionProvider";
 import { InicioPage } from "../../inicio/page/InicioPage";
 import { CajaProvider } from "../context/CajaProvider";
 import { ListarCajaPage } from "../../caja/page/ListarCajaPage";
+import { ListarDescuentoVenta } from "../../descuentoVenta/page/ListarDescuentoVenta";
+import { ReporteVentasPage } from "../../venta/page/ReporteVentasPage";
 
 export const AppRouter = () => {
   const { isAutenticacion } = useContext(AuntenticacionContext);
@@ -53,6 +55,8 @@ export const AppRouter = () => {
           <Route path="detalle/ingreso/:id" element={<DetalleIngresoPage />} />
           <Route path="listar/usuarios" element={<ListarUsuarioPage />} />
           <Route path="listar/caja" element={<ListarCajaPage />} />
+          <Route path="listar/descuento/venta" element={<ListarDescuentoVenta />} />
+          <Route path="reporte/ventas" element={<ReporteVentasPage />} />
         </Route>
       </Routes>
     </Router>

@@ -343,6 +343,28 @@ export const Menu: React.FC = () => {
                 </ListItemIcon>
                 <ListItemText primary="Listar caja" />
               </ListItemButton>
+              <ListItemButton
+                component={Link}
+                to="/listar/descuento/venta"
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.secondary.light }}>
+                  <PointOfSale />
+                </ListItemIcon>
+                <ListItemText primary="Listar Descuento venta" />
+              </ListItemButton>
+              <ListItemButton
+                component={Link}
+                to="/reporte/ventas"
+                sx={subMenuItemStyle}
+                onClick={closeSidebar}
+              >
+                <ListItemIcon sx={{ color: theme.palette.secondary.light }}>
+                  <PointOfSale />
+                </ListItemIcon>
+                <ListItemText primary="reporte ventas" />
+              </ListItemButton>
             </List>
           </Collapse>
         </List>

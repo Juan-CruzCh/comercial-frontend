@@ -59,9 +59,33 @@ export interface detalleVentaPorIdI {
 
 
 export interface BuscadorVentasI {
-   sucursal:string
-   usuario:string
-   codigo:string
-   fechaInicio:string
-   fechaFin:string
+  sucursal: string
+  usuario: string
+  codigo: string
+  fechaInicio: string
+  fechaFin: string
+}
+export interface ReporteVentasI {
+  _id: string
+  descuentoAcumulado
+  :
+  number
+  descuentoAlquiller
+  :
+  number
+  descuentoVendedor
+  :
+  number
+  montoTotal
+  :
+  number
+  sucursal
+  :
+  string
+  totalGanancia
+  :
+  number
+  usuario
+  :
+  number
 }
