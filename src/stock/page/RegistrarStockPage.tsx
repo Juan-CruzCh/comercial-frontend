@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { alertConfirmacionStock } from "../modal/alertConfirmacionStock";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { generateUUIDv4 } from "../../app/utils/appUti";
+import { toast } from "react-toastify";
 
 export const RegistrarStockPage = () => {
   const navigate = useNavigate();
@@ -44,19 +45,24 @@ export const RegistrarStockPage = () => {
         factura: data.factura,
         cantidad: Number(data.cantidad),
         descuento: Number(data.descuento),
-        montoTotal: Number(data.cantidad) * Number(data.precioUnitario),
+        montoTotal: Number(data.cantidad) * Number(data.precioUnitario) - Number(data.descuento),
         precioUnitario: Number(data.precioUnitario),
         producto: producto.id,
         nombreProducto: producto.data,
         sudTotal:
-          Number(data.cantidad) * Number(data.precioUnitario) -
-          Number(data.descuento),
+          Number(data.cantidad) * Number(data.precioUnitario) ,
         fechaVencimiento: data.fechaVencimiento,
       };
       setStock([...stock, nuevaData]);
+    }else {
+      if(!proveedor){
+        toast.error("Seleccione un proveedor")
+      }
+       if(!producto){
+        toast.error("Seleccione un producto")
+      }
     }
   };
-
   const btnRegistrarIngreso = async () => {
     if (stock.length > 0 && proveedor) {
       const confirmar = await alertConfirmacionStock();
@@ -66,7 +72,7 @@ export const RegistrarStockPage = () => {
       const data: RegistrarStockData = {
         proveedor: proveedor.id,
         factura: stock[0].factura,
-        montoTotal: stock.reduce((acc, item) => item.montoTotal + acc, 0),
+        
         stock: stock.map((item) => {
           return {
             cantidad: item.cantidad,
@@ -88,6 +94,9 @@ export const RegistrarStockPage = () => {
         console.log(error);
       }
     }
+      
+
+    
   };
   const btnEliminar = (codigo: string) => {
     const nuevo = stock.filter((item) => item.codigo !== codigo);
@@ -193,7 +202,7 @@ export const RegistrarStockPage = () => {
           {/* Precio Unitario */}
           <div>
             <label className="block text-xs font-medium mb-1 text-gray-600">
-              Precio Unitario
+              Precio Unitario de venta
             </label>
             <input
               type="number"
@@ -245,8 +254,8 @@ export const RegistrarStockPage = () => {
           {/* Código de Factura */}
           <div>
             <label className="block text-xs font-medium mb-1 text-gray-600">
-              Código de Factura
-            </label>
+              Código de Factura de venta
+            </label> 
             <input
               {...register("factura", {
                 required: "Ingrese numero de factura",
@@ -262,7 +271,7 @@ export const RegistrarStockPage = () => {
 
           <div>
             <label className="block text-xs font-medium mb-1 text-gray-600">
-              Descuento
+              Descuento de compra de producto
             </label>
             <input
               type="number"

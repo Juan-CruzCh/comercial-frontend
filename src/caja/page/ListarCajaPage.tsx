@@ -27,6 +27,7 @@ export const ListarCajaPage = () => {
             <Table>
                 <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
                     <TableRow>
+                                       <TableCell>Sucursal</TableCell>
                         <TableCell>Usuario</TableCell>
                         <TableCell>Monto Inicial</TableCell>
                         <TableCell>Total Ventas</TableCell>
@@ -40,13 +41,14 @@ export const ListarCajaPage = () => {
                 <TableBody>
                     {data.map((caja) => (
                         <TableRow key={caja._id}>
+                                <TableCell>{caja.sucursal}</TableCell>
                             <TableCell>{caja.usuario}</TableCell>
                             <TableCell>{caja.montoInicial.toFixed(2)}</TableCell>
                             <TableCell>{caja.totalVentas.toFixed(2)}</TableCell>
                             <TableCell>{caja.montoFinal.toFixed(2)}</TableCell>
                             <TableCell>{caja.estado}</TableCell>
                             <TableCell>{caja.fechaApertura.replace("T", " ").substring(0, 19)}</TableCell>
-                            <TableCell>{caja.fechaCierre.replace("T", " ").substring(0, 19)}</TableCell>
+                            <TableCell>{caja.fechaCierre && caja.fechaCierre.replace("T", " ").substring(0, 19)}</TableCell>
 
                         </TableRow>
                     ))}

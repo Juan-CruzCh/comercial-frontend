@@ -63,8 +63,9 @@ interface StockItem {
 export interface RegistrarStockData {
     proveedor: string; // id del proveedor
     factura: string;
-    montoTotal: number;
+  
     stock: StockItem[];
+
 }
 
 

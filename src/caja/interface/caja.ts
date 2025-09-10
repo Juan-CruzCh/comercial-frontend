@@ -21,4 +21,5 @@ export interface ListarCajaI {
     estado: string;
     fechaCierre: string;
     usuario: string;
+    sucursal:string
 }

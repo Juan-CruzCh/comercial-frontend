@@ -5,4 +5,8 @@ export interface IngresoI {
   fecha: string
   proveedorApoellido: string
   proveedorNombre: string
+  montoTotal:number,
+  totalDescuento:number,
+  sudTotal:number,
+  usuario:string
 }
