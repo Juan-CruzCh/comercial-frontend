@@ -30,7 +30,7 @@ export const ListarVentaPage = () => {
     sucursal: "",
     usuario: ""
   })
-  console.log(filtro);
+
 
   const { limite, paginaActual, paginas, setPaginaActual, setpaginas } = paginador()
   useEffect(() => {

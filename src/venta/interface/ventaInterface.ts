@@ -29,6 +29,10 @@ export interface ListarVentaI {
   subTotal: number;
   vendedor: string;
   sucursal: string;
+  descuentoAlquiller:number,
+  descuentoVendedor:number,
+  descuentoAcumulado:number,
+  totalGanancia:number
 }
 
 export interface VentaPorIdI {

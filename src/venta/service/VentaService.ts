@@ -48,9 +48,9 @@ export async function buscarVentaPorId(venta: string): Promise<VentaPorIdI> {
         throw error
     }
 }
-export async function reporteVentas(): Promise<ReporteVentasI[]> {
+export async function reporteVentas(filtro:BuscadorVentasI): Promise<ResponseDataI<ListarVentaI>> {
     try {
-        const reponse = await instanceAxios.post(`/reporte/ventas`)
+        const reponse = await instanceAxios.post(`/reporte/ventas`,filtro)
         return reponse.data
     } catch (error) {
         throw error
