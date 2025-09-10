@@ -9,11 +9,25 @@ export const AuntenticacionContext = createContext<AuntenticacionContextI>({
     },
     setIsAutenticacion() {
     },
-
+    apellidos:"",
+    nombres:"",
+    setNombres(){},
+    setApellidos(){},
+    setSucursal(){},
+    setUsername(){},
+    sucursal:"",
+    username:"",
+    rol:"",
+    setRol(){}
 
 })
 export const AutenticacionProvider = ({ children }: { children: ReactNode }) => {
     const [isAutenticacion, setisAutenticacion] = useState<boolean>(false)
+    const [sucursal, setSucursal] = useState<string>("")
+       const [nombres, setNombres] = useState<string>("")
+        const [apellidos, setApellidos] = useState<string>("")
+         const [username, setUsername] = useState<string>("")
+         const [rol, setRol] = useState<string>("")
     const logout = async () => {
         try {
             const response = await usuarioLoguot()
@@ -39,9 +53,17 @@ export const AutenticacionProvider = ({ children }: { children: ReactNode }) => 
 
     const verificarA = async () => {
         try {
-            const response = await verificarAutenticacion()
-            if (response && response.status === 200) {
+            const response = await verificarAutenticacion()   
+            console.log(response);
+              
+            if (response) {
                 setisAutenticacion(true)
+                setApellidos(response.apellidos)
+                setSucursal(response.sucursal)
+                setRol(response.rol),
+                setNombres(response.nombre)
+                setUsername(response.username)
+
             }
         } catch (error) {
             console.log(error);
@@ -49,7 +71,7 @@ export const AutenticacionProvider = ({ children }: { children: ReactNode }) => 
         }
     }
     return (
-        <AuntenticacionContext.Provider value={{ isAutenticacion, logout, setIsAutenticacion }}>
+        <AuntenticacionContext.Provider value={{ isAutenticacion, logout,apellidos ,nombres,rol,sucursal,username, setIsAutenticacion}}>
             {children}
         </AuntenticacionContext.Provider>
     )

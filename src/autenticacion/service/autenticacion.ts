@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios";
 import { instanceAxios } from "../../app/config/instanceAxios";
 import type { LoginI } from "../interface/autenticacion";
+import type { UsuarioI } from "../../usuario/interface/usuarioInterface";
 
 export async function autenticacion(data: LoginI): Promise<AxiosResponse> {
     try {
@@ -10,7 +11,7 @@ export async function autenticacion(data: LoginI): Promise<AxiosResponse> {
         throw error
     }
 }
-export async function verificarAutenticacion(): Promise<AxiosResponse> {
+export async function verificarAutenticacion(): Promise<UsuarioI> {
     try {
         const reponse = await instanceAxios.get("usuario/verificar")
         return reponse.data

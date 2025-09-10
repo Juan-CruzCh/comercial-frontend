@@ -16,6 +16,7 @@ import {
   Box,
   Typography,
   Button,
+  Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BuscadorReporteVentas } from "../components/BuscadorVentaReporte";
@@ -137,6 +138,7 @@ export const ReporteVentasPage = () => {
               </TableRow>
             ))}
           </TableBody>
+          
         </Table>
       </TableContainer>
     </Box>

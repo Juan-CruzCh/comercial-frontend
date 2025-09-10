@@ -37,15 +37,12 @@ import {
   Person,
   Business,
   TrendingUp,
-  Dashboard,
   Close,
 } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
 
 import { TopBar } from "./TopBar";
 import { AuntenticacionContext } from "../context/AutenticacionProvider";
-
-
 
 const drawerWidth = 280;
 
@@ -56,15 +53,13 @@ export const Menu: React.FC = () => {
   const [openInventario, setOpenInventario] = useState(false);
   const [openUsuarios, setOpenUsuarios] = useState(false);
   const [openAdministracion, setOpenAdministracion] = useState(false);
-  const { logout } = useContext(AuntenticacionContext)
-
-
+  const { logout, rol, nombres, apellidos, sucursal } = useContext(
+    AuntenticacionContext
+  );
 
   const closeSidebar = () => {
     setOpenSidebar(false);
   };
-
-
 
   // ------------------------------------------
 
@@ -108,13 +103,17 @@ export const Menu: React.FC = () => {
         sx={{
           background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
           color: "white",
-          p: 2,
+          p: 1,
+          borderRadius: 2,
+          boxShadow: 3,
           position: "relative",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          gap: 1.5,
         }}
       >
+        {/* Botón cerrar */}
         <IconButton
           onClick={closeSidebar}
           sx={{
@@ -128,34 +127,48 @@ export const Menu: React.FC = () => {
           <Close />
         </IconButton>
 
-        <Avatar
+        
+
+        {/* Información del usuario */}
+        <Box
           sx={{
-            bgcolor: "white",
-            color: theme.palette.primary.main,
-            mb: 1,
-            width: 48,
-            height: 48,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "center",
           }}
         >
-          <Dashboard />
-        </Avatar>
-
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "bold", mb: 1, textAlign: "center" }}
-        >
-          Sistema POS
-        </Typography>
-
-        <Chip
-          label="Admin"
-          size="small"
-          sx={{
-            bgcolor: alpha("#fff", 0.2),
-            color: "white",
-            fontSize: "0.7rem",
-          }}
-        />
+          <Chip
+            label={`${nombres.toUpperCase()} ${apellidos.toUpperCase()}`}
+            size="small"
+            sx={{
+              bgcolor: alpha("#fff", 0.15),
+              color: "white",
+              fontSize: "0.75rem",
+              fontWeight: 500,
+            }}
+          />
+          <Chip
+            label={`Sucursal ${sucursal}`}
+            size="small"
+            sx={{
+              bgcolor: alpha("#fff", 0.15),
+              color: "white",
+              fontSize: "0.75rem",
+              fontWeight: 500,
+            }}
+          />
+          <Chip
+            label={rol}
+            size="small"
+            sx={{
+              bgcolor: alpha("#fff", 0.15),
+              color: "white",
+              fontSize: "0.75rem",
+              fontWeight: 500,
+            }}
+          />
+        </Box>
       </Box>
 
       <Divider />
@@ -392,17 +405,6 @@ export const Menu: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Cerrar sesión" />
         </ListItemButton>
-
-        <Typography
-          variant="caption"
-          sx={{
-            p: 2,
-            textAlign: "center",
-            color: theme.palette.text.secondary,
-          }}
-        >
-          Sistema POS v1.0
-        </Typography>
       </Box>
     </Box>
   );
