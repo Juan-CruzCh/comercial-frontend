@@ -41,30 +41,34 @@ export const ListarIngresoPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              
+
               <TableCell><strong>Código</strong></TableCell>
-               <TableCell><strong>Usuario</strong></TableCell>
+              <TableCell><strong>Usuario</strong></TableCell>
+
               <TableCell><strong>Factura</strong></TableCell>
-               <TableCell><strong>SudTotal</strong></TableCell>
-                   <TableCell><strong>descuento</strong></TableCell>
-                          <TableCell><strong>MontoTotal</strong></TableCell>
+              <TableCell><strong>Cantidad</strong></TableCell>
+              <TableCell><strong>precio Unitario venta</strong></TableCell>
+              <TableCell><strong>precio Unitario compra</strong></TableCell>
+              <TableCell><strong>descuento</strong></TableCell>
+              <TableCell><strong>subTotal</strong></TableCell>
               <TableCell><strong>Proveedor</strong></TableCell>
-    
               <TableCell><strong>Detalle</strong></TableCell>
-                  <TableCell><strong>Fecha</strong></TableCell>
+              <TableCell><strong>Fecha</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((ingreso) => (
               <TableRow key={ingreso._id}>
                 <TableCell>{ingreso.codigo}</TableCell>
-                        <TableCell>{ingreso.usuario}</TableCell>
+                <TableCell>{ingreso.usuario}</TableCell>
                 <TableCell>{ingreso.factura}</TableCell>
-                  <TableCell>{ingreso.sudTotal}</TableCell>
-                    <TableCell>{ingreso.totalDescuento}</TableCell>
-                      <TableCell>{ingreso.montoTotal}</TableCell>
+                <TableCell>{ingreso.cantidadTotal}</TableCell>
+                <TableCell>{ingreso.precioUnitarioTotal}</TableCell>
+                <TableCell>{ingreso.precioUnitarioTotalCompra}</TableCell>
+                <TableCell>{ingreso.totalDescuento}</TableCell>
+                <TableCell>{ingreso.sudTotal}</TableCell>
                 <TableCell> {ingreso.proveedorNombre} {ingreso.proveedorApoellido} </TableCell>
-      
+
                 <TableCell>
                   <Button onClick={() => {
                     navigate(`/detalle/ingreso/${ingreso._id}`)
@@ -72,9 +76,9 @@ export const ListarIngresoPage = () => {
                     Detalle
                   </Button>
                 </TableCell>
-                 <TableCell>{ingreso.fecha}</TableCell>
+                <TableCell>{ingreso.fecha}</TableCell>
               </TableRow>
-              
+
             ))}
           </TableBody>
         </Table>

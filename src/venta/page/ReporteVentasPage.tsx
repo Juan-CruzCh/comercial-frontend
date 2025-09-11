@@ -45,7 +45,7 @@ export const ReporteVentasPage = () => {
         setData(response.Data);
       }
     } catch (error) {
-        setData([]);
+      setData([]);
       console.log(error);
     }
   };
@@ -56,7 +56,7 @@ export const ReporteVentasPage = () => {
         reporte de Ventas
       </Typography>
       <BuscadorReporteVentas setFiltro={setFiltro} />
-      <TotalReporte ventas={data}/>
+      <TotalReporte ventas={data} />
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -71,13 +71,14 @@ export const ReporteVentasPage = () => {
                 Vendedor
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                Subtotal
+                Monto Total
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Descuento
               </TableCell>
+
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                Monto Total
+                Subtotal
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 descuento alquiler
@@ -114,9 +115,9 @@ export const ReporteVentasPage = () => {
                 <TableCell>{venta.codigo}</TableCell>
                 <TableCell>{venta.sucursal}</TableCell>
                 <TableCell>{venta.vendedor}</TableCell>
-                <TableCell>{venta.subTotal.toFixed(2)}</TableCell>
-                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
                 <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>
+                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
+                <TableCell>{venta.subTotal.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoAlquiller.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoVendedor.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoAcumulado.toFixed(2)}</TableCell>
@@ -138,7 +139,7 @@ export const ReporteVentasPage = () => {
               </TableRow>
             ))}
           </TableBody>
-          
+
         </Table>
       </TableContainer>
     </Box>

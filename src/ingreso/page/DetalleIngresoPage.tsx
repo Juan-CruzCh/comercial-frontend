@@ -40,8 +40,8 @@ export const DetalleIngresoPage = () => {
     }
   };
 
-const contentRef = useRef<HTMLDivElement>(null);
-const reactToPrintFn = useReactToPrint({ contentRef });
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
   return (
     <Box>
       <Typography
@@ -52,12 +52,12 @@ const reactToPrintFn = useReactToPrint({ contentRef });
       >
         📦 Detalle de Ingreso
       </Typography>
-      <Button onClick={reactToPrintFn }>Generar qr de productos</Button>
-        <div style={{ display: "none" }}>
-      <div ref={contentRef}>
-        <QrDetalleIngreso data={data} />
+      <Button onClick={reactToPrintFn}>Generar qr de productos</Button>
+      <div style={{ display: "none" }}>
+        <div ref={contentRef}>
+          <QrDetalleIngreso data={data} />
+        </div>
       </div>
-    </div>
       <TableContainer component={Paper}>
 
         <Table>
@@ -85,14 +85,21 @@ const reactToPrintFn = useReactToPrint({ contentRef });
                 <b>Precio Unitario</b>
               </TableCell>
               <TableCell>
-                <b>Sub total</b>
+                <b>Precio Unitario total</b>
+              </TableCell>
+              <TableCell>
+                <b>Precio de compra</b>
+              </TableCell>
+              <TableCell>
+                <b>Precio compra total</b>
               </TableCell>
               <TableCell>
                 <b>Descuento</b>
               </TableCell>
               <TableCell>
-                <b>Total</b>
+                <b>Sub total</b>
               </TableCell>
+
               <TableCell>
                 <b>Fecha Vencimiento</b>
               </TableCell>
@@ -108,10 +115,12 @@ const reactToPrintFn = useReactToPrint({ contentRef });
                 <TableCell>{item.unidadManejo}</TableCell>
                 <TableCell>{item.cantidad}</TableCell>
                 <TableCell>{item.precioUnitario}</TableCell>
-                <TableCell>{item.sudTotal}</TableCell>
+                <TableCell>{item.precioUnitarioTotal}</TableCell>
+                <TableCell>{item.precioUnitarioCompra}</TableCell>
+                <TableCell>{item.precioUnitarioTotalCompra}</TableCell>
                 <TableCell>{item.descuento}</TableCell>
 
-                <TableCell>{item.montoTotal}</TableCell>
+                <TableCell>{item.subTotal}</TableCell>
                 <TableCell>
                   {item.fechaVencimiento && item.fechaVencimiento}
                 </TableCell>

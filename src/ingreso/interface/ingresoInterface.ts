@@ -5,8 +5,11 @@ export interface IngresoI {
   fecha: string
   proveedorApoellido: string
   proveedorNombre: string
-  montoTotal:number,
-  totalDescuento:number,
-  sudTotal:number,
-  usuario:string
+  precioUnitarioTotal: number,
+  precioUnitarioTotalCompra: number
+  totalDescuento: number,
+  cantidadTotal: number
+  sudTotal: number,
+  usuario: string
 }
+

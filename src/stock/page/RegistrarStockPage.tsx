@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { randomUUID } from "crypto";
 import { ListarProductos } from "../components/ListarProductos";
 import { ListarProveedor } from "../components/ListarProveedor";
 import type {
@@ -43,22 +42,25 @@ export const RegistrarStockPage = () => {
       const nuevaData: stockCargadoI = {
         codigo: generateUUIDv4(),
         factura: data.factura,
+        precioUnitarioCompra: Number(data.precioUnitarioCompra),
         cantidad: Number(data.cantidad),
         descuento: Number(data.descuento),
-        montoTotal: Number(data.cantidad) * Number(data.precioUnitario) - Number(data.descuento),
+        PrecioUnitarioTotal: Number(data.cantidad) * Number(data.precioUnitario),
         precioUnitario: Number(data.precioUnitario),
         producto: producto.id,
         nombreProducto: producto.data,
         sudTotal:
-          Number(data.cantidad) * Number(data.precioUnitario) ,
+          Number(data.cantidad) * Number(data.precioUnitarioCompra) - Number(data.descuento),
         fechaVencimiento: data.fechaVencimiento,
+        PrecioUnitarioTotalCompra: Number(data.cantidad) * Number(data.precioUnitarioCompra)
+
       };
       setStock([...stock, nuevaData]);
-    }else {
-      if(!proveedor){
+    } else {
+      if (!proveedor) {
         toast.error("Seleccione un proveedor")
       }
-       if(!producto){
+      if (!producto) {
         toast.error("Seleccione un producto")
       }
     }
@@ -72,16 +74,15 @@ export const RegistrarStockPage = () => {
       const data: RegistrarStockData = {
         proveedor: proveedor.id,
         factura: stock[0].factura,
-        
         stock: stock.map((item) => {
           return {
             cantidad: item.cantidad,
             fechaVencimiento: new Date(item.fechaVencimiento),
             producto: item.producto,
             precioUnitario: item.precioUnitario,
-            montoTotal: item.montoTotal,
+            PrecioUnitarioCompra: item.precioUnitarioCompra,
             descuento: item.descuento,
-            sudTotal: item.sudTotal,
+
           };
         }),
       };
@@ -94,9 +95,9 @@ export const RegistrarStockPage = () => {
         console.log(error);
       }
     }
-      
 
-    
+
+
   };
   const btnEliminar = (codigo: string) => {
     const nuevo = stock.filter((item) => item.codigo !== codigo);
@@ -224,6 +225,31 @@ export const RegistrarStockPage = () => {
               </p>
             )}
           </div>
+          <div>
+            <label className="block text-xs font-medium mb-1 text-gray-600">
+              Precio Unitario de compra
+            </label>
+            <input
+              type="number"
+              {...register("precioUnitarioCompra", {
+                required: true,
+                valueAsNumber: true,
+                min: {
+                  value: 1,
+                  message: "El precio unitario debe ser mayor a 1",
+                },
+              })}
+              step="any"
+              placeholder="Precio Unitario"
+              className="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.precioUnitario && (
+              <p className="text-sm text-red-500">
+                {errors.precioUnitario.message}
+              </p>
+            )}
+          </div>
+
 
           {/* Fecha de Vencimiento */}
           <div>
@@ -245,9 +271,8 @@ export const RegistrarStockPage = () => {
               {...register("fechaVencimiento")}
               type="date"
               disabled={!habilitarFecha} // 🔹 se desactiva si el checkbox no está marcado
-              className={`w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ${
-                !habilitarFecha ? "bg-gray-100 cursor-not-allowed" : ""
-              }`}
+              className={`w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ${!habilitarFecha ? "bg-gray-100 cursor-not-allowed" : ""
+                }`}
             />
           </div>
 
@@ -255,7 +280,7 @@ export const RegistrarStockPage = () => {
           <div>
             <label className="block text-xs font-medium mb-1 text-gray-600">
               Código de Factura de venta
-            </label> 
+            </label>
             <input
               {...register("factura", {
                 required: "Ingrese numero de factura",
@@ -275,6 +300,7 @@ export const RegistrarStockPage = () => {
             </label>
             <input
               type="number"
+              step="any"
               {...register("descuento", {
                 valueAsNumber: true,
                 value: 0,
@@ -313,9 +339,13 @@ export const RegistrarStockPage = () => {
                   <TableCell sx={{ fontWeight: "bold" }}>Producto</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Cantidad</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>
-                    PrecioUnitario
+                    PrecioUnitario de venta
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>MontoTotal</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>precio unitario total</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>
+                    PrecioUnitario de compra
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>precio unitario de compra total</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Descuento</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>SudTotal</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>
@@ -330,7 +360,9 @@ export const RegistrarStockPage = () => {
                     <TableCell>{item.nombreProducto}</TableCell>
                     <TableCell>{item.cantidad}</TableCell>
                     <TableCell>{item.precioUnitario}</TableCell>
-                    <TableCell>{item.montoTotal}</TableCell>
+                    <TableCell>{item.PrecioUnitarioTotal}</TableCell>
+                    <TableCell>{item.precioUnitarioCompra}</TableCell>
+                    <TableCell>{item.PrecioUnitarioTotalCompra}</TableCell>
                     <TableCell>{item.descuento}</TableCell>
                     <TableCell>{item.sudTotal}</TableCell>
                     <TableCell>{item.fechaVencimiento}</TableCell>

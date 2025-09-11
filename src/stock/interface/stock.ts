@@ -24,29 +24,31 @@ export interface ProductoPropsI {
 export interface IngresoStockI {
     proveedor: string
     factura: string
-    montoTotal: number
+    PrecioUnitarioTotal: number
+    PrecioUnitarioTotalCompra: number
     cantidad: number
     fechaVencimiento: string
     producto: string
     precioUnitario: number,
-
+    precioUnitarioCompra: number
     descuento: number,
     sudTotal: number
 }
 
 
 export interface stockCargadoI {
-    codigo:string
+    codigo: string
     factura: string
     cantidad: number
     fechaVencimiento: string
     producto: string
     precioUnitario: number,
-    montoTotal: number
+    PrecioUnitarioTotal: number
     descuento: number,
     sudTotal: number,
     nombreProducto: string
-
+    precioUnitarioCompra: number
+    PrecioUnitarioTotalCompra: number
 }
 
 interface StockItem {
@@ -54,16 +56,15 @@ interface StockItem {
     fechaVencimiento: Date;
     producto: string;
     precioUnitario: number;
-    montoTotal: number;
     descuento: number;
-    sudTotal: number;
+    PrecioUnitarioCompra: number
 }
 
 // Interface para el objeto data principal
 export interface RegistrarStockData {
     proveedor: string; // id del proveedor
     factura: string;
-  
+
     stock: StockItem[];
 
 }
