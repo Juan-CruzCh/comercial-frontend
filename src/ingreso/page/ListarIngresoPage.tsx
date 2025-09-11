@@ -41,16 +41,14 @@ export const ListarIngresoPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-
               <TableCell><strong>Código</strong></TableCell>
               <TableCell><strong>Usuario</strong></TableCell>
-
               <TableCell><strong>Factura</strong></TableCell>
               <TableCell><strong>Cantidad</strong></TableCell>
               <TableCell><strong>precio Unitario venta</strong></TableCell>
-              <TableCell><strong>precio Unitario compra</strong></TableCell>
-              <TableCell><strong>descuento</strong></TableCell>
               <TableCell><strong>subTotal</strong></TableCell>
+              <TableCell><strong>descuento</strong></TableCell>
+              <TableCell><strong>precio Total compra</strong></TableCell>
               <TableCell><strong>Proveedor</strong></TableCell>
               <TableCell><strong>Detalle</strong></TableCell>
               <TableCell><strong>Fecha</strong></TableCell>
@@ -64,9 +62,9 @@ export const ListarIngresoPage = () => {
                 <TableCell>{ingreso.factura}</TableCell>
                 <TableCell>{ingreso.cantidadTotal}</TableCell>
                 <TableCell>{ingreso.precioUnitarioTotal}</TableCell>
-                <TableCell>{ingreso.precioUnitarioTotalCompra}</TableCell>
-                <TableCell>{ingreso.totalDescuento}</TableCell>
                 <TableCell>{ingreso.sudTotal}</TableCell>
+                <TableCell>{ingreso.totalDescuento}</TableCell>
+                <TableCell>{ingreso.precioUnitarioTotalCompra}</TableCell>
                 <TableCell> {ingreso.proveedorNombre} {ingreso.proveedorApoellido} </TableCell>
 
                 <TableCell>

@@ -50,9 +50,9 @@ export const RegistrarStockPage = () => {
         producto: producto.id,
         nombreProducto: producto.data,
         sudTotal:
-          Number(data.cantidad) * Number(data.precioUnitarioCompra) - Number(data.descuento),
+          Number(data.cantidad) * Number(data.precioUnitarioCompra),
         fechaVencimiento: data.fechaVencimiento,
-        PrecioUnitarioTotalCompra: Number(data.cantidad) * Number(data.precioUnitarioCompra)
+        PrecioUnitarioTotalCompra: Number(data.cantidad) * Number(data.precioUnitarioCompra) - Number(data.descuento)
 
       };
       setStock([...stock, nuevaData]);
@@ -343,11 +343,12 @@ export const RegistrarStockPage = () => {
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>precio unitario total</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>
-                    PrecioUnitario de compra
+                    Precio Unitario de compra
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>precio unitario de compra total</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Descuento</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>SudTotal</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Descuento</TableCell>
+
+                  <TableCell sx={{ fontWeight: "bold" }}>precio total compra</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>
                     Fecha de Vencimiento
                   </TableCell>
@@ -362,9 +363,10 @@ export const RegistrarStockPage = () => {
                     <TableCell>{item.precioUnitario}</TableCell>
                     <TableCell>{item.PrecioUnitarioTotal}</TableCell>
                     <TableCell>{item.precioUnitarioCompra}</TableCell>
-                    <TableCell>{item.PrecioUnitarioTotalCompra}</TableCell>
-                    <TableCell>{item.descuento}</TableCell>
                     <TableCell>{item.sudTotal}</TableCell>
+                    <TableCell>{item.descuento}</TableCell>
+
+                    <TableCell>{item.PrecioUnitarioTotalCompra}</TableCell>
                     <TableCell>{item.fechaVencimiento}</TableCell>
                     <TableCell align="center">
                       <IconButton

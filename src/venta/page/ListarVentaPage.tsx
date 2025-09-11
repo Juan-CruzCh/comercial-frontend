@@ -63,10 +63,9 @@ export const ListarVentaPage = () => {
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Código</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Sucursal</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Vendedor</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Monto Total</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Descuento</TableCell>
-
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Subtotal</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Descuento</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Monto Total</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Fecha</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Acción</TableCell>
             </TableRow>
@@ -86,9 +85,9 @@ export const ListarVentaPage = () => {
                 <TableCell>{venta.codigo}</TableCell>
                 <TableCell>{venta.sucursal}</TableCell>
                 <TableCell>{venta.vendedor}</TableCell>
-                <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>
-                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
                 <TableCell>{venta.subTotal.toFixed(2)}</TableCell>
+                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
+                <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>
                 <TableCell>
                   {venta.fechaVenta.replace("T", " ").substring(0, 19)}
                 </TableCell>

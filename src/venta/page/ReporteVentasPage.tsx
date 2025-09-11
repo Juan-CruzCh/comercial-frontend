@@ -71,14 +71,13 @@ export const ReporteVentasPage = () => {
                 Vendedor
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                Monto Total
+                Subtotal
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Descuento
               </TableCell>
-
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                Subtotal
+                Monto Total
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 descuento alquiler
@@ -115,9 +114,9 @@ export const ReporteVentasPage = () => {
                 <TableCell>{venta.codigo}</TableCell>
                 <TableCell>{venta.sucursal}</TableCell>
                 <TableCell>{venta.vendedor}</TableCell>
-                <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>
-                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
                 <TableCell>{venta.subTotal.toFixed(2)}</TableCell>
+                <TableCell>{venta.descuento.toFixed(2)}</TableCell>
+                <TableCell>{venta.montoTotal.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoAlquiller.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoVendedor.toFixed(2)}</TableCell>
                 <TableCell>{venta.descuentoAcumulado.toFixed(2)}</TableCell>

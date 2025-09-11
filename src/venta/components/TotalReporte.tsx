@@ -122,10 +122,10 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
                 <TableCell>Vendedor</TableCell>
                 <TableCell>acumulado vendedor</TableCell>
                 <TableCell>acumulado alquiler</TableCell>
-                <TableCell>Monto</TableCell>
-                <TableCell>descuento</TableCell>
-
                 <TableCell>SudTotal</TableCell>
+                <TableCell>descuento</TableCell>
+                <TableCell>Monto</TableCell>
+
                 <TableCell>Total Ganancia</TableCell>
               </TableRow>
             </TableHead>
@@ -138,9 +138,9 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
                     {item.totalDescuentoVendedor.toFixed(2)} Bs
                   </TableCell>
                   <TableCell>{item.totalAcumulado.toFixed(2)} Bs</TableCell>
-                  <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
-                  <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.subTotal.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.totalGanacia.toFixed(2)} Bs</TableCell>
                 </TableRow>
               ))}
@@ -158,9 +158,10 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
               <TableRow>
                 <TableCell>Vendedor</TableCell>
                 <TableCell>acumulado para vendedor</TableCell>
-                <TableCell>Monto</TableCell>
-                <TableCell>descuento</TableCell>
+
                 <TableCell>SubTotal</TableCell>
+                <TableCell>descuento</TableCell>
+                <TableCell>Monto</TableCell>
                 <TableCell>Total Ganancia</TableCell>
               </TableRow>
             </TableHead>
@@ -169,9 +170,9 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
                 <TableRow>
                   <TableCell>{item.vendedor}</TableCell>
                   <TableCell>{item.totalDescuento.toFixed(2)} Bs</TableCell>
-                  <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
-                  <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.subTotal.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.totalGanacia.toFixed(2)} Bs</TableCell>
                 </TableRow>
               ))}

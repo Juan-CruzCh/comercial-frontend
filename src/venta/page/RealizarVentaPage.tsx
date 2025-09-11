@@ -227,7 +227,7 @@ export const RealizarVentaPage = () => {
                 mt: 1,
               }}
             >
-              <Typography>Total</Typography>
+              <Typography>Subtotal</Typography>
               <Typography>
                 {stockSeleccionado.reduce((acc, item) => acc + item.montoTotal, 0).toFixed(2)} Bs
               </Typography>
@@ -253,7 +253,7 @@ export const RealizarVentaPage = () => {
                 fontWeight: "bold",
               }}
             >
-              <Typography>sub Total</Typography>
+              <Typography>Total</Typography>
               <Typography>
                 {Math.max(
                   0,

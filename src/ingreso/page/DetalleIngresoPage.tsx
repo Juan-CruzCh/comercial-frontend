@@ -90,16 +90,17 @@ export const DetalleIngresoPage = () => {
               <TableCell>
                 <b>Precio de compra</b>
               </TableCell>
+
               <TableCell>
-                <b>Precio compra total</b>
+                <b>Sub total</b>
               </TableCell>
               <TableCell>
                 <b>Descuento</b>
               </TableCell>
-              <TableCell>
-                <b>Sub total</b>
-              </TableCell>
 
+              <TableCell>
+                <b>Precio compra total</b>
+              </TableCell>
               <TableCell>
                 <b>Fecha Vencimiento</b>
               </TableCell>
@@ -117,10 +118,10 @@ export const DetalleIngresoPage = () => {
                 <TableCell>{item.precioUnitario}</TableCell>
                 <TableCell>{item.precioUnitarioTotal}</TableCell>
                 <TableCell>{item.precioUnitarioCompra}</TableCell>
-                <TableCell>{item.precioUnitarioTotalCompra}</TableCell>
+                <TableCell>{item.subTotal}</TableCell>
                 <TableCell>{item.descuento}</TableCell>
 
-                <TableCell>{item.subTotal}</TableCell>
+                <TableCell>{item.precioUnitarioTotalCompra}</TableCell>
                 <TableCell>
                   {item.fechaVencimiento && item.fechaVencimiento}
                 </TableCell>

@@ -157,14 +157,14 @@ export const DetalleVentaModal = ({
                     {/* Totales */}
                     <Box mt={2} borderTop="1px dashed #999" pt={2}>
                         <Typography variant="body2">
-                            Total: <strong>{venta.montoTotal.toFixed(2)} Bs</strong>
+                            subTotal: <strong>{venta.subTotal.toFixed(2)} Bs</strong>
                         </Typography>
                         <Typography variant="body2">
                             Descuento: <strong>{venta.descuento.toFixed(2)} Bs</strong>
                         </Typography>
                         <Divider sx={{ my: 1 }} />
                         <Typography variant="h6" sx={{ textAlign: "right" }}>
-                            subTotal: <strong>{venta.subTotal.toFixed(2)} Bs</strong>
+                            Total: <strong>{venta.montoTotal.toFixed(2)} Bs</strong>
                         </Typography>
                         <Typography
                             variant="caption"
