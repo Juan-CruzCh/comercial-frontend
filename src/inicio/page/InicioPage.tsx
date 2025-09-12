@@ -127,20 +127,6 @@ export const InicioPage = () => {
           </Card>
         </Grid>
 
-        {/* Producto y categoría top */}
-        <Grid>
-          <Card sx={{ p: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <LeaderboardIcon sx={{ fontSize: 40, mr: 2, color: '#512da8' }} />
-              <Typography variant="h6">Top Productos</Typography>
-            </Box>
-            <Divider />
-            <CardContent>
-              <Typography variant="subtitle2">Más vendido:</Typography>
-              <Typography variant="h6">{data.topProducto}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>     
       </Grid>
     </Box>
   );

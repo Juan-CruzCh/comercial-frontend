@@ -22,6 +22,7 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
           descuento: number;
           subTotal: number;
           totalDescuentoVendedor: number;
+          descuentoAcumulado: number
         }
       >,
       venta
@@ -34,6 +35,7 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
           totalDescuento: 0,
           totalGanancia: 0,
           totalDescuentoVendedor: 0,
+          descuentoAcumulado: 0
         };
       }
       acc[venta.vendedor].totalDescuento += venta.descuentoVendedor;
@@ -42,6 +44,7 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
       acc[venta.vendedor].montoTotal += venta.montoTotal;
       acc[venta.vendedor].totalGanancia += venta.totalGanancia;
       acc[venta.vendedor].totalDescuentoVendedor += venta.descuentoVendedor;
+      acc[venta.vendedor].descuentoAcumulado += venta.descuentoAcumulado
       return acc;
     },
     {}
@@ -51,11 +54,13 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
     descuentoAcumuladoPorVendedor
   ).map(([vendedor, value]) => ({
     vendedor,
-    totalDescuento: value.totalDescuento,
+    totalDescuentoVendedor: value.totalDescuentoVendedor,
     montoTotal: value.montoTotal,
     descuento: value.descuento,
     subTotal: value.subTotal,
     totalGanacia: value.totalGanancia,
+    descuentoAcumulado: value.descuentoAcumulado,
+
   }));
 
   const descuentoAcumuladoSucursal = ventas.reduce(
@@ -69,6 +74,8 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
           descuento: number;
           subTotal: number;
           totalDescuentoVendedor: number;
+          descuentoAcumulado: number
+
         }
       >,
       venta
@@ -81,6 +88,7 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
           descuento: 0,
           subTotal: 0,
           totalDescuentoVendedor: 0,
+          descuentoAcumulado: 0
         };
       }
       acc[venta.sucursal].totalAlquiler += venta.descuentoAlquiller;
@@ -89,6 +97,8 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
       acc[venta.sucursal].descuento += venta.descuento;
       acc[venta.sucursal].subTotal += venta.subTotal;
       acc[venta.sucursal].totalDescuentoVendedor += venta.descuentoVendedor;
+      acc[venta.sucursal].descuentoAcumulado += venta.descuentoAcumulado;
+
       return acc;
     },
     {}
@@ -96,12 +106,13 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
   const acumuladoSucursal = Object.entries(descuentoAcumuladoSucursal).map(
     ([sucursal, value]) => ({
       sucursal,
-      totalAcumulado: value.totalAlquiler,
+      totalAlquiller: value.totalAlquiler,
       totalGanacia: value.totalGanancia,
       montoTotal: value.montoTotal,
       descuento: value.descuento,
       subTotal: value.subTotal,
       totalDescuentoVendedor: value.totalDescuentoVendedor,
+      descuentoAcumulado: value.descuentoAcumulado
     })
   );
 
@@ -119,13 +130,13 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Vendedor</TableCell>
-                <TableCell>acumulado vendedor</TableCell>
-                <TableCell>acumulado alquiler</TableCell>
+                <TableCell>Sucursal</TableCell>
                 <TableCell>SudTotal</TableCell>
                 <TableCell>descuento</TableCell>
                 <TableCell>Monto</TableCell>
-
+                <TableCell>acumulado vendedor</TableCell>
+                <TableCell>acumulado alquiler</TableCell>
+                <TableCell>Total acumulado</TableCell>
                 <TableCell>Total Ganancia</TableCell>
               </TableRow>
             </TableHead>
@@ -135,12 +146,13 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
                 <TableRow>
                   <TableCell>{item.sucursal}</TableCell>
                   <TableCell>
-                    {item.totalDescuentoVendedor.toFixed(2)} Bs
+                    {item.subTotal.toFixed(2)} Bs
                   </TableCell>
-                  <TableCell>{item.totalAcumulado.toFixed(2)} Bs</TableCell>
-                  <TableCell>{item.subTotal.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.totalDescuentoVendedor.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.totalAlquiller.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.descuentoAcumulado.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.totalGanacia.toFixed(2)} Bs</TableCell>
                 </TableRow>
               ))}
@@ -157,11 +169,11 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Vendedor</TableCell>
-                <TableCell>acumulado para vendedor</TableCell>
-
                 <TableCell>SubTotal</TableCell>
                 <TableCell>descuento</TableCell>
                 <TableCell>Monto</TableCell>
+                <TableCell>acumulado para vendedor</TableCell>
+
                 <TableCell>Total Ganancia</TableCell>
               </TableRow>
             </TableHead>
@@ -169,10 +181,11 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
               {descuentoAcumuladoVenededor.map((item) => (
                 <TableRow>
                   <TableCell>{item.vendedor}</TableCell>
-                  <TableCell>{item.totalDescuento.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.subTotal.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.descuento.toFixed(2)} Bs</TableCell>
                   <TableCell>{item.montoTotal.toFixed(2)} Bs</TableCell>
+                  <TableCell>{item.totalDescuentoVendedor.toFixed(2)} Bs</TableCell>
+
                   <TableCell>{item.totalGanacia.toFixed(2)} Bs</TableCell>
                 </TableRow>
               ))}

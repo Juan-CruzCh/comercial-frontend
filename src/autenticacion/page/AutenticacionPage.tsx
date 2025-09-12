@@ -25,7 +25,7 @@ export const AutenticacionPage = () => {
 
             if (response.status === 200) {
                 setIsAutenticacion(true)
-                window.location.href = "/inicio"
+                window.location.href = "/"
                 return
             }
         } catch (error) {
