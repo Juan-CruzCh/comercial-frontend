@@ -1,7 +1,7 @@
 import { instanceAxios } from "../../app/config/instanceAxios"
 import type { ResponseDataI } from "../../app/interface/responseData"
 import type { DetalleVentaI } from "../interface/detalleVenta"
-import type { BuscadorVentasI, ListarVentaI, RealizarVentaI, ReporteVentasI, VentaPorIdI } from "../interface/ventaInterface"
+import type { BuscadorVentasI, ListarVentaI, RealizarVentaI, ReporteMensualVentaI, ReporteVentasI, VentaPorIdI } from "../interface/ventaInterface"
 
 
 export async function realizarVenta(data: RealizarVentaI): Promise<{ idVenta: string }> {
@@ -51,6 +51,14 @@ export async function buscarVentaPorId(venta: string): Promise<VentaPorIdI> {
 export async function reporteVentas(filtro:BuscadorVentasI): Promise<ResponseDataI<ListarVentaI>> {
     try {
         const reponse = await instanceAxios.post(`/reporte/ventas`,filtro)
+        return reponse.data
+    } catch (error) {
+        throw error
+    }
+}
+export async function listarReporteVentaMesual():Promise<ReporteMensualVentaI[]> {
+    try {
+        const reponse = await instanceAxios.get(`/reporte/venta/mensual`)
         return reponse.data
     } catch (error) {
         throw error

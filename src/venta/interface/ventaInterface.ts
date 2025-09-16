@@ -1,24 +1,23 @@
 export interface StockSeleccionadoI {
-  stock: string
-  codigo: string
-  nombre: string
-  precioUnitario: number
-  cantidad: number
-  montoTotal: number
+  stock: string;
+  codigo: string;
+  nombre: string;
+  precioUnitario: number;
+  cantidad: number;
+  montoTotal: number;
 }
 
 export interface RealizarVentaI {
-  descuento: number
-  detalleVenta: DetalleVentaI[]
+  descuento: number;
+  detalleVenta: DetalleVentaI[];
 }
 
 export interface DetalleVentaI {
-  stock: string
-  cantidad: number
-  precioUnitario: number,
-  descripcionProducto: string
+  stock: string;
+  cantidad: number;
+  precioUnitario: number;
+  descripcionProducto: string;
 }
-
 
 export interface ListarVentaI {
   _id: string;
@@ -29,23 +28,22 @@ export interface ListarVentaI {
   subTotal: number;
   vendedor: string;
   sucursal: string;
-  descuentoAlquiller:number,
-  descuentoVendedor:number,
-  descuentoAcumulado:number,
-  totalGanancia:number
+  descuentoAlquiller: number;
+  descuentoVendedor: number;
+  descuentoAcumulado: number;
+  totalGanancia: number;
 }
 
 export interface VentaPorIdI {
   codigo: string;
   usuario: string;
-  fechaVenta: string
+  fechaVenta: string;
   detalleVenta: detalleVentaPorIdI[];
   sucursal: string;
   montoTotal: number;
   subTotal: number;
   descuento: number;
 }
-
 
 export interface detalleVentaPorIdI {
   _id: string;
@@ -60,36 +58,27 @@ export interface detalleVentaPorIdI {
   venta: string;
 }
 
-
-
 export interface BuscadorVentasI {
-  sucursal: string
-  usuario: string
-  codigo: string
-  fechaInicio: string
-  fechaFin: string
+  sucursal: string;
+  usuario: string;
+  codigo: string;
+  fechaInicio: string;
+  fechaFin: string;
 }
 export interface ReporteVentasI {
-  _id: string
-  descuentoAcumulado
-  :
-  number
-  descuentoAlquiller
-  :
-  number
-  descuentoVendedor
-  :
-  number
-  montoTotal
-  :
-  number
-  sucursal
-  :
-  string
-  totalGanancia
-  :
-  number
-  usuario
-  :
-  number
+  _id: string;
+  descuentoAcumulado: number;
+  descuentoAlquiller: number;
+  descuentoVendedor: number;
+  montoTotal: number;
+  sucursal: string;
+  totalGanancia: number;
+  usuario: number;
+}
+
+
+export interface ReporteMensualVentaI{
+  montoTotal:number,
+  cantidad:number,
+  fecha:string
 }
