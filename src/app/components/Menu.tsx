@@ -38,6 +38,7 @@ import {
   Business,
   TrendingUp,
   Close,
+  Home,
 } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
 
@@ -127,8 +128,6 @@ export const Menu: React.FC = () => {
           <Close />
         </IconButton>
 
-        
-
         {/* Información del usuario */}
         <Box
           sx={{
@@ -173,10 +172,14 @@ export const Menu: React.FC = () => {
 
       <Divider />
 
-      {/* Contenido principal del menú */}
       <Box sx={{ flex: 1, py: 1, overflowY: "auto" }}>
+        <ListItemButton component={Link} to="/" sx={subMenuItemStyle}>
+          <ListItemIcon sx={{ color: theme.palette.success.light }}>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Inicio" />
+        </ListItemButton>
         <List component="nav" sx={{ px: 1 }}>
-          {/* Ventas */}
           <ListItemButton
             onClick={() => setOpenVentas(!openVentas)}
             sx={menuItemStyle}
