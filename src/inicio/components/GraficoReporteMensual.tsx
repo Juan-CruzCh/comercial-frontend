@@ -23,8 +23,10 @@ export const GraficoReporteMensual = () => {
           ...item,
           fecha: new Date(item.fecha).toISOString().split("T")[0],
         }));
-
-        setData(formattedData);
+         const sortedData = formattedData.sort((a, b) =>
+          new Date(a.fecha).getTime() - new Date(b.fecha).getTime()
+        );
+        setData(sortedData);
       } catch (error) {
         console.error(error);
       }
