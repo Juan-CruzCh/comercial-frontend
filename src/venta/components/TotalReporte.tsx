@@ -142,8 +142,8 @@ export const TotalReporte = ({ ventas }: { ventas: ListarVentaI[] }) => {
             </TableHead>
             <TableBody>
               {/* Ejemplo de fila, puedes repetir según el número de vendedores */}
-              {acumuladoSucursal.map((item) => (
-                <TableRow>
+              {acumuladoSucursal.map((item, i) => (
+                <TableRow key={i}>
                   <TableCell>{item.sucursal}</TableCell>
                   <TableCell>
                     {item.subTotal.toFixed(2)} Bs
