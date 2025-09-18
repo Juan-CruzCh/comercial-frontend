@@ -6,6 +6,3 @@ export function paginador() {
     return { paginas, setLimite, limite, setpaginas, paginaActual, setPaginaActual }
 }
 
-export function modalHook() {
-    
-}
