@@ -28,3 +28,21 @@ export async function usuarioLoguot(): Promise<AxiosResponse> {
         throw error
     }
 }
+
+export async function eliminarUsuario(id:string): Promise<AxiosResponse> {
+    try {
+        const response = await instanceAxios.delete(`usuario/${id}`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function editarUsuario(data: UsuarioI, id :string): Promise<AxiosResponse> {
+    try {
+        const response = await instanceAxios.patch(`usuario/${id}`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}

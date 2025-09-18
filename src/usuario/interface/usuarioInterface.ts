@@ -1,5 +1,5 @@
 export interface UsuarioI {
-    _id?:string
+    _id:string
     nombre: string;
     apellidos: string;
     username: string;
@@ -7,4 +7,6 @@ export interface UsuarioI {
     password: string;
     ci: string
     rol: string
+    sucursalId:string
+
 }

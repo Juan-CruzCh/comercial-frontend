@@ -5,3 +5,7 @@ export function paginador() {
     const [limite, setLimite] = useState<number>(20)
     return { paginas, setLimite, limite, setpaginas, paginaActual, setPaginaActual }
 }
+
+export function modalHook() {
+    
+}

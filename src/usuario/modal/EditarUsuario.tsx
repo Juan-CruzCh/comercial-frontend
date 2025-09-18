@@ -1,0 +1,216 @@
+import { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  MenuItem,
+} from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import type { UsuarioI } from "../interface/usuarioInterface";
+import { listarSucursal } from "../../sucursal/service/sucursalService";
+import type { SucursalI } from "../../sucursal/interface/sucursal";
+import { editarUsuario } from "../service/usuarioService";
+import type { AxiosError } from "axios";
+import { toast } from "react-toastify";
+
+export const EditarUsuario = ({
+  handleClose,
+  usuario,
+  open,
+  reload,
+  setReloat,
+}: {
+  usuario: UsuarioI;
+  handleClose: () => void;
+  open: boolean;
+  reload: boolean;
+  setReloat: (v: boolean) => void;
+}) => {
+  const [sucursales, setsucursales] = useState<SucursalI[]>([]);
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<UsuarioI>();
+
+  const onSubmit = async (data: UsuarioI) => {
+    try {
+      const response = await editarUsuario(data, usuario._id);
+      console.log(response);
+
+      if (response.status == 200) {
+        console.log(response);
+
+        handleClose();
+        reset();
+        setReloat(!reload);
+      }
+    } catch (error) {
+      const e = error as AxiosError<any>;
+      if (e.status === 400) {
+        toast.error(e.response?.data.error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      ListarSucursal();
+      setValue("apellidos", usuario.apellidos);
+      setValue("nombre", usuario.nombre);
+      setValue("ci", usuario.ci);
+      setValue("rol", usuario.rol);
+      setValue("sucursal", usuario.sucursalId);
+      setValue("username", usuario.username);
+    }
+  }, [open]);
+
+  const ListarSucursal = async () => {
+    try {
+      const response = await listarSucursal();
+      setsucursales(response);
+    } catch (error) {
+      const e = error as AxiosError<any>;
+      if (e.status === 400) {
+        toast.error(e.response?.data.error);
+      }
+    }
+  };
+  return (
+    <>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle>Editar Usuario</DialogTitle>
+        <DialogContent>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}
+          >
+            <Controller
+              name="ci"
+              control={control}
+              rules={{ required: "El ci es obligatorio" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="ci"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.ci}
+                  helperText={errors.ci?.message}
+                />
+              )}
+            />
+            <Controller
+              name="nombre"
+              control={control}
+              rules={{ required: "El nombre es obligatorio" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Nombre"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.nombre}
+                  helperText={errors.nombre?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="apellidos"
+              control={control}
+              rules={{ required: "Los apellidos son obligatorios" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Apellidos"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.apellidos}
+                  helperText={errors.apellidos?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="username"
+              control={control}
+              rules={{ required: "El usuario es obligatorio" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Usuario"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.username}
+                  helperText={errors.username?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="sucursal"
+              control={control}
+              rules={{ required: "La sucursal es obligatoria" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  select
+                  label="Sucursal"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.sucursal}
+                  helperText={errors.sucursal?.message}
+                >
+                  {sucursales.map((sucursal) => (
+                    <MenuItem key={sucursal._id} value={sucursal._id}>
+                      {sucursal.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+
+            <Controller
+              name="rol"
+              control={control}
+              rules={{ required: "La rol es obligatoria" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  select
+                  label="Rol"
+                  variant="outlined"
+                  size="small"
+                  error={!!errors.rol}
+                  helperText={errors.rol?.message}
+                >
+                  <MenuItem key={1} value="ADMINISTRADOR">
+                    ADMINISTRADOR
+                  </MenuItem>
+                  <MenuItem key={2} value="VENDEDOR">
+                    VENDEDOR
+                  </MenuItem>
+                </TextField>
+              )}
+            />
+
+            <DialogActions sx={{ px: 0 }}>
+              <Button onClick={handleClose}>Cancelar</Button>
+              <Button type="submit" variant="contained" color="primary">
+                Editar
+              </Button>
+            </DialogActions>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};

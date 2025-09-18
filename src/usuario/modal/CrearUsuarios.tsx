@@ -14,6 +14,8 @@ import type { UsuarioI } from "../interface/usuarioInterface";
 import { listarSucursal } from "../../sucursal/service/sucursalService";
 import type { SucursalI } from "../../sucursal/interface/sucursal";
 import { crearUsuario } from "../service/usuarioService";
+import type { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 
 export const CrearUsuarios = () => {
@@ -35,7 +37,10 @@ export const CrearUsuarios = () => {
             handleClose();
             reset();
         } catch (error) {
-            console.log(error);
+                  const e = error as AxiosError<any>;
+              if (e.status === 400) {
+                    toast.error(e.response?.data.error);
+                  }
 
         }
     };
@@ -191,7 +196,7 @@ export const CrearUsuarios = () => {
                                     <MenuItem key={1} value="ADMINISTRADOR">
                                         ADMINISTRADOR
                                     </MenuItem>
-                                    <MenuItem key={1} value="VENDEDOR">
+                                    <MenuItem key={2} value="VENDEDOR">
                                         VENDEDOR
                                     </MenuItem>
 
