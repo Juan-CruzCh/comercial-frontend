@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -48,7 +48,10 @@ export const BuscadorReporteVentas = ({
   };
 
   useEffect(() => {
+  
+    
     listar();
+  
   }, []);
 
   const listar = async () => {
@@ -76,7 +79,7 @@ export const BuscadorReporteVentas = ({
             value={sucursal}
             onChange={(e) => setSucursal(e.target.value)}
           >
-            <MenuItem value="">Seleccionar</MenuItem>
+            <MenuItem value="">Todas</MenuItem>
             {sucursales.map((item) => (
               <MenuItem key={item._id} value={item._id}>
                 {item.nombre}

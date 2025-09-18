@@ -23,6 +23,8 @@ export const AuntenticacionContext = createContext<AuntenticacionContextI>({
   username: "",
   rol: "",
   setRol() {},
+  setSucursalID(){},
+  sucursalId:""
 });
 export const AutenticacionProvider = ({
   children,
@@ -35,6 +37,7 @@ export const AutenticacionProvider = ({
   const [apellidos, setApellidos] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [rol, setRol] = useState<string>("");
+    const [sucursalId, setSucursalID] = useState<string>("");
   const logout = async () => {
     try {
       const response = await usuarioLoguot();
@@ -64,6 +67,7 @@ export const AutenticacionProvider = ({
         setSucursal(response.sucursal);
         setRol(response.rol), setNombres(response.nombre);
         setUsername(response.username);
+        setSucursalID(response.sucursalId)
       }
     } catch (error) {
       console.log(error);
@@ -80,6 +84,8 @@ export const AutenticacionProvider = ({
         sucursal,
         username,
         setIsAutenticacion,
+        sucursalId
+        
       }}
     >
       {children}

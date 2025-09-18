@@ -74,7 +74,7 @@ export const ListarIngresoPage = () => {
                     Detalle
                   </Button>
                 </TableCell>
-                <TableCell>{ingreso.fecha}</TableCell>
+                <TableCell>{ingreso.fecha.replace("T", " ").substring(0, 19)}</TableCell>
               </TableRow>
 
             ))}

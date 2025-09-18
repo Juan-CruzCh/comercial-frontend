@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Table,
@@ -17,9 +17,11 @@ import type { BuscadorVentasI, ListarVentaI } from "../interface/ventaInterface"
 import { useNavigate } from "react-router-dom";
 import { paginador } from "../../app/hook/paginador";
 import { BuscadorVentas } from "../components/BuscadorVentas";
+import { AuntenticacionContext } from "../../app/context/AutenticacionProvider";
 
 export const ListarVentaPage = () => {
   const navigate = useNavigate();
+    const {sucursalId}=useContext(AuntenticacionContext)
   const date = new Date();
   date.setHours(date.getHours() - 4)
   const [ventas, setVentas] = useState<ListarVentaI[]>([]);
@@ -27,7 +29,7 @@ export const ListarVentaPage = () => {
     codigo: "",
     fechaFin: date.toISOString().split("T")[0],
     fechaInicio: date.toISOString().split("T")[0],
-    sucursal: "",
+    sucursal: sucursalId,
     usuario: ""
   })
 

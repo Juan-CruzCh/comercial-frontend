@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -13,6 +13,7 @@ import { listarUsuarios } from "../../usuario/service/usuarioService";
 import type { SucursalI } from "../../sucursal/interface/sucursal";
 import { listarSucursal } from "../../sucursal/service/sucursalService";
 import type { BuscadorVentasI } from "../interface/ventaInterface";
+import { AuntenticacionContext } from "../../app/context/AutenticacionProvider";
 
 export const BuscadorVentas = ({
   setFiltro,
@@ -23,7 +24,7 @@ export const BuscadorVentas = ({
   date.setHours(date.getHours() - 4)
   const [usarCodigo, setUsarCodigo] = useState<boolean>(false);
   const [usarFechas, setUsarFechas] = useState<boolean>(true);
-
+  const {sucursalId}=useContext(AuntenticacionContext)
   const [codigo, setCodigo] = useState<string>("");
   const [usuarios, setUsuarios] = useState<UsuarioI[]>([]);
   const [usuario, setUsuario] = useState<string>("");
@@ -49,6 +50,7 @@ export const BuscadorVentas = ({
 
   useEffect(() => {
     listar();
+    setSucursal(sucursalId)
   }, []);
 
   const listar = async () => {
@@ -76,7 +78,7 @@ export const BuscadorVentas = ({
             value={sucursal}
             onChange={(e) => setSucursal(e.target.value)}
           >
-            <MenuItem value="">Seleccionar</MenuItem>
+            <MenuItem value="">Todas</MenuItem>
             {sucursales.map((item) => (
               <MenuItem key={item._id} value={item._id}>
                 {item.nombre}
