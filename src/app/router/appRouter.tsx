@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ListarProveedorPage } from "../../proveedor/page/ListarProveedorPage";
 import { UnidadManegoPage } from "../../producto/page/UnidadManegoPage";
 import { RegistrarStockPage } from "../../stock/page/RegistrarStockPage";
@@ -21,43 +21,56 @@ import { CajaProvider } from "../context/CajaProvider";
 import { ListarCajaPage } from "../../caja/page/ListarCajaPage";
 import { ListarDescuentoVenta } from "../../descuentoVenta/page/ListarDescuentoVenta";
 import { ReporteVentasPage } from "../../venta/page/ReporteVentasPage";
+import { Loader } from "../components/Loader";
 
 export const AppRouter = () => {
-  const { isAutenticacion } = useContext(AuntenticacionContext);
-  return (
+  const { isAutenticacion , loading} = useContext(AuntenticacionContext);
+  if(loading){
+    return <Loader/>
+  }
+   return (
     <Router>
       <Routes>
+        {/* Ruta pública: login */}
         <Route
-          path="/"
+          path="/login"
           element={
-            isAutenticacion ? (
-              <CajaProvider><Menu /></CajaProvider>
-            ) : (
-              <AutenticacionPage />
-            )
+            isAutenticacion ? <Navigate to="/" replace /> : <AutenticacionPage />
           }
-        >
-          <Route path="/" element={<InicioPage />} />
-          <Route path="listar/proveedor" element={<ListarProveedorPage />} />
-          <Route path="unidad/manejo" element={<UnidadManegoPage />} />
-          <Route path="realizar/ingreso" element={<RegistrarStockPage />} />
-          <Route path="listar/stock" element={<ListarStockPage />} />
-          <Route path="realizar/venta" element={<RealizarVentaPage />} />
-          <Route path="listar/sucursal" element={<ListarSucursalPage />} />
-          <Route path="listar/ingresos" element={<ListarIngresoPage />} />
-          <Route path="listar/ventas" element={<ListarVentaPage />} />
-          <Route path="detalle/venta/:id" element={<DetalleVentaPage />} />
-          <Route path="listar/categoria" element={<ListarCategoriaPage />} />
+        />
+
+        {/* Rutas protegidas */}
+        {isAutenticacion ? (
           <Route
-            path="listar/unidad/manejo"
-            element={<ListarUnidadManejoPage />}
-          />
-          <Route path="detalle/ingreso/:id" element={<DetalleIngresoPage />} />
-          <Route path="listar/usuarios" element={<ListarUsuarioPage />} />
-          <Route path="listar/caja" element={<ListarCajaPage />} />
-          <Route path="listar/descuento/venta" element={<ListarDescuentoVenta />} />
-          <Route path="reporte/ventas" element={<ReporteVentasPage />} />
-        </Route>
+            path="/"
+            element={
+              <CajaProvider>
+                <Menu />
+              </CajaProvider>
+            }
+          >
+            <Route index element={<InicioPage />} />
+            <Route path="listar/proveedor" element={<ListarProveedorPage />} />
+            <Route path="unidad/manejo" element={<UnidadManegoPage />} />
+            <Route path="realizar/ingreso" element={<RegistrarStockPage />} />
+            <Route path="listar/stock" element={<ListarStockPage />} />
+            <Route path="realizar/venta" element={<RealizarVentaPage />} />
+            <Route path="listar/sucursal" element={<ListarSucursalPage />} />
+            <Route path="listar/ingresos" element={<ListarIngresoPage />} />
+            <Route path="listar/ventas" element={<ListarVentaPage />} />
+            <Route path="detalle/venta/:id" element={<DetalleVentaPage />} />
+            <Route path="listar/categoria" element={<ListarCategoriaPage />} />
+            <Route path="listar/unidad/manejo" element={<ListarUnidadManejoPage />} />
+            <Route path="detalle/ingreso/:id" element={<DetalleIngresoPage />} />
+            <Route path="listar/usuarios" element={<ListarUsuarioPage />} />
+            <Route path="listar/caja" element={<ListarCajaPage />} />
+            <Route path="listar/descuento/venta" element={<ListarDescuentoVenta />} />
+            <Route path="reporte/ventas" element={<ReporteVentasPage />} />
+          </Route>
+        ) : (
+          // Si no está autenticado, redirige a login en cualquier ruta que no sea /login
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        )}
       </Routes>
     </Router>
   );

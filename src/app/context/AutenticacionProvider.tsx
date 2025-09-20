@@ -15,16 +15,11 @@ export const AuntenticacionContext = createContext<AuntenticacionContextI>({
   setIsAutenticacion() {},
   apellidos: "",
   nombres: "",
-  setNombres() {},
-  setApellidos() {},
-  setSucursal() {},
-  setUsername() {},
   sucursal: "",
   username: "",
   rol: "",
-  setRol() {},
-  setSucursalID(){},
-  sucursalId:""
+  sucursalId: "",
+  loading: true,
 });
 export const AutenticacionProvider = ({
   children,
@@ -37,12 +32,13 @@ export const AutenticacionProvider = ({
   const [apellidos, setApellidos] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [rol, setRol] = useState<string>("");
-    const [sucursalId, setSucursalID] = useState<string>("");
+  const [sucursalId, setSucursalID] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const logout = async () => {
     try {
       const response = await usuarioLoguot();
       if (response.status === 200) {
-        window.location.href = "/";
+        window.location.href = "/login";
       }
     } catch (error) {
       console.log(error);
@@ -51,32 +47,36 @@ export const AutenticacionProvider = ({
   const setIsAutenticacion = (value: boolean) => {
     setisAutenticacion(value);
   };
-
   useEffect(() => {
-    if (!isAutenticacion) {
+    if (location.pathname !== "/login") {
       verificarA();
+    } else {
+      setLoading(false);
     }
-  }, []);
+  }, [location.pathname]);
 
   const verificarA = async () => {
     try {
-      const response = await verificarAutenticacion();
+      const response = await verificarAutenticacion();      
       if (response) {
         setisAutenticacion(true);
         setApellidos(response.apellidos);
         setSucursal(response.sucursal);
         setRol(response.rol), setNombres(response.nombre);
         setUsername(response.username);
-        setSucursalID(response.sucursalId)
+        setSucursalID(response.sucursalId);
       }
     } catch (error) {
       console.log(error);
-    } 
+    }finally{
+      setLoading(false)
+    }
   };
   return (
     <AuntenticacionContext.Provider
       value={{
         isAutenticacion,
+        loading,
         logout,
         apellidos,
         nombres,
@@ -84,8 +84,7 @@ export const AutenticacionProvider = ({
         sucursal,
         username,
         setIsAutenticacion,
-        sucursalId
-        
+        sucursalId,
       }}
     >
       {children}

@@ -17,7 +17,13 @@ import { useNavigate } from "react-router-dom";
 
 export const AutenticacionPage = () => {
     const { setIsAutenticacion } = useContext(AuntenticacionContext)
-    const { control, handleSubmit, formState: { errors } } = useForm<LoginI>();
+    const navigate = useNavigate()
+    const { control, handleSubmit, formState: { errors } } = useForm<LoginI>({
+        defaultValues:{
+            password:"",
+            username:""
+        }
+    });
     const onSubmit = async (data: LoginI) => {
         try {
             const response = await autenticacion(data)
@@ -25,7 +31,7 @@ export const AutenticacionPage = () => {
 
             if (response.status === 200) {
                 setIsAutenticacion(true)
-                window.location.href = "/"
+                navigate("/")
                 return
             }
         } catch (error) {
